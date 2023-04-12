@@ -1,9 +1,23 @@
 export type ErrCallbackType = (err: { [key: string]: string }) => void
 
 export type LoginParams = {
-  email: string
+  username: string
   password: string
   rememberMe?: boolean
+}
+
+export interface LoginUserInput {
+  username: string
+  password: string
+}
+export interface Auth {
+  token: string,
+  permission: number[];
+}
+export interface AuthResponse {
+  errorcode: string;
+  messagedetail: string;
+  result: Auth
 }
 
 export type UserDataType = {

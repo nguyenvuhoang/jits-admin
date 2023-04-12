@@ -2,25 +2,31 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 
 // ** Emotion Imports
+import { createEmotionCache } from '@/@core/utils/create-emotion-cache'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import type { NextPage } from 'next'
-import { createEmotionCache } from '@/@core/utils/create-emotion-cache'
 import Head from 'next/head'
 // ** Config Imports
-import { defaultACLObj } from '@/configs/acl'
-import themeConfig from '@/configs/themeConfig'
 import { SettingsConsumer, SettingsProvider } from '@/@core/context/settingsContext'
 import ThemeComponent from '@/@core/theme/ThemeComponent'
+import { defaultACLObj } from '@/configs/acl'
+import themeConfig from '@/configs/themeConfig'
 import { Router } from 'next/router'
 // ** Loader Import
+import GuestGuard from '@/@core/components/GuestGuard'
 import NProgress from 'nprogress'
 import { ReactNode } from 'react'
-import GuestGuard from '@/@core/components/GuestGuard'
 
 // ** Spinner Import
-import Spinner from '@/@core/components/spinner'
-import AuthGuard from '@/@core/components/AuthGuard'
 import AclGuard from '@/@core/components/AclGuard'
+import AuthGuard from '@/@core/components/AuthGuard'
+import Spinner from '@/@core/components/spinner'
+import ReactHotToast from '@/@core/styles/libs/react-hot-toast'
+import UserLayout from '@/layouts/UserLayout.tsx'
+
+// ** Third Party Import
+import { Toaster } from 'react-hot-toast'
+import { AuthProvider } from '@/context/AuthContext'
 
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
@@ -64,6 +70,10 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
   const guestGuard = Component.guestGuard ?? false
   const aclAbilities = Component.acl ?? defaultACLObj
 
+  const contentHeightFixed = Component.contentHeightFixed ?? false
+  const getLayout =
+    Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -76,24 +86,26 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
         <meta name='keywords' content='JITS Admin' />
       </Head>
 
-      <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-        <SettingsConsumer>
-          {({ settings }) => {
-
-            return (
-              <ThemeComponent settings={settings}>
-                <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                  <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                    <Component {...pageProps} />
-                  </AclGuard>
-                </Guard>
-
-              </ThemeComponent>
-            )
-          }}
-        </SettingsConsumer>
-      </SettingsProvider>
-
+      <AuthProvider>
+        <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+          <SettingsConsumer>
+            {({ settings }) => {
+              return (
+                <ThemeComponent settings={settings}>
+                  <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                    <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
+                      {getLayout(<Component {...pageProps} />)}
+                    </AclGuard>
+                  </Guard>
+                  <ReactHotToast>
+                    <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
+                  </ReactHotToast>
+                </ThemeComponent>
+              )
+            }}
+          </SettingsConsumer>
+        </SettingsProvider>
+      </AuthProvider>
 
 
 

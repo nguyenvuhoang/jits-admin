@@ -1,0 +1,1 @@
+export { default as LogoLight } from "./Icons/LogoLight";

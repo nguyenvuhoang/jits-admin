@@ -22,7 +22,7 @@ import VerticalAppBarContent from './components/vertical/AppBarContent'
 import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 
 // ** Hook Import
-import { useSettings } from 'src/@core/hooks/useSettings'
+import { useSettings } from '@/@core/hooks/useSettings'
 
 interface Props {
     children: ReactNode
