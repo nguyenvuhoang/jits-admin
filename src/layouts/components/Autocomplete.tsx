@@ -32,6 +32,7 @@ import Icon from '@/@core/components/icon'
 
 // ** Configs Imports
 import themeConfig from '@/configs/themeConfig'
+import { AppBarSearch } from '@/@fake-db/app-bar-search'
 
 interface Props {
   hidden: boolean
@@ -377,18 +378,8 @@ const AutocompleteComponent = ({ hidden, settings }: Props) => {
 
   // Get all data using API
   useEffect(() => {
-    axios
-      .get('/app-bar/search', {
-        params: { q: searchValue }
-      })
-      .then(response => {
-        if (response.data && response.data.length) {
-          setOptions(response.data)
-        } else {
-          setOptions([])
-        }
-      })
-  }, [searchValue])
+    setOptions(AppBarSearch)
+  }, [])
 
   useEffect(() => {
     if (!openDialog) {

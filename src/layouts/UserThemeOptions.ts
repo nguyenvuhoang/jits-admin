@@ -179,6 +179,10 @@ const UserThemeOptions = (): ThemeOptions => {
       appBar: 1200,
       drawer: 1100
     } */
+    typography: {
+      fontFamily:
+        '"Quicksand", sans-serif',
+    }
   }
 }
 

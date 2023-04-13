@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 
 // ** Hooks Import
 import { useAuth } from '@/hooks/useAuth'
+import Cookie from 'js-cookie'
+import { AUTH_TOKEN_KEY } from '@/data/client/token.utils'
 
 interface GuestGuardProps {
   children: ReactNode
@@ -22,13 +24,13 @@ const GuestGuard = (props: GuestGuardProps) => {
       return
     }
 
-    if (window.localStorage.getItem('userData')) {
+    if (Cookie.get(AUTH_TOKEN_KEY)) {
       router.replace('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.route])
 
-  if (auth.loading || (!auth.loading && auth.user !== null)) {
+  if (auth.loading || (!auth.loading && auth.token !== null)) {
     return fallback
   }
 

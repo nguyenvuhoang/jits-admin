@@ -3,23 +3,23 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import Icon from '@/@core/components/icon'
 
 // ** Type Import
-import { Settings } from 'src/@core/context/settingsContext'
+import { Settings } from '@/@core/context/settingsContext'
 
 // ** Components
-import Autocomplete from 'src/layouts/components/Autocomplete'
-import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
-import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
-import LanguageDropdown from 'src/@core/layouts/components/shared-components/LanguageDropdown'
+import Autocomplete from '@/layouts/components/Autocomplete'
+import ModeToggler from '@/@core/layouts/components/shared-components/ModeToggler'
+import UserDropdown from '@/@core/layouts/components/shared-components/UserDropdown'
+import LanguageDropdown from '@/@core/layouts/components/shared-components/LanguageDropdown'
 import NotificationDropdown, {
   NotificationsType
-} from 'src/@core/layouts/components/shared-components/NotificationDropdown'
-import ShortcutsDropdown, { ShortcutsType } from 'src/@core/layouts/components/shared-components/ShortcutsDropdown'
+} from '@/@core/layouts/components/shared-components/NotificationDropdown'
+import ShortcutsDropdown, { ShortcutsType } from '@/@core/layouts/components/shared-components/ShortcutsDropdown'
 
 // ** Hook Import
-import { useAuth } from 'src/hooks/useAuth'
+import { useAuth } from '@/hooks/useAuth'
 
 interface Props {
   hidden: boolean
@@ -81,12 +81,6 @@ const shortcuts: ShortcutsType[] = [
     icon: 'mdi:calendar-month-outline'
   },
   {
-    title: 'Invoice App',
-    url: '/apps/invoice/list',
-    subtitle: 'Manage Accounts',
-    icon: 'mdi:receipt-text-outline'
-  },
-  {
     title: 'Users',
     url: '/apps/user/list',
     subtitle: 'Manage Users',
@@ -115,12 +109,6 @@ const shortcuts: ShortcutsType[] = [
     subtitle: 'FAQs & Articles',
     icon: 'mdi:help-circle-outline',
     url: '/pages/help-center'
-  },
-  {
-    title: 'Dialogs',
-    subtitle: 'Useful Dialogs',
-    icon: 'mdi:window-maximize',
-    url: '/pages/dialog-examples'
   }
 ]
 

@@ -41,17 +41,17 @@ const AclGuard = (props: AclGuardProps) => {
 
   // ** Vars
   let ability: AppAbility
-
   useEffect(() => {
-    if (auth.user && auth.user.role && !guestGuard && router.route === '/') {
-      const homeRoute = getHomeRoute(auth.user.role)
+    if (auth.user && !guestGuard && router.route === '/') {
+      const homeRoute = getHomeRoute(auth.user.isadmin ? 'admin' : 'client')
       router.replace(homeRoute)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.user, guestGuard, router])
 
   // User is logged in, build ability for the user based on his role
   if (auth.user && !ability) {
-    ability = buildAbilityFor(auth.user.role, aclAbilities.subject)
+    ability = buildAbilityFor(auth.user.isadmin ? 'admin' : 'client', aclAbilities.subject)
     if (router.route === '/') {
       return <Spinner />
     }

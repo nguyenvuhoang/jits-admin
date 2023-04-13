@@ -11,7 +11,10 @@ import axios from 'axios'
 import { API_ENDPOINTS } from '@/configs/auth'
 
 // ** Types
-import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from './types'
+import { AuthValuesType, LoginParams, ErrCallbackType, Userinfo } from './types'
+import client from '@/data/client'
+import { AUTH_TOKEN_KEY, setAuthToken } from '@/data/client/token.utils'
+import Cookies from 'js-cookie'
 
 // ** Defaults
 const defaultProvider: AuthValuesType = {
@@ -20,7 +23,8 @@ const defaultProvider: AuthValuesType = {
   setUser: () => null,
   setLoading: () => Boolean,
   login: () => Promise.resolve(),
-  logout: () => Promise.resolve()
+  logout: () => Promise.resolve(),
+  token: null
 }
 
 const AuthContext = createContext(defaultProvider)
@@ -31,7 +35,8 @@ type Props = {
 
 const AuthProvider = ({ children }: Props) => {
   // ** States
-  const [user, setUser] = useState<UserDataType | null>(defaultProvider.user)
+  const [user, setUser] = useState<Userinfo | null>(defaultProvider.user)
+  const [token, setToken] = useState<string | null>(defaultProvider.token)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
 
   // ** Hooks
@@ -39,23 +44,20 @@ const AuthProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
-      const storedToken = window.localStorage.getItem(API_ENDPOINTS.storageTokenKeyName)!
+      const storedToken = Cookies.get(AUTH_TOKEN_KEY);
       if (storedToken) {
         setLoading(true)
         await axios
-          .get(API_ENDPOINTS.meEndpoint, {
+          .get(process.env.NEXT_PUBLIC_REST_API_ENDPOINT + API_ENDPOINTS.meEndpoint, {
             headers: {
-              Authorization: storedToken
+              Authorization: `Bearer ${storedToken}`
             }
           })
           .then(async response => {
             setLoading(false)
-            setUser({ ...response.data.userData })
+            setUser({ ...response.data.result })
           })
           .catch(() => {
-            localStorage.removeItem('userData')
-            localStorage.removeItem('refreshToken')
-            localStorage.removeItem('accessToken')
             setUser(null)
             setLoading(false)
             if (API_ENDPOINTS.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
@@ -72,31 +74,49 @@ const AuthProvider = ({ children }: Props) => {
   }, [])
 
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
-    axios
-      .post(API_ENDPOINTS.loginEndpoint, params)
-      .then(async response => {
-        params.rememberMe
-          ? window.localStorage.setItem(API_ENDPOINTS.storageTokenKeyName, response.data.accessToken)
-          : null
-        const returnUrl = router.query.returnUrl
+    const { username, password, rememberMe } = params
+    client.users.login({
+      username: username,
+      password: password
+    }).then(async response => {
+      rememberMe ? setAuthToken(response.result.token) : null
 
-        setUser({ ...response.data.userData })
-        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.userData)) : null
+      setToken(response.result.token)
+      const userdetail = {
+        username: username,
+        firstname: '',
+        lastname: '',
+        gender: 1,
+        address: '',
+        email: '',
+        birthday: '',
+        phone: '',
+        status: '',
+        usercreated: '',
+        datecreated: '',
+        expiretime: '',
+        isshow: '',
+        failnumber: '',
+        fastmode: '',
+        scores: 0,
+        avatar: '',
+        isadmin: response.result.permission[0] === 2 ? true : false,
+        role: response.result.permission[0] === 2 ? 'admin' : 'guest',
+      }
+      setUser({ ...userdetail })
+      const returnUrl = router.query.returnUrl
 
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
-
-        router.replace(redirectURL as string)
-      })
-
-      .catch(err => {
-        if (errorCallback) errorCallback(err)
-      })
+      const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+      router.replace(redirectURL as string)
+    }).catch(err => {
+      if (errorCallback) errorCallback(err)
+    })
   }
 
   const handleLogout = () => {
     setUser(null)
-    window.localStorage.removeItem('userData')
-    window.localStorage.removeItem(API_ENDPOINTS.storageTokenKeyName)
+    setToken(null)
+    Cookies.remove(AUTH_TOKEN_KEY);
     router.push('/login')
   }
 
@@ -106,7 +126,8 @@ const AuthProvider = ({ children }: Props) => {
     setUser,
     setLoading,
     login: handleLogin,
-    logout: handleLogout
+    logout: handleLogout,
+    token
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
