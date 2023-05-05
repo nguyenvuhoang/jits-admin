@@ -1,4 +1,4 @@
-import { AuthResponse, EmployeeResponsePaginator, LoginUserInput, UserResponsePaginator } from "@/context/types";
+import { AuthResponse, EmployeeResponsePaginator, FilterEmployee, LoginUserInput, UserResponsePaginator } from "@/context/types";
 import { HttpClient } from "./http-client";
 import { API_ENDPOINTS } from "@/configs/auth";
 
@@ -9,7 +9,7 @@ class Client {
         getall : () => HttpClient.get<UserResponsePaginator>(API_ENDPOINTS.USERS_GETALL)
     }
     employee = {
-        getall: () => HttpClient.get<EmployeeResponsePaginator>(API_ENDPOINTS.EMPLOYEE_GETALL)
+        getall: (filter: FilterEmployee) => HttpClient.get<EmployeeResponsePaginator>(API_ENDPOINTS.EMPLOYEE_GETALL,filter)
     }
 }
 

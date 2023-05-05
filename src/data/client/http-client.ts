@@ -13,7 +13,7 @@ const Axios = axios.create({
 Axios.interceptors.request.use(
     (config) => {
         const cookies = Cookies.get(AUTH_TOKEN_KEY);
-        let token = '';
+        let token ;
         if (cookies) {
             token = JSON.parse(cookies)['token'];
         }

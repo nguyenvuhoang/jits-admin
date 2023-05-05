@@ -55,9 +55,9 @@ const AuthProvider = ({ children }: Props) => {
           })
           .then(async response => {
             setLoading(false)
-            setUser({ ...response.data.result })
+            setUser({ ...response.data.result.data })
           })
-          .catch(() => {
+          .catch((e) => {
             setUser(null)
             setLoading(false)
             if (API_ENDPOINTS.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
@@ -109,6 +109,7 @@ const AuthProvider = ({ children }: Props) => {
       const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
       router.replace(redirectURL as string)
     }).catch(err => {
+      console.error(err)
       if (errorCallback) errorCallback(err)
     })
   }

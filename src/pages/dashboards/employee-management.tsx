@@ -1,12 +1,17 @@
-import TableHeader from '@/views/dashboards/user/list/TableHeader'
-import { Box, Card, CardContent, CardHeader, Divider, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography, styled } from '@mui/material'
-import { useCallback, useState } from 'react'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { EmployeeType } from '@/types/dashboards/employeeType'
+import Icon from '@/@core/components/icon'
 import CustomAvatar from '@/@core/components/mui/avatar'
+import CustomChip from '@/@core/components/mui/chip'
+import { ThemeColor } from '@/@core/layouts/types'
 import { getInitials } from '@/@core/utils/get-initials'
-import Link from 'next/link'
+import { Status } from '@/@core/utils/system'
 import { FetchEmployee } from '@/data/employee'
+import { EmployeeType } from '@/types/dashboards/employeeType'
+import AddUserDrawer from '@/views/dashboards/employee/list/AddEmployeeDrawer'
+import TableHeader from '@/views/dashboards/employee/list/TableHeader'
+import { Box, Card, CardContent, CardHeader, Divider, FormControl, Grid, IconButton, InputLabel, Menu, MenuItem, Select, SelectChangeEvent, Typography, styled } from '@mui/material'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import Link from 'next/link'
+import { MouseEvent, useCallback, useEffect, useState } from 'react'
 
 type Props = {}
 
@@ -43,21 +48,79 @@ const LinkStyled = styled(Link)(({ theme }) => ({
     }
 }))
 
+interface UserStatusType {
+    [key: string]: ThemeColor
+}
+
+const userStatusObj: UserStatusType = {
+    A: 'success',
+    P: 'warning',
+    B: 'error'
+}
+
+
 const RowOptions = ({ id }: { id: number | string }) => {
+
+    // ** State
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
+    const rowOptionsOpen = Boolean(anchorEl)
+
+    const handleRowOptionsClick = (event: MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget)
+    }
+    const handleRowOptionsClose = () => {
+        setAnchorEl(null)
+    }
+
+    const handleDelete = () => {
+        handleRowOptionsClose()
+    }
+
     return (
-        <Typography >{id}</Typography>
+        <>
+            <IconButton size='small' onClick={handleRowOptionsClick}>
+                <Icon icon='mdi:dots-vertical' />
+            </IconButton>
+            <Menu
+                keepMounted
+                anchorEl={anchorEl}
+                open={rowOptionsOpen}
+                onClose={handleRowOptionsClose}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                }}
+                PaperProps={{ style: { minWidth: '8rem' } }}
+            >
+                <MenuItem
+                    component={Link}
+                    sx={{ '& svg': { mr: 2 } }}
+                    onClick={handleRowOptionsClose}
+                    href='/apps/user/view/overview/'
+                >
+                    <Icon icon='mdi:eye-outline' fontSize={20} />
+                    View
+                </MenuItem>
+                <MenuItem onClick={handleRowOptionsClose} sx={{ '& svg': { mr: 2 } }}>
+                    <Icon icon='mdi:pencil-outline' fontSize={20} />
+                    Edit
+                </MenuItem>
+                <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+                    <Icon icon='mdi:delete-outline' fontSize={20} />
+                    Delete
+                </MenuItem>
+            </Menu>
+        </>
     )
 }
 
+
 const columns: GridColDef[] = [
-    {
-        flex: 0.1,
-        minWidth: 90,
-        sortable: false,
-        field: 'employeeid',
-        headerName: 'Actions',
-        renderCell: ({ row }: CellType) => <RowOptions id={row.employeeid} />
-    },
     {
         flex: 0.2,
         minWidth: 230,
@@ -78,73 +141,72 @@ const columns: GridColDef[] = [
             )
         }
     },
-    // {
-    //     flex: 0.2,
-    //     minWidth: 250,
-    //     field: 'email',
-    //     headerName: 'Email',
-    //     // renderCell: ({ row }: CellType) => {
-    //     //     return (
-    //     //         <Typography noWrap variant='body2'>
-    //     //             {row.email}
-    //     //         </Typography>
-    //     //     )
-    //     // }
-    // },
-    // {
-    //     flex: 0.15,
-    //     field: 'role',
-    //     minWidth: 150,
-    //     headerName: 'Role',
-    //     // renderCell: ({ row }: CellType) => {
-    //     //   return (
-    //     //     <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3, color: userRoleObj[row.role].color } }}>
-    //     //       <Icon icon={userRoleObj[row.role].icon} fontSize={20} />
-    //     //       <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-    //     //         {row.role}
-    //     //       </Typography>
-    //     //     </Box>
-    //     //   )
-    //     // }
-    // },
-    // {
-    //     flex: 0.15,
-    //     minWidth: 120,
-    //     headerName: 'Team',
-    //     field: 'team',
-    //     // renderCell: ({ row }: CellType) => {
-    //     //   return (
-    //     //     <Typography variant='subtitle1' noWrap sx={{ textTransform: 'capitalize' }}>
-    //     //       {row.currentPlan}
-    //     //     </Typography>
-    //     //   )
-    //     // }
-    // },
-    // {
-    //     flex: 0.1,
-    //     minWidth: 110,
-    //     field: 'status',
-    //     headerName: 'Status',
-    //     // renderCell: ({ row }: CellType) => {
-    //     //   return (
-    //     //     <CustomChip
-    //     //       skin='light'
-    //     //       size='small'
-    //     //       label={row.status}
-    //     //       color={userStatusObj[row.status]}
-    //     //       sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
-    //     //     />
-    //     //   )
-    //     // }
-    // },
-    // {
-    //     flex: 0.1,
-    //     minWidth: 90,
-    //     sortable: false,
-    //     field: 'actions',
-    //     headerName: 'Actions',
-    //     // renderCell: ({ row }: CellType) => <RowOptions id={row.id} />
-    // }
+    {
+        flex: 0.2,
+        minWidth: 250,
+        field: 'email',
+        headerName: 'Email',
+        renderCell: ({ row }: CellType) => {
+            return (
+                <Typography noWrap variant='body2'>
+                    {row.email}
+                </Typography>
+            )
+        }
+    },
+    {
+        flex: 0.15,
+        field: 'department_descr',
+        minWidth: 150,
+        headerName: 'Department',
+        renderCell: ({ row }: CellType) => {
+            return (
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
+                    <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
+                        {row.department_descr}
+                    </Typography>
+                </Box>
+            )
+        }
+    },
+    {
+        flex: 0.15,
+        minWidth: 120,
+        headerName: 'Team',
+        field: 'team_descr',
+        renderCell: ({ row }: CellType) => {
+            return (
+                <Typography variant='subtitle1' noWrap sx={{ textTransform: 'capitalize' }}>
+                    {row.team_descr}
+                </Typography>
+            )
+        }
+    },
+    {
+        flex: 0.1,
+        minWidth: 110,
+        field: 'status',
+        headerName: 'Status',
+        renderCell: ({ row }: CellType) => {
+            return (
+                <CustomChip
+                    skin='light'
+                    size='small'
+                    label={Status(row.status)}
+                    color={userStatusObj[row.status]}
+                    sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
+                />
+            )
+        }
+    },
+    {
+        flex: 0.1,
+        minWidth: 90,
+        sortable: false,
+        field: 'actions',
+        headerName: 'Actions',
+        renderCell: ({ row }: CellType) => <RowOptions id={row.employeeid} />
+    }
 ]
 
 
@@ -155,6 +217,7 @@ const EmployeeList = (props: Props) => {
     const [status, setStatus] = useState<string>('')
     const [value, setValue] = useState<string>('')
     const [addUserOpen, setAddUserOpen] = useState<boolean>(false)
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
     const handleFilter = useCallback((val: string) => {
         setValue(val)
@@ -171,10 +234,19 @@ const EmployeeList = (props: Props) => {
 
     const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
-    const { employees } = FetchEmployee()
+    const filter = {
+        teamcd: team,
+        status: status,
+        role: role
+    }
+    const { employees, refetch } = FetchEmployee(filter)
 
-    console.log(employees)
-    const getRowId = (row:any) => row.employeeid;
+    useEffect(() => {
+        refetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filter])
+
+
     return (
         <Grid container spacing={6}>
             <Grid item xs={12}>
@@ -216,12 +288,13 @@ const EmployeeList = (props: Props) => {
                                         inputProps={{ placeholder: 'Select Team' }}
                                     >
                                         <MenuItem value=''>Select Team</MenuItem>
-                                        <MenuItem value='cam'>Cambodia</MenuItem>
-                                        <MenuItem value='thai'>Thailand</MenuItem>
-                                        <MenuItem value='lao'>Lao</MenuItem>
-                                        <MenuItem value='middle'>Middleware</MenuItem>
-                                        <MenuItem value='codev'>Codev</MenuItem>
-
+                                        <MenuItem value='CAM'>Cambodia</MenuItem>
+                                        <MenuItem value='THA'>Thailand</MenuItem>
+                                        <MenuItem value='LAO'>Lao</MenuItem>
+                                        <MenuItem value='MIDDLE'>Middleware</MenuItem>
+                                        <MenuItem value='CODEV'>Codev</MenuItem>
+                                        <MenuItem value='BOD'>Board of Directors</MenuItem>
+                                        
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -238,9 +311,9 @@ const EmployeeList = (props: Props) => {
                                         inputProps={{ placeholder: 'Select Role' }}
                                     >
                                         <MenuItem value=''>Select Role</MenuItem>
-                                        <MenuItem value='pending'>Pending</MenuItem>
-                                        <MenuItem value='active'>Active</MenuItem>
-                                        <MenuItem value='inactive'>Block</MenuItem>
+                                        <MenuItem value='P'>Pending</MenuItem>
+                                        <MenuItem value='A'>Active</MenuItem>
+                                        <MenuItem value='B'>Block</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -251,13 +324,18 @@ const EmployeeList = (props: Props) => {
                     {employees &&
                         <DataGrid
                             autoHeight
+                            pagination
+                            pageSizeOptions={[10, 25, 50]}
+                            paginationModel={paginationModel}
+                            onPaginationModelChange={setPaginationModel}
                             columns={columns}
-                            rows={employees} 
-                            getRowId={getRowId}
+                            rows={employees}
+                            getRowId={(row) => row.employeeid}
                         />
                     }
                 </Card>
             </Grid>
+            <AddUserDrawer open={addUserOpen} toggle={toggleAddUserDrawer} />
         </Grid>
     )
 }

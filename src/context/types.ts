@@ -59,6 +59,13 @@ export interface LoginUserInput {
   username: string
   password: string
 }
+
+export interface FilterEmployee {
+  teamcd: string | null | undefined
+  status: string | null | undefined
+  role: string | null | undefined
+}
+
 export interface Auth {
   token: string,
   permission: string[];
