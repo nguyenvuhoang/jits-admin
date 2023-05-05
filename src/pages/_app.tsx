@@ -15,7 +15,7 @@ import { Router } from 'next/router'
 // ** Loader Import
 import GuestGuard from '@/@core/components/GuestGuard'
 import NProgress from 'nprogress'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 
 // ** Prismjs Styles
 import 'prismjs'
@@ -37,6 +37,10 @@ import { Toaster } from 'react-hot-toast'
 // ** Store Imports
 import { store } from '@/store'
 import { Provider } from 'react-redux'
+
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
@@ -84,6 +88,9 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
   const getLayout =
     Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
 
+
+  const [queryClient] = useState(() => new QueryClient())
+
   return (
     <Provider store={store}>
       <CacheProvider value={emotionCache}>
@@ -105,7 +112,12 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
                   <ThemeComponent settings={settings}>
                     <Guard authGuard={authGuard} guestGuard={guestGuard}>
                       <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                        {getLayout(<Component {...pageProps} />)}
+                        <QueryClientProvider client={queryClient}>
+                          <Hydrate state={pageProps.dehydratedState}>
+                            {getLayout(<Component {...pageProps} />)}
+                          </Hydrate>
+                          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+                        </QueryClientProvider>
                       </AclGuard>
                     </Guard>
                     <ReactHotToast>

@@ -61,14 +61,59 @@ export interface LoginUserInput {
 }
 export interface Auth {
   token: string,
-  permission: number[];
+  permission: string[];
 }
 export interface AuthResponse {
   errorcode: string
   messagedetail: string
-  result: Auth
+  result: {
+    status: number
+    data: Auth
+  }
+  
+}
+export interface ResponseObject<T> {
+  errorcode: number
+  messagedetail: string
+  result: {
+    status: number
+    data: T
+  }
 }
 
+export interface ResponseArray<T> {
+  errorcode: number
+  messagedetail: string
+  result: {
+    status: number
+    data: T[]
+  }
+}
+
+export interface UserProfile {
+  username: string
+  firstname: string
+  lastname: string
+  gender: number
+  address: string
+  email: string
+  birthday: string
+  phone: string
+  status: string
+  usercreated: string
+  datecreated: string
+  usermodified: any
+  islogin: boolean
+  expiretime: string
+  isshow: any
+  policyid: any
+  failnumber: any
+  scores: any
+  avatar?: string
+}
+
+export interface UserResponsePaginator extends ResponseArray<UserProfile> { }
+export interface EmployeeResponsePaginator extends ResponseArray<Employeeinfo> { }
 
 export type AuthValuesType = {
   loading: boolean
@@ -79,3 +124,5 @@ export type AuthValuesType = {
   login: (params: LoginParams, errorCallback?: ErrCallbackType) => void,
   token: string | null
 }
+
+

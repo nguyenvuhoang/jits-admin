@@ -12,8 +12,8 @@ export const getAuthToken = () => {
 
 };
 
-export function setAuthToken(token: string) {
-  Cookie.set(AUTH_TOKEN_KEY, token);
+export function setAuthToken(token: string, permission: string[]) {
+  Cookie.set(AUTH_TOKEN_KEY,  JSON.stringify({ token, permission }));
 }
 
 export function removeAuthToken() {

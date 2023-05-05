@@ -14,8 +14,8 @@ const navigation = (): HorizontalNavItemsType => {
         },
         {
           icon: 'mdi:account-group',
-          title: 'User management',
-          path: '/dashboards/user-management'
+          title: 'Employee management',
+          path: '/dashboards/employee-management'
         }
       ]
     },

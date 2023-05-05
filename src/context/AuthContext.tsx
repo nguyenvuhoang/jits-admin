@@ -50,7 +50,7 @@ const AuthProvider = ({ children }: Props) => {
         await axios
           .get(process.env.NEXT_PUBLIC_REST_API_ENDPOINT + API_ENDPOINTS.meEndpoint, {
             headers: {
-              Authorization: `Bearer ${storedToken}`
+              Authorization: `Bearer ${JSON.parse(storedToken)['token']}`
             }
           })
           .then(async response => {
@@ -79,9 +79,9 @@ const AuthProvider = ({ children }: Props) => {
       username: username,
       password: password
     }).then(async response => {
-      rememberMe ? setAuthToken(response.result.token) : null
+      rememberMe ? setAuthToken(response.result.data.token,response.result.data.permission) : null
 
-      setToken(response.result.token)
+      setToken(response.result.data.token)
       const userdetail = {
         username: username,
         firstname: '',
@@ -100,8 +100,8 @@ const AuthProvider = ({ children }: Props) => {
         fastmode: '',
         scores: 0,
         avatar: '',
-        isadmin: response.result.permission[0] === 2 ? true : false,
-        role: response.result.permission[0] === 2 ? 'admin' : 'guest',
+        isadmin: response.result.data.permission[0] === "ADMIN" ? true : false,
+        role: response.result.data.permission[0] === "ADMIN" ? 'admin' : 'guest',
       }
       setUser({ ...userdetail })
       const returnUrl = router.query.returnUrl
