@@ -11,6 +11,11 @@ const navigation = (): HorizontalNavItemsType => {
           icon: 'mdi:chart-donut',
           title: 'CRM',
           path: '/dashboards/crm'
+        },
+        {
+          icon: 'mdi:account-group',
+          title: 'User management',
+          path: '/dashboards/user-management'
         }
       ]
     },
