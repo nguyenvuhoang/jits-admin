@@ -13,9 +13,6 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Link from 'next/link'
 import { MouseEvent, useCallback, useEffect, useState } from 'react'
 
-type Props = {}
-
-
 interface CellType {
     row: EmployeeType
 }
@@ -101,7 +98,7 @@ const RowOptions = ({ id }: { id: number | string }) => {
                     component={Link}
                     sx={{ '& svg': { mr: 2 } }}
                     onClick={handleRowOptionsClose}
-                    href='/apps/user/view/overview/'
+                    href={`/apps/employee/view/${id}`}
                 >
                     <Icon icon='mdi:eye-outline' fontSize={20} />
                     View
@@ -205,23 +202,20 @@ const columns: GridColDef[] = [
         sortable: false,
         field: 'actions',
         headerName: 'Actions',
-        renderCell: ({ row }: CellType) => <RowOptions id={row.employeeid} />
+        renderCell: ({ row }: CellType) => <RowOptions id={row.employeecd} />
     }
 ]
 
 
-const EmployeeList = (props: Props) => {
+const EmployeeList = () => {
 
     const [role, setRole] = useState<string>('')
     const [team, setTeam] = useState<string>('')
     const [status, setStatus] = useState<string>('')
-    const [value, setValue] = useState<string>('')
     const [addUserOpen, setAddUserOpen] = useState<boolean>(false)
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
-    const handleFilter = useCallback((val: string) => {
-        setValue(val)
-    }, [])
+    
     const handleRoleChange = useCallback((e: SelectChangeEvent) => {
         setRole(e.target.value)
     }, [])
@@ -293,8 +287,8 @@ const EmployeeList = (props: Props) => {
                                         <MenuItem value='LAO'>Lao</MenuItem>
                                         <MenuItem value='MIDDLE'>Middleware</MenuItem>
                                         <MenuItem value='CODEV'>Codev</MenuItem>
+                                        <MenuItem value='MNG'>Manager</MenuItem>
                                         <MenuItem value='BOD'>Board of Directors</MenuItem>
-                                        
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -320,7 +314,6 @@ const EmployeeList = (props: Props) => {
                         </Grid>
                     </CardContent>
                     <Divider />
-                    <TableHeader value={value} handleFilter={handleFilter} toggle={toggleAddUserDrawer} />
                     {employees &&
                         <DataGrid
                             autoHeight

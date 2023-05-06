@@ -21,17 +21,12 @@ const navigation = (): HorizontalNavItemsType => {
     },
     {
       icon: 'mdi:apps',
-      title: 'Apps',
+      title: 'Department',
       children: [
         {
-          title: 'Email',
-          icon: 'mdi:email-outline',
+          title: 'Solution Delivery Dept',
+          icon: 'mdi:cog-outline',
           path: '/apps/email'
-        },
-        {
-          title: 'Chat',
-          icon: 'mdi:message-outline',
-          path: '/apps/chat'
         }
       ]
     },

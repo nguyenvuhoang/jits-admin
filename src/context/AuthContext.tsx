@@ -11,7 +11,7 @@ import axios from 'axios'
 import { API_ENDPOINTS } from '@/configs/auth'
 
 // ** Types
-import { AuthValuesType, LoginParams, ErrCallbackType, Userinfo } from './types'
+import { AuthValuesType, LoginParams, ErrCallbackType, Userinfo, Employeeinfo } from './types'
 import client from '@/data/client'
 import { AUTH_TOKEN_KEY, setAuthToken } from '@/data/client/token.utils'
 import Cookies from 'js-cookie'
@@ -19,6 +19,7 @@ import Cookies from 'js-cookie'
 // ** Defaults
 const defaultProvider: AuthValuesType = {
   user: null,
+  employee: null,
   loading: true,
   setUser: () => null,
   setLoading: () => Boolean,
@@ -38,6 +39,7 @@ const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<Userinfo | null>(defaultProvider.user)
   const [token, setToken] = useState<string | null>(defaultProvider.token)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
+  const [employee, setEmployee] = useState<Employeeinfo | null>(defaultProvider.employee)
 
   // ** Hooks
   const router = useRouter()
@@ -64,6 +66,26 @@ const AuthProvider = ({ children }: Props) => {
               router.replace('/login')
             }
           })
+        
+          await axios
+          .get(process.env.NEXT_PUBLIC_REST_API_ENDPOINT + API_ENDPOINTS.EMPLOYEE_BYUSERNAME, {
+            headers: {
+              Authorization: `Bearer ${JSON.parse(storedToken)['token']}`
+            }
+          })
+          .then(async response => {
+            setLoading(false)
+            setEmployee({ ...response.data.result.data })
+          })
+          .catch((e) => {
+            setEmployee(null)
+            setLoading(false)
+            if (API_ENDPOINTS.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
+              router.replace('/login')
+            }
+          })
+
+
       } else {
         setLoading(false)
       }
@@ -116,6 +138,7 @@ const AuthProvider = ({ children }: Props) => {
 
   const handleLogout = () => {
     setUser(null)
+    setEmployee(null)
     setToken(null)
     Cookies.remove(AUTH_TOKEN_KEY);
     router.push('/login')
@@ -128,7 +151,8 @@ const AuthProvider = ({ children }: Props) => {
     setLoading,
     login: handleLogin,
     logout: handleLogout,
-    token
+    token,
+    employee
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

@@ -24,3 +24,9 @@ export type EmployeeType = {
   team_descr?: string
   leader_name: string
 }
+
+export type TaskType = {
+  id: number
+  issuename: string
+  issueddate: string
+}

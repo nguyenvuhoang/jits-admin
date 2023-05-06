@@ -52,6 +52,7 @@ export interface Employeeinfo {
   department_descr: string
   team_descr: string
   leader_name: string
+  project: []
 }
 
 
@@ -77,7 +78,7 @@ export interface AuthResponse {
     status: number
     data: Auth
   }
-  
+
 }
 export interface ResponseObject<T> {
   errorcode: number
@@ -126,6 +127,7 @@ export type AuthValuesType = {
   loading: boolean
   logout: () => void
   user: Userinfo | null
+  employee: Employeeinfo | null
   setLoading: (value: boolean) => void
   setUser: (value: Userinfo | null) => void
   login: (params: LoginParams, errorCallback?: ErrCallbackType) => void,
@@ -133,3 +135,63 @@ export type AuthValuesType = {
 }
 
 
+export interface EmployeeCodeInput {
+  employeecd: string | string[] | undefined
+}
+
+export interface Skill {
+  skillsid: string
+  skillsname: string
+  description: string
+}
+
+export interface PersonalPortfolio {
+  image: string
+  category: string
+  title: string
+  description: string
+}
+export interface Project {
+  ID: string
+  EMPLOYECD: string
+  PROJECTCD: string
+  DESCRIPTION: string
+}
+
+export interface Client {
+  ID: string
+  EMPLOYECD: string
+  CLIENTID: string
+  DESCRIPTION: string
+}
+export interface EmployeeDetail {
+  fullname: string
+  position: string
+  category: string
+  title: string
+  buttonText: string
+  buttonLink: string
+  image: string
+  cover: string
+  description: string
+  skills: Skill[]
+  personalPortfolio: PersonalPortfolio[]
+  project: Project[]
+  client: Client[]
+  status: string
+  role: string
+  phone?: string
+  address?: string
+  email: string
+  totaltask: number
+  teamcd: string
+  team_description: string
+}
+
+export interface EmployeeDetailResponsePaginator extends ResponseObject<EmployeeDetail> { }
+
+export interface BlockEmployeeInput {
+  employeecd: string
+  status: string
+}
+export interface BlockEmployeeResponse extends ResponseObject<Employeeinfo> { }
