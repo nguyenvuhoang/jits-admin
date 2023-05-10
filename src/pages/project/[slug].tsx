@@ -1,26 +1,28 @@
-import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from '@mui/material'
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
-import React, { ChangeEvent, useState } from 'react'
-import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
-import OptionsMenu from '@/@core/components/option-menu'
 import CustomAvatar from '@/@core/components/mui/avatar'
-import Icon from '@/@core/components/icon'
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import OptionsMenu from '@/@core/components/option-menu'
 import { ThemeColor } from '@/@core/layouts/types'
+import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
 import { getInitials } from '@/@core/utils/get-initials'
+import { Project, ProjectGitLab } from '@/context/types'
+import client from '@/data/client'
+import { FetchProject } from '@/data/project'
 import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
+import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from '@mui/material'
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
+import { ChangeEvent, useState } from 'react'
 
 const DepartmentPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) => {
     const theme = useTheme()
 
     const renderClient = (params: GridRenderCellParams) => {
-        const { row } = params
+        const { row } = params!
         const stateNum = Math.floor(Math.random() * 6)
         const states = ['success', 'error', 'warning', 'info', 'primary', 'secondary']
         const color = states[stateNum]
 
-        if (row.avatar.length) {
-            return <CustomAvatar src={`/images/avatars/${row.avatar}`} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
+        if (row.avatar_url) {
+            return <CustomAvatar src={`${row.avatar_url}`} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
         } else {
             return (
                 <CustomAvatar
@@ -35,6 +37,7 @@ const DepartmentPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>
     }
 
 
+
     const columns: GridColDef[] = [
         {
             flex: 0.275,
@@ -43,7 +46,6 @@ const DepartmentPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>
             headerName: 'Name',
             renderCell: (params: GridRenderCellParams) => {
                 const { row } = params
-
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         {renderClient(params)}
@@ -81,18 +83,6 @@ const DepartmentPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>
         },
         {
             flex: 0.2,
-            minWidth: 120,
-            headerName: 'Description',
-            field: 'description',
-            valueGetter: params => new Date(params.value),
-            renderCell: (params: GridRenderCellParams) => (
-                <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {params.row.start_date}
-                </Typography>
-            )
-        },
-        {
-            flex: 0.2,
             minWidth: 110,
             field: 'total_issue_open',
             headerName: 'Total issue open',
@@ -104,24 +94,26 @@ const DepartmentPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>
         },
         {
             flex: 0.125,
-            field: 'create_date',
+            field: 'create_at',
             minWidth: 80,
             headerName: 'Create date',
             renderCell: (params: GridRenderCellParams) => (
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {params.row.create_date}
+                    {params.row.create_at}
                 </Typography>
             )
         }
-       
+
     ]
 
-    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+    const { project } = FetchProject({
+        per_page: 100,
+        page: 0,
+        order_by: "last_activity_at"
+    })
     const [searchText, setSearchText] = useState<string>('')
-    const [filteredData, setFilteredData] = useState<[]>([])
-    const [data] = useState<[]>([])
-
-
+    const [filteredData, setFilteredData] = useState<ProjectGitLab[] | undefined>([])
 
     const escapeRegExp = (value: string) => {
         return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
@@ -129,14 +121,15 @@ const DepartmentPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>
     const handleSearch = (searchValue: string) => {
         setSearchText(searchValue)
         const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
-        const filteredRows = data.filter(row => {
+
+        const filteredRows = project?.filter(row => {
             return Object.keys(row).some(field => {
                 // @ts-ignore
-                return searchRegex.test(row[field].toString())
+                return searchRegex.test(row[field]?.toString())
             })
         })
         if (searchValue.length) {
-            // setFilteredData(filteredRows)
+            setFilteredData(filteredRows)
         } else {
             setFilteredData([])
         }
@@ -165,11 +158,11 @@ const DepartmentPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>
                                     <DataGrid
                                         autoHeight
                                         columns={columns}
-                                        pageSizeOptions={[7, 10, 25, 50]}
+                                        pageSizeOptions={[10, 25, 50]}
                                         paginationModel={paginationModel}
                                         slots={{ toolbar: QuickSearchToolbar }}
                                         onPaginationModelChange={setPaginationModel}
-                                        rows={filteredData.length ? filteredData : data}
+                                        rows={filteredData?.length ? filteredData : (project ? project : [])}
                                         slotProps={{
                                             baseButton: {
                                                 variant: 'outlined'

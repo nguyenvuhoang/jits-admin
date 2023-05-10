@@ -195,3 +195,25 @@ export interface BlockEmployeeInput {
   status: string
 }
 export interface BlockEmployeeResponse extends ResponseObject<Employeeinfo> { }
+
+export interface ProjectGitLab {
+  id: number
+  web_url: string
+  name: string
+  description?: string
+  avatar_url?: string
+  group_id: number
+  group_name: string
+  group_avatar_url?: string
+  total_issue_open: number
+  owner: string
+  create_at: string
+}
+
+export interface ProjectReponse extends ResponseArray<ProjectGitLab> { }
+
+export interface FilterProject {
+  page: number
+  per_page: number
+  order_by?: string
+}
