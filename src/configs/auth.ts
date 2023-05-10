@@ -1,5 +1,5 @@
 export const API_ENDPOINTS = {
-  USERS_LOGIN: '/user/login',
+  USERS_LOGIN: '/gitlab/oauth/token',
   USERS_ME: '/user/getuserprofile',
   USERS_GETALL: '/user/userlist',
   EMPLOYEE_GETALL: '/employee/employeelist',

@@ -26,7 +26,7 @@ const navigation = (): HorizontalNavItemsType => {
         {
           title: 'Solution Delivery Dept',
           icon: 'mdi:cog-outline',
-          path: '/apps/email'
+          path: '/department/solution-delivery-dept'
         }
       ]
     },
