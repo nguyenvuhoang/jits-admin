@@ -31,6 +31,17 @@ const navigation = (): HorizontalNavItemsType => {
       ]
     },
     {
+      icon: 'mdi:badge-account-horizontal-outline',
+      title: 'Forms',
+      children: [
+        {
+          title: 'Application for leave',
+          icon: 'mdi:bag-personal-off',
+          path: '/form/personal-off'
+        }
+      ]
+    },
+    {
       title: 'Others',
       icon: 'mdi:dots-horizontal',
       children: [

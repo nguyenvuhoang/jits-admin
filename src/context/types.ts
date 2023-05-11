@@ -217,3 +217,24 @@ export interface FilterProject {
   per_page: number
   order_by?: string
 }
+
+export interface EmployeeData {
+  employeecd: string
+  fullname: string
+  birthday: string
+  address: string
+  phone: string
+  email: string
+  aboutme: string
+  marketcd: string
+  teamcd: string
+  deparmentcd: string
+  gender: string
+}
+
+export interface EmployeeResponse extends ResponseObject<{}> { }
+
+export interface UpdateStatusEmployeeInput {
+  employeecd: string
+  status: string
+}

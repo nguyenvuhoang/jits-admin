@@ -67,7 +67,7 @@ const AuthProvider = ({ children }: Props) => {
             }
           })
         
-          await axios
+        await axios
           .get(process.env.NEXT_PUBLIC_REST_API_ENDPOINT + API_ENDPOINTS.EMPLOYEE_BYUSERNAME, {
             headers: {
               Authorization: `Bearer ${JSON.parse(storedToken)['token']}`
@@ -90,10 +90,9 @@ const AuthProvider = ({ children }: Props) => {
         setLoading(false)
       }
     }
-
     initAuth()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [token])
 
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
     const { username, password, rememberMe } = params

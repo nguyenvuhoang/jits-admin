@@ -11,5 +11,7 @@ export const API_ENDPOINTS = {
   registerEndpoint: '/jwt/register',
   storageTokenKeyName: 'accessToken',
   onTokenExpiration: 'refreshToken', // logout | refreshToken
-  GITLAB_ALLPROJECT : '/gitlab/getallproject'
+  GITLAB_ALLPROJECT : '/gitlab/getallproject',
+  POST_EMPLOYEE: '/employee/postemployee',
+  APPROVE_EMPLOYEE: '/employee/updatestatus'
 }

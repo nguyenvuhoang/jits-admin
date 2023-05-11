@@ -2,29 +2,33 @@
 import { useState } from 'react'
 
 // ** MUI Imports
-import Drawer from '@mui/material/Drawer'
-import Select from '@mui/material/Select'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
-import { styled } from '@mui/material/styles'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
-import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Drawer from '@mui/material/Drawer'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
+import IconButton from '@mui/material/IconButton'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
 
 // ** Third Party Imports
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 // ** Icon Imports
 import Icon from '@/@core/components/icon'
 
 // ** Store Imports
-import { useDispatch, useSelector } from 'react-redux'
+import { EmployeeData, EmployeeResponse } from '@/context/types'
+import client from '@/data/client'
+import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 
 // ** Actions Imports
 
@@ -35,14 +39,7 @@ interface SidebarAddUserType {
   toggle: () => void
 }
 
-interface UserData {
-  email: string
-  company: string
-  country: string
-  contact: number
-  fullName: string
-  username: string
-}
+
 
 const showErrors = (field: string, valueLen: number, min: number) => {
   if (valueLen === 0) {
@@ -63,48 +60,46 @@ const Header = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const schema = yup.object().shape({
-  company: yup.string().required(),
-  country: yup.string().required(),
+  employeecd: yup.string().required(),
+  birthday: yup.string().required(),
   email: yup.string().email().required(),
-  contact: yup
-    .number()
+  phone: yup
+    .string()
     .typeError('Contact Number field is required')
     .min(10, obj => showErrors('Contact Number', obj.value.length, obj.min))
     .required(),
-  fullName: yup
+  fullname: yup
     .string()
     .min(3, obj => showErrors('First Name', obj.value.length, obj.min))
     .required(),
-  username: yup
-    .string()
-    .min(3, obj => showErrors('Username', obj.value.length, obj.min))
-    .required()
+  deparmentcd: yup.string().required(),
+  teamcd: yup.string().required(),
+
 })
 
 const defaultValues = {
+  employeecd: '',
+  fullname: '',
+  birthday: '',
+  address: '',
+  phone: '',
   email: '',
-  company: '',
-  country: '',
-  fullName: '',
-  username: '',
-  contact: Number('')
+  aboutme: '',
+  marketcd: '',
+  teamcd: '',
+  deparmentcd: '',
+  gender: ''
 }
 
 const SidebarAddEmployee = (props: SidebarAddUserType) => {
   // ** Props
   const { open, toggle } = props
 
-  // ** State
-  const [plan, setPlan] = useState<string>('basic')
-  const [role, setRole] = useState<string>('subscriber')
-
   // ** Hooks
 
   const {
     reset,
     control,
-    setValue,
-    setError,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -112,16 +107,35 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
     mode: 'onChange',
     resolver: yupResolver(schema)
   })
-  const onSubmit = (data: UserData) => {
-    
+
+  const [errorsServer, setErrorServer] = useState('')
+
+
+
+  const { mutate: postEmployee } = useMutation(client.employee.postemployee, {
+    onSuccess: (data) => {
+      if (data.errorcode === 0) {
+        handleClose()
+      }
+
+    },
+    onError: (errorAsUnknown) => {
+      const error = errorAsUnknown as AxiosError<EmployeeResponse>;
+      const errorMessage = `${error?.response?.status === 400 ? error?.response?.data.messagedetail : 'Error'}`
+      setErrorServer(errorMessage)
+
+    }
+  });
+
+
+  const onSubmit = (data: EmployeeData) => {
+    postEmployee(data)
   }
 
   const handleClose = () => {
-    setPlan('basic')
-    setRole('subscriber')
-    setValue('contact', Number(''))
     toggle()
     reset()
+    setErrorServer('')
   }
 
   return (
@@ -134,7 +148,7 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h6'>Add User</Typography>
+        <Typography variant='h6'>Add Employee</Typography>
         <IconButton size='small' onClick={handleClose} sx={{ color: 'text.primary' }}>
           <Icon icon='mdi:close' fontSize={20} />
         </IconButton>
@@ -143,7 +157,24 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl fullWidth sx={{ mb: 6 }}>
             <Controller
-              name='fullName'
+              name='employeecd'
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Employee code'
+                  onChange={onChange}
+                  placeholder='Employee code'
+                  error={Boolean(errors.employeecd)}
+                />
+              )}
+            />
+            {errors.employeecd && <FormHelperText sx={{ color: 'error.main' }}>{errors.employeecd.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 6 }}>
+            <Controller
+              name='fullname'
               control={control}
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
@@ -151,30 +182,14 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
                   value={value}
                   label='Full Name'
                   onChange={onChange}
-                  placeholder='John Doe'
-                  error={Boolean(errors.fullName)}
+                  placeholder='JITS'
+                  error={Boolean(errors.fullname)}
                 />
               )}
             />
-            {errors.fullName && <FormHelperText sx={{ color: 'error.main' }}>{errors.fullName.message}</FormHelperText>}
+            {errors.fullname && <FormHelperText sx={{ color: 'error.main' }}>{errors.fullname.message}</FormHelperText>}
           </FormControl>
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='username'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Username'
-                  onChange={onChange}
-                  placeholder='johndoe'
-                  error={Boolean(errors.username)}
-                />
-              )}
-            />
-            {errors.username && <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>}
-          </FormControl>
+
           <FormControl fullWidth sx={{ mb: 6 }}>
             <Controller
               name='email'
@@ -186,7 +201,7 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
                   value={value}
                   label='Email'
                   onChange={onChange}
-                  placeholder='johndoe@email.com'
+                  placeholder='jits@jits.com.vn'
                   error={Boolean(errors.email)}
                 />
               )}
@@ -195,92 +210,195 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 6 }}>
             <Controller
-              name='company'
+              name='birthday'
               control={control}
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <TextField
                   value={value}
-                  label='Company'
+                  label='Birthday'
                   onChange={onChange}
-                  placeholder='Company PVT LTD'
-                  error={Boolean(errors.company)}
+                  placeholder='01/01/1990'
+                  error={Boolean(errors.birthday)}
                 />
               )}
             />
-            {errors.company && <FormHelperText sx={{ color: 'error.main' }}>{errors.company.message}</FormHelperText>}
+            {errors.birthday && <FormHelperText sx={{ color: 'error.main' }}>{errors.birthday.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 6 }}>
             <Controller
-              name='country'
+              name='address'
               control={control}
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <TextField
                   value={value}
-                  label='Country'
+                  label='Address'
                   onChange={onChange}
-                  placeholder='Australia'
-                  error={Boolean(errors.country)}
+                  placeholder='Vietnam'
+                  error={Boolean(errors.address)}
                 />
               )}
             />
-            {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
+            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 6 }}>
             <Controller
-              name='contact'
+              name='phone'
               control={control}
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <TextField
                   type='number'
                   value={value}
-                  label='Contact'
+                  label='Phone'
                   onChange={onChange}
-                  placeholder='(397) 294-5153'
-                  error={Boolean(errors.contact)}
+                  placeholder='(84) 294-5153'
+                  error={Boolean(errors.phone)}
                 />
               )}
             />
-            {errors.contact && <FormHelperText sx={{ color: 'error.main' }}>{errors.contact.message}</FormHelperText>}
+            {errors.phone && <FormHelperText sx={{ color: 'error.main' }}>{errors.phone.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 6 }}>
-            <InputLabel id='role-select'>Select Role</InputLabel>
-            <Select
-              fullWidth
-              value={role}
-              id='select-role'
-              label='Select Role'
-              labelId='role-select'
-              onChange={e => setRole(e.target.value)}
-              inputProps={{ placeholder: 'Select Role' }}
-            >
-              <MenuItem value='admin'>Admin</MenuItem>
-              <MenuItem value='author'>Author</MenuItem>
-              <MenuItem value='editor'>Editor</MenuItem>
-              <MenuItem value='maintainer'>Maintainer</MenuItem>
-              <MenuItem value='subscriber'>Subscriber</MenuItem>
-            </Select>
+            <InputLabel id='deparmentcd-select'>Select Department</InputLabel>
+            <Controller
+              name='deparmentcd'
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  fullWidth
+                  value={value}
+                  id='select-deparmentcd'
+                  label='Select Department'
+                  labelId='deparmentcd-select'
+                  onChange={onChange}
+                  inputProps={{ placeholder: 'Select Department' }}
+                >
+                  <MenuItem value='SDD'>Solutions Delivery Dept</MenuItem>
+                  <MenuItem value='RND-HCM'>R&D Dept in HCM</MenuItem>
+                  <MenuItem value='RND-HN'>R&D Dept in Ha Noi</MenuItem>
+                  <MenuItem value='BUZ'>Business & Maketing</MenuItem>
+                  <MenuItem value='HR'>Human Resource</MenuItem>
+                </Select>
+              )}
+            />
+            {errors.deparmentcd && (
+              <FormHelperText sx={{ color: 'error.main' }} id='deparmentcd-error'>
+                {errors.deparmentcd.message}
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 6 }}>
-            <InputLabel id='plan-select'>Select Plan</InputLabel>
-            <Select
-              fullWidth
-              value={plan}
-              id='select-plan'
-              label='Select Plan'
-              labelId='plan-select'
-              onChange={e => setPlan(e.target.value)}
-              inputProps={{ placeholder: 'Select Plan' }}
-            >
-              <MenuItem value='basic'>Basic</MenuItem>
-              <MenuItem value='company'>Company</MenuItem>
-              <MenuItem value='enterprise'>Enterprise</MenuItem>
-              <MenuItem value='team'>Team</MenuItem>
-            </Select>
+            <InputLabel id='teamcd-select'>Select Team</InputLabel>
+            <Controller
+              name='teamcd'
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  fullWidth
+                  value={value}
+                  id='select-teamcd'
+                  label='Select Team'
+                  labelId='teamcd-select'
+                  onChange={onChange}
+                  inputProps={{ placeholder: 'Select Team' }}
+                >
+                  <MenuItem value='CAM'>Cambodia (TSUNAMI)</MenuItem>
+                  <MenuItem value='THA'>ThaiLand</MenuItem>
+                  <MenuItem value='LAO'>Lao</MenuItem>
+                  <MenuItem value='MMR'>Myanamr</MenuItem>
+                  <MenuItem value='MDW'>Middleware team</MenuItem>
+                  <MenuItem value='TEST'>Tester</MenuItem>
+                  <MenuItem value='MNG'>Manager</MenuItem>
+                  <MenuItem value='BOD'>Board of Director</MenuItem>
+                  <MenuItem value='CODEV'>CO-DEV</MenuItem>
+                  <MenuItem value='HRHCM'>Human Resource in HCM</MenuItem>
+
+                </Select>
+              )}
+            />
+            {errors.teamcd && (
+              <FormHelperText sx={{ color: 'error.main' }} id='teamcd-error'>
+                {errors.teamcd.message}
+              </FormHelperText>
+            )}
           </FormControl>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <FormControl fullWidth sx={{ mb: 6 }}>
+            <InputLabel id='marketcd-select'>Select Market</InputLabel>
+            <Controller
+              name='marketcd'
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  fullWidth
+                  value={value}
+                  id='select-marketcd'
+                  label='Select market'
+                  labelId='marketcd-select'
+                  onChange={onChange}
+                  inputProps={{ placeholder: 'Select Market' }}
+                >
+                  <MenuItem value='CAM'>Cambodia</MenuItem>
+                  <MenuItem value='THA'>Lao</MenuItem>
+                  <MenuItem value='LAO'>Thailand</MenuItem>
+                  <MenuItem value='MDW'>Myanmar</MenuItem>
+
+                </Select>
+              )}
+            />
+            {errors.marketcd && (
+              <FormHelperText sx={{ color: 'error.main' }} id='marketcd-error'>
+                {errors.marketcd.message}
+              </FormHelperText>
+            )}
+          </FormControl>
+          <FormControl error={Boolean(errors.gender)}>
+            <FormLabel>Gender</FormLabel>
+            <Controller
+              name='gender'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <RadioGroup row {...field} aria-label='gender' name='validation-basic-gender'>
+                  <FormControlLabel
+                    value='0'
+                    label='Female'
+                    sx={errors.gender ? { color: 'error.main' } : null}
+                    control={<Radio sx={errors.gender ? { color: 'error.main' } : null} />}
+                  />
+                  <FormControlLabel
+                    value='1'
+                    label='Male'
+                    sx={errors.gender ? { color: 'error.main' } : null}
+                    control={<Radio sx={errors.gender ? { color: 'error.main' } : null} />}
+                  />
+                  <FormControlLabel
+                    value='2'
+                    label='Other'
+                    sx={errors.gender ? { color: 'error.main' } : null}
+                    control={<Radio sx={errors.gender ? { color: 'error.main' } : null} />}
+                  />
+                </RadioGroup>
+              )}
+            />
+            {errors.gender && (
+              <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-radio'>
+                This field is required
+              </FormHelperText>
+            )}
+          </FormControl>
+
+          {errorsServer && (
+            <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-last-name'>
+              {errorsServer}
+            </FormHelperText>
+          )}
+
+          <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '2vh' }}>
             <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }}>
               Submit
             </Button>
