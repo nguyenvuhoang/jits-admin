@@ -110,8 +110,6 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
 
   const [errorsServer, setErrorServer] = useState('')
 
-
-
   const { mutate: postEmployee } = useMutation(client.employee.postemployee, {
     onSuccess: (data) => {
       if (data.errorcode === 0) {

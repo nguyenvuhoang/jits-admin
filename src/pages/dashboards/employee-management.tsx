@@ -133,7 +133,7 @@ const EmployeeList = () => {
                         color: 'green',
                         title: 'Approved!',
                         text: 'Approved customer successfully'
-                    }).then((response) => {
+                    }).then((response:any) => {
                         if (response.isConfirmed) {
                             setRefresh(true)
                         }
