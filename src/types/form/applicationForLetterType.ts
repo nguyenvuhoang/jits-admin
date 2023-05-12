@@ -14,5 +14,6 @@ export interface ApplicationLeaveInputs {
     totaldayoff: number
     session: string
     replacepersion?:string
+    formality: string
     
 }
