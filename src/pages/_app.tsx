@@ -41,6 +41,8 @@ import { Provider } from 'react-redux'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import "react-datepicker/dist/react-datepicker.css";
+
 
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {

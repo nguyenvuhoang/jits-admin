@@ -9,11 +9,11 @@ export interface ApplicationLeaveInputs {
     dateoff: string
     typeoff: string
     reason: string
-    fromdt: string
+    fromdt: Date | undefined
     todt: string
     totaldayoff: number
-    session: string
-    replacepersion?:string
+    session: string[]
+    replacepersion?: string
     formality: string
-    
+
 }
