@@ -349,6 +349,7 @@ const EmployeeList = () => {
                                         <MenuItem value='MNG'>Manager</MenuItem>
                                         <MenuItem value='BOD'>Board of Directors</MenuItem>
                                         <MenuItem value='HRHCM'>Human Resource in HCM</MenuItem>
+                                        <MenuItem value='ACC'>Accountant</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>

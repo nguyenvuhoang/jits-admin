@@ -221,7 +221,7 @@ export interface FilterProject {
 export interface EmployeeData {
   employeecd: string
   fullname: string
-  birthday: string
+  birthday: Date
   address: string
   phone: string
   email: string

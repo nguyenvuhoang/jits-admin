@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 
 // ** Third Party Imports
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -29,10 +29,9 @@ import client from '@/data/client'
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-
-// ** Actions Imports
-
-// ** Types Imports
+import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
+import CustomInput from '@/views/forms/pickers/PickersCustomInput';
+import { DateType } from '../../../../types/form/reactDatepickerTypes';
 
 interface SidebarAddUserType {
   open: boolean
@@ -80,7 +79,7 @@ const schema = yup.object().shape({
 const defaultValues = {
   employeecd: '',
   fullname: '',
-  birthday: '',
+  birthday: new Date('01/01/1990'),
   address: '',
   phone: '',
   email: '',
@@ -101,6 +100,7 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
     reset,
     control,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm({
     defaultValues,
@@ -127,7 +127,10 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
 
 
   const onSubmit = (data: EmployeeData) => {
+    const date = new Date(data.birthday)
+    setValue('birthday',date)
     postEmployee(data)
+
   }
 
   const handleClose = () => {
@@ -135,6 +138,10 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
     reset()
     setErrorServer('')
   }
+
+  const theme = useTheme()
+  const { direction } = theme
+  const popperPlacement: ReactDatePickerProps['popperPlacement'] = direction === 'ltr' ? 'bottom-start' : 'bottom-end'
 
   return (
     <Drawer
@@ -212,12 +219,19 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
               control={control}
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Birthday'
+                <DatePicker
+                  id='birthday'
+                  selected={new Date(value)}
+                  dateFormat='dd/MM/yyyy'
+                  popperPlacement={popperPlacement}
                   onChange={onChange}
-                  placeholder='01/01/1990'
-                  error={Boolean(errors.birthday)}
+                  customInput={
+                    <CustomInput
+                      label='Birthday'
+                      sx={{
+                        minWidth: { lg: 340, md: 200, xs: 100 }
+                      }} />
+                  }
                 />
               )}
             />
@@ -279,6 +293,7 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
                   <MenuItem value='RND-HN'>R&D Dept in Ha Noi</MenuItem>
                   <MenuItem value='BUZ'>Business & Maketing</MenuItem>
                   <MenuItem value='HR'>Human Resource</MenuItem>
+                  <MenuItem value='ACC'>Human Resources - Accounting</MenuItem>
                 </Select>
               )}
             />
@@ -314,7 +329,7 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
                   <MenuItem value='BOD'>Board of Director</MenuItem>
                   <MenuItem value='CODEV'>CO-DEV</MenuItem>
                   <MenuItem value='HRHCM'>Human Resource in HCM</MenuItem>
-
+                  <MenuItem value='HRHCM'>Accountant</MenuItem>
                 </Select>
               )}
             />

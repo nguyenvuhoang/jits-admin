@@ -240,6 +240,7 @@ const PersionalOff = (props: Props) => {
                                                         <MenuItem value='RND-HN'>R&D Dept in Ha Noi</MenuItem>
                                                         <MenuItem value='BUZ'>Business & Maketing</MenuItem>
                                                         <MenuItem value='HR'>Human Resource</MenuItem>
+                                                        <MenuItem value='ACC'>Accountant</MenuItem>
                                                     </Select>
                                                 )}
                                             />
