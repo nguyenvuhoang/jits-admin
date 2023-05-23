@@ -15,7 +15,6 @@ export const FetchCandidate = () => {
 }
 
 export const FetchCandidateDetail = (candidateid: string) => {
-    console.log(candidateid)
     const { data, isLoading, refetch } = useQuery<CandidateDetailResponsePaginator, Error>(
         ['candidate-detail'],
         () => client.candidate.getbycode({ candidateid: candidateid }),
