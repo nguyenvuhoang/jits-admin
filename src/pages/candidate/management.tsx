@@ -1,56 +1,101 @@
-import CustomAvatar from '@/@core/components/mui/avatar'
+import Icon from '@/@core/components/icon'
+import CustomChip from '@/@core/components/mui/chip'
 import OptionsMenu from '@/@core/components/option-menu'
 import { ThemeColor } from '@/@core/layouts/types'
 import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
-import { getInitials } from '@/@core/utils/get-initials'
-import { ProjectGitLab } from '@/context/types'
-import { FetchProject } from '@/data/project'
+import { Candidate } from '@/context/types'
+import { FetchCandidate } from '@/data/candidate'
 import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
-import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from '@mui/material'
+import { Box, Card, CardContent, CardHeader, Grid, IconButton, Menu, MenuItem, Typography, useTheme } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
-import { ChangeEvent, useState } from 'react'
+import Link from 'next/link'
+import { ChangeEvent, MouseEvent, useState } from 'react'
 
-const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) => {
+type Props = {}
+
+interface CellType {
+    row: Candidate
+}
+
+interface CandidateStatusType {
+    [key: string]: ThemeColor
+}
+const candidateStatusObj: CandidateStatusType = {
+    Đạt: 'success',
+    Rớt: 'error'
+}
+
+const CandidateManagement = (props: Props) => {
+
     const theme = useTheme()
 
-    const renderClient = (params: GridRenderCellParams) => {
-        const { row } = params!
-        const stateNum = Math.floor(Math.random() * 6)
-        const states = ['success', 'error', 'warning', 'info', 'primary', 'secondary']
-        const color = states[stateNum]
+    const { candidate } = FetchCandidate()
 
-        if (row.avatar_url) {
-            return <CustomAvatar src={`${row.avatar_url}`} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
-        } else {
-            return (
-                <CustomAvatar
-                    skin='light'
-                    color={color as ThemeColor}
-                    sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}
-                >
-                    {getInitials(row.full_name ? row.full_name : 'John Doe')}
-                </CustomAvatar>
-            )
+
+
+    const RowOptions = ({ id }: { id: string }) => {
+        const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+        const rowOptionsOpen = Boolean(anchorEl)
+
+        const handleRowOptionsClick = (event: MouseEvent<HTMLElement>) => {
+            setAnchorEl(event.currentTarget)
         }
-    }
+        const handleRowOptionsClose = () => {
+            setAnchorEl(null)
+        }
 
+        const handleDelete = () => {
+            handleRowOptionsClose()
+        }
+
+        return (
+            <>
+                <IconButton size='small' onClick={handleRowOptionsClick}>
+                    <Icon icon='mdi:dots-vertical' />
+                </IconButton>
+                <Menu
+                    keepMounted
+                    anchorEl={anchorEl}
+                    open={rowOptionsOpen}
+                    onClose={handleRowOptionsClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right'
+                    }}
+                    PaperProps={{ style: { minWidth: '8rem' } }}
+                >
+                    <MenuItem
+                        component={Link}
+                        sx={{ '& svg': { mr: 2 } }}
+                        onClick={handleRowOptionsClose}
+                        href={`/apps/candidate/view/${id}`}
+                    >
+                        <Icon icon='mdi:eye-outline' fontSize={20} />
+                        View
+                    </MenuItem>
+                </Menu>
+            </>
+        )
+    }
 
 
     const columns: GridColDef[] = [
         {
             flex: 0.275,
             minWidth: 290,
-            field: 'name',
-            headerName: 'Name',
+            field: 'fullname',
+            headerName: 'Full name',
             renderCell: (params: GridRenderCellParams) => {
                 const { row } = params
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        {renderClient(params)}
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                             <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-                                {row.name}
+                                {row.fullname}
                             </Typography>
                         </Box>
                     </Box>
@@ -60,48 +105,68 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
         {
             flex: 0.2,
             minWidth: 120,
-            headerName: 'Group',
-            field: 'group_name',
-            valueGetter: params => new Date(params.value),
+            headerName: 'Phone',
+            field: 'phone',
             renderCell: (params: GridRenderCellParams) => (
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {params.row.group_name}
+                    {params.row.phone}
                 </Typography>
             )
         },
         {
             flex: 0.2,
             minWidth: 110,
-            field: 'total_issue_open',
-            headerName: 'Total issue open',
+            field: 'email',
+            headerName: 'Email',
             renderCell: (params: GridRenderCellParams) => (
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {params.row.total_issue_open}
+                    {params.row.email}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'result',
+            headerName: 'Result',
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    <CustomChip
+                        skin='light'
+                        size='small'
+                        label={params.row.result}
+                        color={candidateStatusObj[params.row.result]}
+                        sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
+                    />
                 </Typography>
             )
         },
         {
             flex: 0.125,
-            field: 'create_at',
+            field: 'datejob',
             minWidth: 80,
-            headerName: 'Create date',
+            headerName: 'Date job',
             renderCell: (params: GridRenderCellParams) => (
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {params.row.create_at}
+                    {params.row.datejob}
                 </Typography>
             )
+        },
+        {
+            flex: 0.1,
+            minWidth: 90,
+            sortable: false,
+            field: 'actions',
+            headerName: 'Actions',
+            renderCell: ({ row }: CellType) => <RowOptions id={row.candidateid} />
         }
 
     ]
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
-    const { project } = FetchProject({
-        per_page: 100,
-        page: 0,
-        order_by: "last_activity_at"
-    })
+    const [filteredData, setFilteredData] = useState<Candidate[] | undefined>([])
     const [searchText, setSearchText] = useState<string>('')
-    const [filteredData, setFilteredData] = useState<ProjectGitLab[] | undefined>([])
+
 
     const escapeRegExp = (value: string) => {
         return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
@@ -110,7 +175,7 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
         setSearchText(searchValue)
         const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
 
-        const filteredRows = project?.filter(row => {
+        const filteredRows = candidate?.filter(row => {
             return Object.keys(row).some(field => {
                 // @ts-ignore
                 return searchRegex.test(row[field]?.toString())
@@ -131,8 +196,8 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
                         <Grid container>
                             <Grid item xs={12} sm={12}>
                                 <CardHeader
-                                    title='Project List'
-                                    subheader='3 Ongoing Projects'
+                                    title='Candidate mangement'
+                                    subheader={`Ongoing Projects`}
                                     subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
                                     titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
                                     action={
@@ -150,7 +215,7 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
                                         paginationModel={paginationModel}
                                         slots={{ toolbar: QuickSearchToolbar }}
                                         onPaginationModelChange={setPaginationModel}
-                                        rows={filteredData?.length ? filteredData : (project ? project : [])}
+                                        rows={filteredData?.length ? filteredData : (candidate ? candidate : [])}
                                         slotProps={{
                                             baseButton: {
                                                 variant: 'outlined'
@@ -161,6 +226,7 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
                                                 onChange: (event: ChangeEvent<HTMLInputElement>) => handleSearch(event.target.value)
                                             }
                                         }}
+                                        getRowId={(row) => row.candidateid}
                                     />
                                 </CardContent>
                             </Grid>
@@ -172,18 +238,4 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
     )
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }: GetStaticPropsContext) => {
-    const { slug } = params!
-    return {
-        props: {
-            slug
-        }
-    }
-}
-export const getStaticPaths: GetStaticPaths = () => {
-    return {
-        paths: [],
-        fallback: false
-    }
-}
-export default ProjectPage
+export default CandidateManagement

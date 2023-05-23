@@ -13,5 +13,7 @@ export const API_ENDPOINTS = {
   onTokenExpiration: 'refreshToken', // logout | refreshToken
   GITLAB_ALLPROJECT : '/gitlab/getallproject',
   POST_EMPLOYEE: '/employee/postemployee',
-  APPROVE_EMPLOYEE: '/employee/updatestatus'
+  APPROVE_EMPLOYEE: '/employee/updatestatus',
+  CANDIDATE: '/data/getlistcandidate',
+  CANDIDATE_GETBYCODE: '/data/getresultcandidate'
 }

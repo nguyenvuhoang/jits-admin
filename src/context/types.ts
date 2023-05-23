@@ -139,6 +139,10 @@ export interface EmployeeCodeInput {
   employeecd: string | string[] | undefined
 }
 
+export interface CandidateCodeInput {
+  candidateid: string | string[] | undefined
+}
+
 export interface Skill {
   skillsid: string
   skillsname: string
@@ -238,3 +242,89 @@ export interface UpdateStatusEmployeeInput {
   employeecd: string
   status: string
 }
+
+export interface Candidate {
+  candidateid: string
+  fullname: string
+  phone: string
+  email: string
+  result: string
+  datejob: string
+}
+
+export interface CandidatePaginator extends ResponseArray<Candidate> { }
+
+export interface Group {
+  en: string
+  vn: string
+  jp: string
+}
+
+export interface Label {
+  en: string
+  vn: string
+  jp: string
+}
+
+export interface Key {
+  en: string
+  vn: string
+  jp: string
+}
+export interface Answer {
+  value: string
+  key: Key
+}
+export interface Content {
+  name: string
+  label: Label
+  control: string
+  type: string
+  styles: string
+  rows: number
+  required: string
+  answer: Answer[]
+  aswvalue: string
+  choose: string
+  score: number
+}
+export interface Java {
+  group: Group
+  content: Content[]
+}
+export interface DotNet {
+  group: Group
+  content: Content[]
+}
+export interface Javascript {
+  group: Group
+  content: Content[]
+}
+export interface Sql {
+  group: Group
+  content: Content[]
+}
+export interface English {
+  group: Group
+  content: Content[]
+}
+export interface ResultCareerdata {
+  Java: Java[]
+  dotNet: DotNet[]
+  Javascript: Javascript[]
+  SQL: Sql[]
+  English: English[]
+}
+
+export interface ResultTest {
+  score: number
+  totalscore: number
+  result: string
+}
+export interface CandidateDetail {
+  candidate: Candidate
+  result_test: ResultTest
+  result_careerdata: ResultCareerdata
+}
+
+export interface CandidateDetailResponsePaginator extends ResponseObject<CandidateDetail> { }

@@ -31,13 +31,24 @@ const navigation = (): HorizontalNavItemsType => {
       ]
     },
     {
-      icon: 'mdi:badge-account-horizontal-outline',
+      icon: 'mdi:text-box',
       title: 'Forms',
       children: [
         {
           title: 'Application for leave',
-          icon: 'mdi:bag-personal-off',
+          icon: 'mdi:text-box-remove',
           path: '/form/personal-off'
+        }
+      ]
+    },
+    {
+      icon: 'mdi:badge-account-horizontal-outline',
+      title: 'Candidate',
+      children: [
+        {
+          title: 'Candidate management',
+          icon: 'mdi:bag-personal-off',
+          path: '/candidate/management'
         }
       ]
     },

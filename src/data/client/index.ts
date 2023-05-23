@@ -1,6 +1,7 @@
-import { AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, FilterEmployee, FilterProject, LoginUserInput, ProjectReponse, UserResponsePaginator, UpdateStatusEmployeeInput } from "@/context/types";
+import { AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, FilterEmployee, FilterProject, LoginUserInput, ProjectReponse, UserResponsePaginator, UpdateStatusEmployeeInput, CandidatePaginator, CandidateCodeInput, CandidateDetailResponsePaginator } from "@/context/types";
 import { HttpClient } from "./http-client";
 import { API_ENDPOINTS } from "@/configs/auth";
+import { Candidate } from '../../context/types';
 
 class Client {
     users = {
@@ -17,6 +18,13 @@ class Client {
     }
     project = {
         getall: (filter: FilterProject) => HttpClient.get<ProjectReponse>(API_ENDPOINTS.GITLAB_ALLPROJECT, filter)
+    }
+    candidate = {
+        getall: () => HttpClient.get<CandidatePaginator>(API_ENDPOINTS.CANDIDATE),
+        getbycode: ({ candidateid }: CandidateCodeInput) => HttpClient.get<CandidateDetailResponsePaginator>(API_ENDPOINTS.CANDIDATE_GETBYCODE, { candidateid }),
+
+
+
     }
 }
 
