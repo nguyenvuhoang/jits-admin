@@ -15,6 +15,12 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPr
 import Head from 'next/head'
 import { SyntheticEvent, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import FormLabel from '@mui/material/FormLabel'
+import Java from '@/views/apps/candidate/view/Java'
+import DotNet from '@/views/apps/candidate/view/DotNet'
+import Javascript from '@/views/apps/candidate/view/JavaScript'
+import English from '@/views/apps/candidate/view/English'
+import SQL from '@/views/apps/candidate/view/SQL'
 
 
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
@@ -47,9 +53,7 @@ const CandidatePage = ({ candidateid }: InferGetStaticPropsType<typeof getStatic
         setValue(newValue)
     }
     const {
-        control,
-        handleSubmit,
-        formState: { errors }
+        control
     } = useForm()
 
     return (
@@ -99,9 +103,11 @@ const CandidatePage = ({ candidateid }: InferGetStaticPropsType<typeof getStatic
                     </Grid>
                 </CardContent>
             </Card>
+
             <Card sx={{ position: 'relative', mt: 5 }}>
                 <CardContent sx={{ p: theme => `${theme.spacing(7, 7.5)} !important` }}>
                     <Grid item xs={12} md={6}>
+
                         <TabContext value={value}>
                             <TabList scrollButtons variant='scrollable' onChange={handleChange} aria-label='forced scroll tabs example'>
                                 <Tab value='java' label='Java' icon={<Icon icon='mdi:language-java' />} />
@@ -110,48 +116,16 @@ const CandidatePage = ({ candidateid }: InferGetStaticPropsType<typeof getStatic
                                 <Tab value='sql' label='SQL' icon={<Icon icon='mdi:sql-query' />} />
                                 <Tab value='eng' label='English' icon={<Icon icon='icon-park:english' />} />
                             </TabList>
-                            <TabPanel value='java'>
-                                <Card>
-                                    <CardContent>
-                                        <Grid container spacing={5}>
-                                            <Grid item xs={12} sm={6}>
-                                                <FormControl fullWidth>
-                                                    <Controller
-                                                        name='radio'
-                                                        control={control}
-                                                        rules={{ required: true }}
-                                                        render={({ field }) => (
-                                                            <RadioGroup row {...field} aria-label='gender' name='validation-basic-radio'>
-                                                                <FormControlLabel
-                                                                    value='female'
-                                                                    label='Female'
-                                                                    sx={errors.radio ? { color: 'error.main' } : null}
-                                                                    control={<Radio sx={errors.radio ? { color: 'error.main' } : null} />}
-                                                                />
-                                                                <FormControlLabel
-                                                                    value='male'
-                                                                    label='Male'
-                                                                    sx={errors.radio ? { color: 'error.main' } : null}
-                                                                    control={<Radio sx={errors.radio ? { color: 'error.main' } : null} />}
-                                                                />
-                                                                <FormControlLabel
-                                                                    value='other'
-                                                                    label='Other'
-                                                                    sx={errors.radio ? { color: 'error.main' } : null}
-                                                                    control={<Radio sx={errors.radio ? { color: 'error.main' } : null} />}
-                                                                />
-                                                            </RadioGroup>
-                                                        )} />
-                                                </FormControl>
-                                            </Grid>
-                                        </Grid>
-                                    </CardContent>
-                                </Card>
-                            </TabPanel>
+                            
+                            <Java candidatedtl={candidatedtl?.result_careerdata.Java} control = {control} />
+                            <DotNet candidatedtl={candidatedtl?.result_careerdata.dotNet} control = {control} />
+                            <Javascript candidatedtl={candidatedtl?.result_careerdata.Javascript} control = {control} />
+                            <SQL candidatedtl={candidatedtl?.result_careerdata.SQL} control = {control} />
+                            <English candidatedtl={candidatedtl?.result_careerdata.English} control = {control} />
                         </TabContext>
                     </Grid>
                 </CardContent>
-            </Card>
+            </Card >
         </>
 
     )

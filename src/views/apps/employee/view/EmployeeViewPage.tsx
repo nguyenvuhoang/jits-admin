@@ -2,8 +2,8 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
-import EmployeeViewLeft from '@/views/apps/employee/view/EmployeeViewLeft'
 import { EmployeeDetail } from '@/context/types'
+import EmployeeViewLeft from '@/views/apps/employee/view/EmployeeViewLeft'
 import EmployeeViewRight from './EmployeeViewRight'
 
 type Props = {

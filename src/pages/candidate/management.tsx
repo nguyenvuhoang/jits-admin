@@ -10,6 +10,7 @@ import { Box, Card, CardContent, CardHeader, Grid, IconButton, Menu, MenuItem, T
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import Link from 'next/link'
 import { ChangeEvent, MouseEvent, useState } from 'react'
+import CustomAvatar from '@/@core/components/mui/avatar'
 
 type Props = {}
 
@@ -93,6 +94,7 @@ const CandidateManagement = (props: Props) => {
                 const { row } = params
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <CustomAvatar src={row.sex === 'Male' ? '/images/avatars/1.png' : '/images/avatars/8.png'} sx={{ mr: 3, width: 34, height: 34 }} />
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                             <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
                                 {row.fullname}
@@ -200,12 +202,7 @@ const CandidateManagement = (props: Props) => {
                                     subheader={`Ongoing Projects`}
                                     subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
                                     titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
-                                    action={
-                                        <OptionsMenu
-                                            options={['Refresh', 'Update', 'Share']}
-                                            iconButtonProps={{ size: 'small', className: 'card-more-options' }}
-                                        />
-                                    }
+                                    
                                 />
                                 <CardContent sx={{ pt: `${theme.spacing(5)} !important` }}>
                                     <DataGrid

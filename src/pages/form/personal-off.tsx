@@ -47,10 +47,6 @@ const RepeatingContent = styled(Grid)<GridProps>(({ theme }) => ({
 
 
 type Props = {}
-const LinkStyled = styled(Link)(({ theme }) => ({
-    textDecoration: 'none',
-    color: theme.palette.primary.main
-}))
 const PersionalOff = (props: Props) => {
 
     const { employee } = useAuth()
@@ -111,7 +107,7 @@ const PersionalOff = (props: Props) => {
     const { direction } = theme
     const popperPlacement: ReactDatePickerProps['popperPlacement'] = direction === 'ltr' ? 'bottom-start' : 'bottom-end'
     const [dateFormat, setDateFormat] = useState<DateType>()
-
+    console.log(employee?.deparmentcd)
     return (
         <>
             <Grid container spacing={6} className='match-height'>
@@ -366,7 +362,7 @@ const PersionalOff = (props: Props) => {
 
 
                                                                             <Grid container >
-                                                                                <Grid container lg={4}>
+                                                                                <Grid container item lg={4}>
                                                                                     <FormControl fullWidth >
                                                                                         <Controller
                                                                                             control={control}
@@ -395,7 +391,7 @@ const PersionalOff = (props: Props) => {
                                                                                         )}
                                                                                     </FormControl>
                                                                                 </Grid>
-                                                                                <Grid container lg={3} sx={{ ml: 20 }}>
+                                                                                <Grid container item lg={3} sx={{ ml: 20 }}>
 
                                                                                     <Controller
                                                                                         control={control}
@@ -439,7 +435,7 @@ const PersionalOff = (props: Props) => {
                                                                                         )}
                                                                                     />
                                                                                 </Grid>
-                                                                                <Grid container lg={4}>
+                                                                                <Grid container item lg={4}>
                                                                                     <FormControl fullWidth >
                                                                                         <Controller
                                                                                             control={control}

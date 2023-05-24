@@ -95,11 +95,12 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
     ]
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
-    const { project } = FetchProject({
+    const { project,error } = FetchProject({
         per_page: 100,
         page: 0,
         order_by: "last_activity_at"
     })
+
     const [searchText, setSearchText] = useState<string>('')
     const [filteredData, setFilteredData] = useState<ProjectGitLab[] | undefined>([])
 
@@ -137,7 +138,7 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
                                     titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
                                     action={
                                         <OptionsMenu
-                                            options={['Refresh', 'Update', 'Share']}
+                                            options={['Refresh']}
                                             iconButtonProps={{ size: 'small', className: 'card-more-options' }}
                                         />
                                     }
