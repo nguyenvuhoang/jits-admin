@@ -41,12 +41,15 @@ const AclGuard = (props: AclGuardProps) => {
   // ** Vars
   let ability: AppAbility
   useEffect(() => {
+    if (auth.isCandidate) {
+      // router.replace('/candidate/dotest')
+    }
     if (auth.user && !guestGuard && router.route === '/') {
       const homeRoute = getHomeRoute(auth.user.isadmin ? 'admin' : 'client')
       router.replace(homeRoute)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.user, guestGuard, router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.user, guestGuard, router, auth.isCandidate])
 
   // User is logged in, build ability for the user based on his role
   if (auth.user && !ability) {
@@ -66,7 +69,6 @@ const AclGuard = (props: AclGuardProps) => {
       return <>{children}</>
     }
   }
-
   // Check the access of current user and render pages
   if (ability && auth.user && ability.can(aclAbilities.action, aclAbilities.subject)) {
     if (router.route === '/') {

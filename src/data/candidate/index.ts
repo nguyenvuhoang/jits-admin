@@ -1,6 +1,8 @@
 import { CandidateDetailResponsePaginator, CandidatePaginator } from "@/context/types"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import client from "../client"
+import Swal from "sweetalert2"
+import { useRouter } from "next/router"
 
 export const FetchCandidate = () => {
     const { data, isLoading, refetch } = useQuery<CandidatePaginator, Error>(
@@ -25,3 +27,24 @@ export const FetchCandidateDetail = (candidateid: string) => {
         refetch
     }
 }
+
+export const useCreateCandidate = () => {
+    const router = useRouter()
+    return useMutation(client.candidate.create, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Created!',
+                    text: 'New candidate has created succesfully. The system have sent to email of candidate'
+                }).then((response: any) => {
+                    if (response.isConfirmed) {
+                        router.push('/candidate/management')
+                    }
+                })
+            }
+        }
+    });
+};

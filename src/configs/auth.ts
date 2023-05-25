@@ -15,5 +15,7 @@ export const API_ENDPOINTS = {
   POST_EMPLOYEE: '/employee/postemployee',
   APPROVE_EMPLOYEE: '/employee/updatestatus',
   CANDIDATE: '/data/getlistcandidate',
-  CANDIDATE_GETBYCODE: '/data/getresultcandidate'
+  CANDIDATE_GETBYCODE: '/data/getresultcandidate',
+  CANDIDATPOST: '/data/createcandidate',
+  CANDIDATEACCESS: '/data/candidatelogin',
 }

@@ -1,6 +1,8 @@
 import CustomerPhone from '@/@core/components/mui/phone'
 import PageHeader from '@/@core/components/page-header'
 import DatePickerWrapper from '@/@core/styles/libs/react-datepicker'
+import { useCreateCandidate } from '@/data/candidate'
+import { CandidateInput } from '@/types/dashboards/candidateTyps'
 import { Button, Card, CardContent, FormControl, FormHelperText, FormLabel, Grid, MenuItem, RadioGroup, Select, TextField, Typography, FormControlLabel, Radio } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import Link from 'next/link'
@@ -9,15 +11,6 @@ import { isValidPhoneNumber } from "react-phone-number-input"
 
 type Props = {}
 
-
-interface FormInputs {
-    fullname: string
-    email: string
-    phone: string
-    departmentcd: string,
-    sex: string,
-    bio: string
-}
 
 const defaultValues = {
     fullname: '',
@@ -41,11 +34,13 @@ const CreateCandidateProfile = (props: Props) => {
         control,
         handleSubmit,
         formState: { errors }
-    } = useForm<FormInputs>({ defaultValues })
+    } = useForm<CandidateInput>({ defaultValues })
+
+    const { mutate: CreateCandidate } = useCreateCandidate()
 
 
-    const onSubmit = (data: FormInputs) => {
-        console.log(data)
+    const onSubmit = (data: CandidateInput) => {
+        CreateCandidate(data)
     }
 
     return (

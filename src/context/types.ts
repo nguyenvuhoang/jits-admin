@@ -5,6 +5,10 @@ export type LoginParams = {
   password: string
   rememberMe?: boolean
 }
+export type CandidateAccessParams = {
+  email: string
+  code: string
+}
 
 export interface Userinfo {
   username: string
@@ -26,6 +30,7 @@ export interface Userinfo {
   avatar: string
   isadmin: boolean
   role: string
+  iscandidate?: boolean
 }
 
 export interface Employeeinfo {
@@ -131,7 +136,9 @@ export type AuthValuesType = {
   setLoading: (value: boolean) => void
   setUser: (value: Userinfo | null) => void
   login: (params: LoginParams, errorCallback?: ErrCallbackType) => void,
-  token: string | null
+  candidateaccess: (params: CandidateAccessParams, errorCallback?: ErrCallbackType) => void
+  token: string | null,
+  isCandidate: boolean
 }
 
 
@@ -328,3 +335,4 @@ export interface CandidateDetail {
 }
 
 export interface CandidateDetailResponsePaginator extends ResponseObject<CandidateDetail> { }
+export interface CreateCandidateResponse extends ResponseObject<{}> { }

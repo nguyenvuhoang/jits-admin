@@ -70,6 +70,7 @@ type GuardProps = {
   children: ReactNode
 }
 const Guard = ({ children, authGuard, guestGuard }: GuardProps) => {
+
   if (guestGuard) {
     return <GuestGuard fallback={<Spinner />}>{children}</GuestGuard>
   } else if (!guestGuard && !authGuard) {
