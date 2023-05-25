@@ -49,9 +49,15 @@ const navigation = (): HorizontalNavItemsType => {
           title: 'Candidate management',
           icon: 'mdi:bag-personal-off',
           path: '/candidate/management'
+        },
+        {
+          title: 'Create candidate profile',
+          icon: 'fluent:form-new-48-regular',
+          path: '/candidate/create-profile'
         }
       ]
     },
+
     {
       title: 'Others',
       icon: 'mdi:dots-horizontal',
