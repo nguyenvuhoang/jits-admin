@@ -1,4 +1,4 @@
-import { CandidateDetailResponsePaginator, CandidatePaginator } from "@/context/types"
+import { CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion } from "@/context/types"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import client from "../client"
 import Swal from "sweetalert2"
@@ -48,3 +48,16 @@ export const useCreateCandidate = () => {
         }
     });
 };
+
+
+export const FetchCandidateQuestion = () => {
+    const { data, isLoading, refetch } = useQuery<CandidateQuestion, Error>(
+        ['candidate-list-question'],
+        () => client.candidate.getquestions(),
+    )
+    return {
+        question: data?.result.data,
+        isLoading,
+        refetch
+    }
+}

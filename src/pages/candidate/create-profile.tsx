@@ -178,19 +178,19 @@ const CreateCandidateProfile = (props: Props) => {
                                                 render={({ field }) => (
                                                     <RadioGroup row {...field} aria-label='sex' name='validation-sex'>
                                                         <FormControlLabel
-                                                            value='female'
+                                                            value='Female'
                                                             label='Nữ'
                                                             sx={errors.sex ? { color: 'error.main' } : null}
                                                             control={<Radio sx={errors.sex ? { color: 'error.main' } : null} />}
                                                         />
                                                         <FormControlLabel
-                                                            value='male'
+                                                            value='Male'
                                                             label='Nam'
                                                             sx={errors.sex ? { color: 'error.main' } : null}
                                                             control={<Radio sx={errors.sex ? { color: 'error.main' } : null} />}
                                                         />
                                                         <FormControlLabel
-                                                            value='lgbt'
+                                                            value='LGBT'
                                                             label='LGBT'
                                                             sx={errors.sex ? { color: 'error.main' } : null}
                                                             control={<Radio sx={errors.sex ? { color: 'error.main' } : null} />}

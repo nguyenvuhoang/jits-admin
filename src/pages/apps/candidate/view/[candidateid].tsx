@@ -1,26 +1,20 @@
 import Icon from '@/@core/components/icon'
 import themeConfig from '@/configs/themeConfig'
 import { FetchCandidateDetail } from '@/data/candidate'
+import DotNet from '@/views/apps/candidate/view/DotNet'
+import English from '@/views/apps/candidate/view/English'
+import Java from '@/views/apps/candidate/view/Java'
+import Javascript from '@/views/apps/candidate/view/JavaScript'
+import SQL from '@/views/apps/candidate/view/SQL'
 import { TabContext } from '@mui/lab'
 import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
 import { Box, Card, CardContent, Chip, Grid, GridProps, Typography } from '@mui/material'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
 import Tab from '@mui/material/Tab'
 import { styled, useTheme } from '@mui/material/styles'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
 import { SyntheticEvent, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import FormLabel from '@mui/material/FormLabel'
-import Java from '@/views/apps/candidate/view/Java'
-import DotNet from '@/views/apps/candidate/view/DotNet'
-import Javascript from '@/views/apps/candidate/view/JavaScript'
-import English from '@/views/apps/candidate/view/English'
-import SQL from '@/views/apps/candidate/view/SQL'
+import { useForm } from 'react-hook-form'
 
 
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
@@ -44,7 +38,9 @@ const Img = styled('img')(({ theme }) => ({
 
 
 const CandidatePage = ({ candidateid }: InferGetStaticPropsType<typeof getStaticProps>) => {
+
     const { candidatedtl } = FetchCandidateDetail(candidateid)
+
 
     const theme = useTheme()
 
@@ -116,12 +112,12 @@ const CandidatePage = ({ candidateid }: InferGetStaticPropsType<typeof getStatic
                                 <Tab value='sql' label='SQL' icon={<Icon icon='mdi:sql-query' />} />
                                 <Tab value='eng' label='English' icon={<Icon icon='icon-park:english' />} />
                             </TabList>
-                            
-                            <Java candidatedtl={candidatedtl?.result_careerdata.Java} control = {control} />
-                            <DotNet candidatedtl={candidatedtl?.result_careerdata.dotNet} control = {control} />
-                            <Javascript candidatedtl={candidatedtl?.result_careerdata.Javascript} control = {control} />
-                            <SQL candidatedtl={candidatedtl?.result_careerdata.SQL} control = {control} />
-                            <English candidatedtl={candidatedtl?.result_careerdata.English} control = {control} />
+
+                            <Java candidatedtl={candidatedtl?.result_careerdata.Java} control={control} />
+                            <DotNet candidatedtl={candidatedtl?.result_careerdata.dotNet} control={control} />
+                            <Javascript candidatedtl={candidatedtl?.result_careerdata.Javascript} control={control} />
+                            <SQL candidatedtl={candidatedtl?.result_careerdata.SQL} control={control} />
+                            <English candidatedtl={candidatedtl?.result_careerdata.English} control={control} />
                         </TabContext>
                     </Grid>
                 </CardContent>

@@ -336,3 +336,5 @@ export interface CandidateDetail {
 
 export interface CandidateDetailResponsePaginator extends ResponseObject<CandidateDetail> { }
 export interface CreateCandidateResponse extends ResponseObject<{}> { }
+
+export interface CandidateQuestion extends ResponseObject<ResultCareerdata> { }

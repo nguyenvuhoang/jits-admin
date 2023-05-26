@@ -1,4 +1,4 @@
-import { AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, FilterEmployee, FilterProject, LoginUserInput, ProjectReponse, UserResponsePaginator, UpdateStatusEmployeeInput, CandidatePaginator, CandidateCodeInput, CandidateDetailResponsePaginator, CreateCandidateResponse, CandidateAccessParams } from "@/context/types"; import { HttpClient } from "./http-client";
+import { AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, FilterEmployee, FilterProject, LoginUserInput, ProjectReponse, UserResponsePaginator, UpdateStatusEmployeeInput, CandidatePaginator, CandidateCodeInput, CandidateDetailResponsePaginator, CreateCandidateResponse, CandidateAccessParams, CandidateQuestion } from "@/context/types"; import { HttpClient } from "./http-client";
 import { API_ENDPOINTS } from "@/configs/auth";
 import { Candidate } from '../../context/types';
 import { CandidateInput } from "@/types/dashboards/candidateTyps";
@@ -25,6 +25,7 @@ class Client {
         getbycode: ({ candidateid }: CandidateCodeInput) => HttpClient.get<CandidateDetailResponsePaginator>(API_ENDPOINTS.CANDIDATE_GETBYCODE, { candidateid }),
         create: (data: CandidateInput) => HttpClient.post<CreateCandidateResponse>(API_ENDPOINTS.CANDIDATPOST, data),
         access: (input: CandidateAccessParams) => HttpClient.post<AuthResponse>(API_ENDPOINTS.CANDIDATEACCESS, input),
+        getquestions: () => HttpClient.get<CandidateQuestion>(API_ENDPOINTS.CANDIDATEQUESTION)
 
     }
 }

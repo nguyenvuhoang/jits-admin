@@ -155,7 +155,6 @@ const AuthProvider = ({ children }: Props) => {
       }
       setUser({ ...userdetail })
       const returnUrl = router.query.returnUrl
-
       const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
       router.replace(redirectURL as string)
     }).catch(err => {
@@ -191,10 +190,13 @@ const AuthProvider = ({ children }: Props) => {
         scores: 0,
         avatar: '',
         isadmin: response.result.data.permission[0] === "ADMIN" ? true : false,
-        role: response.result.data.permission[0] === "CANDIDATE" ? 'guest' : '',
+        role: response.result.data.permission[0] === "CANDIDATE" ? 'candidate' : 'guest',
       }
       setUser({ ...userdetail })
       setIsCandidate(true)
+      const returnUrl = router.query.returnUrl
+      const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+      router.replace(redirectURL as string)
     }).catch(err => {
       console.error(err)
       if (errorCallback) errorCallback(err)
