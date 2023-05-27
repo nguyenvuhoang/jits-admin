@@ -338,3 +338,4 @@ export interface CandidateDetailResponsePaginator extends ResponseObject<Candida
 export interface CreateCandidateResponse extends ResponseObject<{}> { }
 
 export interface CandidateQuestion extends ResponseObject<ResultCareerdata> { }
+

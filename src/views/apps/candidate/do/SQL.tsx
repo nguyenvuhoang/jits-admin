@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 
 
@@ -19,7 +19,7 @@ type Props = {
 type SelectedValues = {
     [key: string]: string | undefined;
 };
-const Java = ({ question, control, errors }: Props) => {
+const SQL = ({ question, control, errors }: Props) => {
     const [selectedValues, setSelectedValues] = useState<SelectedValues>({});
 
     const handleChange = (name: string, value: string) => {
@@ -30,7 +30,7 @@ const Java = ({ question, control, errors }: Props) => {
     };
 
     return (
-        <TabPanel value='java'>
+        <TabPanel value='sql'>
             <Card>
                 <CardContent>
                     {question?.map((group, index) => (
@@ -85,4 +85,4 @@ const Java = ({ question, control, errors }: Props) => {
     )
 }
 
-export default Java
+export default SQL

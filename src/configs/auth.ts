@@ -18,5 +18,6 @@ export const API_ENDPOINTS = {
   CANDIDATE_GETBYCODE: '/data/getresultcandidate',
   CANDIDATPOST: '/data/createcandidate',
   CANDIDATEACCESS: '/data/candidatelogin',
-  CANDIDATEQUESTION: '/data/getsetofquestion'
+  CANDIDATEQUESTION: '/data/getsetofquestion',
+  CANDIDATESUBMIT: '/data/submittestanswer'
 }
