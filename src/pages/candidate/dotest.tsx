@@ -7,22 +7,22 @@ import { SyntheticEvent, useEffect, useState } from 'react'
 // ** MUI Imports
 import Icon from '@/@core/components/icon'
 import themeConfig from '@/configs/themeConfig'
+import DotNet from '@/views/apps/candidate/do/DotNet'
+import Java from '@/views/apps/candidate/do/Java'
 import { TabContext, TabList } from '@mui/lab'
-import { Button, Tab } from '@mui/material'
+import { Button, Chip, Tab, Typography } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Head from 'next/head'
-import Java from '@/views/apps/candidate/do/Java'
-import DotNet from '@/views/apps/candidate/do/DotNet'
 
 import { FetchCandidateQuestion, useSubmitDoTestCandidate } from '@/data/candidate'
-import { useForm } from 'react-hook-form';
-import Swal from 'sweetalert2'
+import { useAuth } from '@/hooks/useAuth'
+import English from '@/views/apps/candidate/do/English'
 import JavaScript from '@/views/apps/candidate/do/JavaScript'
 import SQL from '@/views/apps/candidate/do/SQL'
-import English from '@/views/apps/candidate/do/English'
-import { useAuth } from '@/hooks/useAuth'
+import { useForm } from 'react-hook-form'
+import Swal from 'sweetalert2'
 
 const DoTestPage = () => {
 
@@ -42,14 +42,15 @@ const DoTestPage = () => {
 
     useEffect(() => {
         refetch()
-    }, [submit,auth.token])
+    }, [submit, auth.token])
 
 
     const {
         control,
         formState: { errors },
         handleSubmit,
-        setValue
+        setValue,
+        watch
     } = useForm()
 
     const onSubmit = (data: Record<string, string>) => {
@@ -79,11 +80,34 @@ const DoTestPage = () => {
         });
     }
 
+    const selectedValues = watch();
+    console.log(Object.values(selectedValues))
+
     return (
         <>
             <Head >
                 <title>{`${themeConfig.templateName} - Candidate Do Test`}</title>
             </Head>
+            <Card sx={{ position: 'relative', marginBottom: '20px' }}>
+                <CardContent sx={{ p: theme => `${theme.spacing(7, 7.5)} !important` }}>
+                    <Grid container spacing={6}>
+                        <Grid item xs={12} sm={12}>
+                            <Typography variant='h5' sx={{ mb: 4.5 }}>
+                                Vui lòng đọc kỹ hướng dẫn trước khi bắt đầu làm bài thi
+                            </Typography>
+                            <Typography variant='body2'>
+                                Bài test sẽ được chia ra 5 phần với 5 loại ngôn ngữ khác nhau.
+                            </Typography>
+                            <Typography variant='body2'>
+                                Mỗi 1 phần sẽ bao gồm 10 câu hỏi trắc nghiệm.
+                            </Typography>
+                            <Typography variant='body2'>
+                                Bạn cần phải chọn hết 50 câu hỏi trắc nghiệm. Hệ thống sẽ hiển thị nút Nộp Bài sẽ được hiển thị lên. Trước khi nộp bài vui lòng kiểm tra kỹ lại tất cả đáp án của mình.
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
             <Card sx={{ position: 'relative' }}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <CardContent sx={{ p: theme => `${theme.spacing(7, 7.5)} !important` }}>
@@ -106,11 +130,13 @@ const DoTestPage = () => {
                                 </TabContext>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button size='large' type='submit' variant='contained'>
-                                Nộp bài
-                            </Button>
-                        </Grid>
+                        {Object.values(selectedValues).every((value) => value) && (
+                            <Grid item xs={12}>
+                                <Button size='large' type='submit' variant='contained'>
+                                    Nộp bài
+                                </Button>
+                            </Grid>
+                        )}
                     </CardContent>
 
                 </form>

@@ -45,7 +45,7 @@ const AclGuard = (props: AclGuardProps) => {
       // router.replace('/candidate/dotest')
     }
     if (auth.user && !guestGuard && router.route === '/') {
-      const homeRoute = getHomeRoute(auth.user.isadmin ? 'admin' : 'client')
+      const homeRoute = getHomeRoute(auth.user.isadmin ? 'admin' : auth.isCandidate ? 'candidate' : 'client')
       router.replace(homeRoute)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
