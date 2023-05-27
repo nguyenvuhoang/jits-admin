@@ -19,9 +19,9 @@ import { ReactNode, useState } from 'react'
 
 // ** Prismjs Styles
 import 'prismjs'
-import 'prismjs/themes/prism-tomorrow.css'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/components/prism-tsx'
+import 'prismjs/themes/prism-tomorrow.css'
 
 // ** Spinner Import
 import AclGuard from '@/@core/components/AclGuard'
@@ -38,10 +38,11 @@ import { Toaster } from 'react-hot-toast'
 import { store } from '@/store'
 import { Provider } from 'react-redux'
 
-import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css"
+import { FormProvider, useForm } from 'react-hook-form'
 
 
 // ** Extend App Props with Emotion
@@ -93,6 +94,7 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
 
 
   const [queryClient] = useState(() => new QueryClient())
+  const methods = useForm();
 
   return (
     <Provider store={store}>
@@ -117,7 +119,9 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
                       <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
                         <QueryClientProvider client={queryClient}>
                           <Hydrate state={pageProps.dehydratedState}>
-                            {getLayout(<Component {...pageProps} />)}
+                            <FormProvider {...methods}>
+                              {getLayout(<Component {...pageProps} />)}
+                            </FormProvider>
                           </Hydrate>
                           <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
                         </QueryClientProvider>

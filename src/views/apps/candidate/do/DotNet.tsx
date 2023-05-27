@@ -6,20 +6,20 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import { useState } from 'react'
-import { Controller } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { Controller, useWatch } from 'react-hook-form'
 
 
 type Props = {
     question: Java[] | undefined
+    errors: any
     control: any
-    errors: any,
-    setValue: any
+    setIsDotNetValid: any
 }
 type SelectedValues = {
     [key: string]: string | undefined;
 };
-const DotNet = ({ question, control, errors }: Props) => {
+const DotNet = ({ question, control, errors, setIsDotNetValid }: Props) => {
     const [selectedValues, setSelectedValues] = useState<SelectedValues>({});
 
     const handleChange = (name: string, value: string) => {
@@ -28,6 +28,25 @@ const DotNet = ({ question, control, errors }: Props) => {
             [name]: value
         }));
     };
+    const watchedDotNetValues = useWatch({control});
+
+    useEffect(() => {
+
+        if (Object.keys(watchedDotNetValues).length !== 0) {
+            let hasKey = false;
+            for (const key in watchedDotNetValues) {
+                if (key.startsWith('NET')) {
+                    hasKey = true;
+                    break;
+                }
+            }
+            if (hasKey) {
+                const allDotNetValuesSelected = Object.values(watchedDotNetValues).every(value => value !== undefined);
+                setIsDotNetValid(allDotNetValuesSelected);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [watchedDotNetValues]);
 
     return (
         <TabPanel value='dotnet'>

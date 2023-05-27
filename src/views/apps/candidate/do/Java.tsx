@@ -7,19 +7,19 @@ import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import { useEffect, useState } from 'react'
-import { Controller } from 'react-hook-form'
+import { Controller, useWatch } from 'react-hook-form'
 
 
 type Props = {
     question: Java[] | undefined
+    errors: any
+    setIsJavaValid: any
     control: any
-    errors: any,
-    setValue: any
 }
 type SelectedValues = {
     [key: string]: string | undefined;
 };
-const Java = ({ question, control, errors }: Props) => {
+const Java = ({ question, control, errors, setIsJavaValid }: Props) => {
     const [selectedValues, setSelectedValues] = useState<SelectedValues>({});
 
     const handleChange = (name: string, value: string) => {
@@ -28,6 +28,27 @@ const Java = ({ question, control, errors }: Props) => {
             [name]: value
         }));
     };
+
+    const watchedJavaValues = useWatch({control});
+
+    console.log(watchedJavaValues)
+    useEffect(() => {
+        if (Object.keys(watchedJavaValues).length !== 0) {
+            let hasKey = false;
+            for (const key in watchedJavaValues) {
+                if (key.startsWith('NET')) {
+                    hasKey = true;
+                    break;
+                }
+            }
+            if (hasKey) {
+                const allJavaValuesSelected = Object.values(watchedJavaValues).every(value => value !== undefined);
+                setIsJavaValid(allJavaValuesSelected);
+            }
+
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [watchedJavaValues]);
 
     return (
         <TabPanel value='java'>

@@ -10,7 +10,7 @@ import themeConfig from '@/configs/themeConfig'
 import DotNet from '@/views/apps/candidate/do/DotNet'
 import Java from '@/views/apps/candidate/do/Java'
 import { TabContext, TabList } from '@mui/lab'
-import { Button, Chip, Tab, Typography } from '@mui/material'
+import { Button, Tab, Typography } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
@@ -39,19 +39,22 @@ const DoTestPage = () => {
 
     const { mutate: SubmitDoTestCandidate } = useSubmitDoTestCandidate()
 
+    const [isJavaValid, setIsJavaValid] = useState(false);
+    const [isDotNetValid, setIsDotNetValid] = useState(false);
+    const [isJavaScriptValid, setIsJavaScriptValid] = useState(false);
+    const [isSQLValid, setIsSQLValid] = useState(false);
+    const [isEngValid, setIsEngValid] = useState(false);
+
+    const {
+        formState: { errors },
+        control,
+        handleSubmit
+    } = useForm()
+
 
     useEffect(() => {
         refetch()
     }, [submit, auth.token])
-
-
-    const {
-        control,
-        formState: { errors },
-        handleSubmit,
-        setValue,
-        watch
-    } = useForm()
 
     const onSubmit = (data: Record<string, string>) => {
         var listanswer: { qstcd: string, answer: string }[] = [];
@@ -74,20 +77,19 @@ const DoTestPage = () => {
                 const submitData = {
                     careerdata: postdata
                 }
+                console.log(data)
                 SubmitDoTestCandidate(submitData)
-                setSubmit(true)
+                // setSubmit(true)
             }
         });
     }
-
-    const selectedValues = watch();
-    console.log(Object.values(selectedValues))
 
     return (
         <>
             <Head >
                 <title>{`${themeConfig.templateName} - Candidate Do Test`}</title>
             </Head>
+
             <Card sx={{ position: 'relative', marginBottom: '20px' }}>
                 <CardContent sx={{ p: theme => `${theme.spacing(7, 7.5)} !important` }}>
                     <Grid container spacing={6}>
@@ -122,21 +124,22 @@ const DoTestPage = () => {
                                         <Tab value='sql' label='SQL' icon={<Icon icon='mdi:sql-query' />} />
                                         <Tab value='eng' label='English' icon={<Icon icon='icon-park:english' />} />
                                     </TabList>
-                                    <Java question={question?.Java} control={control} errors={errors} setValue={setValue} />
-                                    <DotNet question={question?.dotNet} control={control} errors={errors} setValue={setValue} />
-                                    <JavaScript question={question?.Javascript} control={control} errors={errors} setValue={setValue} />
-                                    <SQL question={question?.SQL} control={control} errors={errors} setValue={setValue} />
-                                    <English question={question?.English} control={control} errors={errors} setValue={setValue} />
+                                    <Java question={question?.Java} control={control} errors={errors} setIsJavaValid={setIsJavaValid} />
+                                    <DotNet question={question?.dotNet} control={control} errors={errors} setIsDotNetValid={setIsDotNetValid} />
+                                    <JavaScript question={question?.Javascript} control={control} errors={errors} setIsJavaScriptValid={setIsJavaScriptValid} />
+                                    <SQL question={question?.SQL} control={control} errors={errors} setIsSQLValid={setIsSQLValid} />
+                                    <English question={question?.English} control={control} errors={errors} setIsEngValid={setIsEngValid} />
                                 </TabContext>
                             </Grid>
                         </Grid>
-                        {Object.values(selectedValues).every((value) => value) && (
-                            <Grid item xs={12}>
+                        <Grid item xs={12} sx={{ marginTop: 5 }}>
+                            {isJavaValid && isDotNetValid && isJavaScriptValid && isSQLValid && isEngValid && (
                                 <Button size='large' type='submit' variant='contained'>
                                     Nộp bài
                                 </Button>
-                            </Grid>
-                        )}
+                            )}
+                        </Grid>
+
                     </CardContent>
 
                 </form>
