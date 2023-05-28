@@ -1,17 +1,16 @@
 // ** React Import
-import { useEffect } from 'react'
 
 // ** Icon Imports
-import Icon from '@/@core/components/icon'
+import Icon from '@/@core/components/icon';
 
 // ** Third Party Import
-import { useTranslation } from 'react-i18next'
 
 // ** Custom Components Imports
-import OptionsMenu from '@/@core/components/option-menu'
+import OptionsMenu from '@/@core/components/option-menu';
 
 // ** Type Import
-import { Settings } from '@/@core/context/settingsContext'
+import { Settings } from '@/@core/context/settingsContext';
+import { useRouter } from 'next/router';
 
 interface Props {
   settings: Settings
@@ -20,19 +19,18 @@ interface Props {
 
 const LanguageDropdown = ({ settings, saveSettings }: Props) => {
   // ** Hook
-  const { i18n } = useTranslation()
-
+  const router = useRouter();
+  const { locale } = router
   // ** Vars
   const { layout } = settings
 
   const handleLangItemClick = (lang: 'en' | 'vn') => {
-    i18n.changeLanguage(lang)
+    router.push(router.pathname, router.asPath, {
+      locale: lang,
+      scroll: false
+    })
   }
 
-  // ** Change html `lang` attribute when changing locale
-  useEffect(() => {
-    document.documentElement.setAttribute('lang', i18n.language)
-  }, [i18n.language])
 
   return (
     <OptionsMenu
@@ -44,7 +42,7 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
           text: 'English',
           menuItemProps: {
             sx: { py: 2 },
-            selected: i18n.language === 'en',
+            selected: locale === 'en',
             onClick: () => {
               handleLangItemClick('en')
               saveSettings({ ...settings, direction: 'ltr' })
@@ -55,7 +53,7 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
           text: 'Vietnam',
           menuItemProps: {
             sx: { py: 2 },
-            selected: i18n.language === 'vn',
+            selected: locale === 'vn',
             onClick: () => {
               handleLangItemClick('vn')
               saveSettings({ ...settings, direction: 'ltr' })

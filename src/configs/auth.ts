@@ -19,5 +19,6 @@ export const API_ENDPOINTS = {
   CANDIDATPOST: '/data/createcandidate',
   CANDIDATEACCESS: '/data/candidatelogin',
   CANDIDATEQUESTION: '/data/getsetofquestion',
-  CANDIDATESUBMIT: '/data/submittestanswer'
+  CANDIDATESUBMIT: '/data/submittestanswer',
+  BLOG_GETALL: '/data/allblog'
 }

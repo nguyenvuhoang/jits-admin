@@ -5,6 +5,7 @@ import CustomChip from '@/@core/components/mui/chip'
 import { ThemeColor } from '@/@core/layouts/types'
 import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
 import { getInitials } from '@/@core/utils/get-initials'
+import { FetchUser } from '@/data/user'
 import { useAuth } from '@/hooks/useAuth'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -14,8 +15,10 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { ReactElement } from 'react'
-
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useState } from 'react'
 
 
 
@@ -28,8 +31,10 @@ interface TableBodyRowType {
     email: string
     username: string
     avatarSrc?: string
-    status: 'active' | 'pending' | 'inactive'
+    status: 'active' | 'pending' | 'inactive' | 'N'
     role: 'admin' | 'editor' | 'author' | 'maintainer' | 'subscriber'
+    firstname: string
+    lastname: string
 }
 
 
@@ -56,60 +61,18 @@ const renderUserAvatar = (row: TableBodyRowType) => {
 interface CellType {
     row: TableBodyRowType
 }
-
-interface RoleObj {
-    [key: string]: {
-        icon: ReactElement
-    }
-}
-
 interface StatusObj {
     [key: string]: {
         color: ThemeColor
     }
 }
 
-const roleObj: RoleObj = {
-    admin: {
-        icon: (
-            <Box component='span' sx={{ display: 'flex', mr: 2, color: 'error.main' }}>
-                <Icon icon='mdi:laptop' />
-            </Box>
-        )
-    },
-    author: {
-        icon: (
-            <Box component='span' sx={{ display: 'flex', mr: 2, color: 'warning.main' }}>
-                <Icon icon='mdi:cog' />
-            </Box>
-        )
-    },
-    maintainer: {
-        icon: (
-            <Box component='span' sx={{ display: 'flex', mr: 2, color: 'success.main' }}>
-                <Icon icon='mdi:chart-donut' />
-            </Box>
-        )
-    },
-    editor: {
-        icon: (
-            <Box component='span' sx={{ display: 'flex', mr: 2, color: 'info.main' }}>
-                <Icon icon='mdi:pencil-outline' />
-            </Box>
-        )
-    },
-    subscriber: {
-        icon: (
-            <Box component='span' sx={{ display: 'flex', mr: 2, color: 'primary.main' }}>
-                <Icon icon='mdi:account-outline' />
-            </Box>
-        )
-    }
-}
 const statusObj: StatusObj = {
     active: { color: 'success' },
     pending: { color: 'warning' },
-    inactive: { color: 'secondary' }
+    inactive: { color: 'secondary' },
+    N: { color: 'success' },
+    P: { color: 'warning' }
 }
 
 const columns: GridColDef[] = [
@@ -144,12 +107,11 @@ const columns: GridColDef[] = [
     {
         flex: 0.2,
         minWidth: 130,
-        field: 'role',
-        headerName: 'Role',
+        field: 'firstname',
+        headerName: 'Họ Tên',
         renderCell: ({ row }: CellType) => (
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {roleObj[row.role].icon}
-                <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>{row.role}</Typography>
+                <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>{`${row.firstname} ${row.lastname}`}</Typography>
             </Box>
         )
     },
@@ -163,15 +125,18 @@ const columns: GridColDef[] = [
                 skin='light'
                 size='small'
                 label={row.status}
-                color={statusObj[row.status].color}
+                color={statusObj[row.status]?.color}
                 sx={{ textTransform: 'capitalize', '& .MuiChip-label': { px: 2.5, lineHeight: 1.385 } }}
             />
         )
     }
 ]
 const Dashboard = (props: Props) => {
-
+    const { t } = useTranslation('common')
     const { employee } = useAuth()
+    const { users } = FetchUser()
+
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
     return (
         <ApexChartWrapper>
@@ -180,7 +145,7 @@ const Dashboard = (props: Props) => {
                     <Card sx={{ position: 'relative' }}>
                         <CardContent>
                             <Typography variant='h6'>
-                                Hello{' '}
+                                {t('text-hello')}{' '}
                                 <Box component='span' sx={{ fontWeight: 'bold' }}>
                                     {employee?.fullname}
                                 </Box>
@@ -190,7 +155,7 @@ const Dashboard = (props: Props) => {
                                 Let&lsquo;s strive to be an excellent employee
                             </Typography>
                             <Button size='small' variant='contained'>
-                                View Result
+                                {t('text-view-result')}
                             </Button>
                             <TrophyImg alt='trophy' src='/images/cards/trophy.png' />
                         </CardContent>
@@ -201,7 +166,7 @@ const Dashboard = (props: Props) => {
                         stats={employee?.project.length.toString()}
                         color='primary'
                         trendNumber={employee?.project.length.toString()}
-                        title='Total Project'
+                        title={t('text-total-project')}
                         chipText='Last 4 Month'
                         icon={<Icon icon='mdi:check' />}
                     />
@@ -211,19 +176,49 @@ const Dashboard = (props: Props) => {
                         stats='$13.4k'
                         color='success'
                         trendNumber='+38%'
-                        title='Total Task'
+                        title={t('text-total-task')}
                         chipText='Last Six Month'
                         icon={<Icon icon='mdi:currency-usd' />}
                     />
                 </Grid>
-                <Grid item xs={12} md={12} sm={12}>
-                    <Card>
-                        <DataGrid autoHeight hideFooter rows={[]} columns={columns} disableRowSelectionOnClick pagination={undefined} />
-                    </Card>
-                </Grid>
+                {users &&
+                    <Grid item xs={12} md={12} sm={12}>
+                        <Card>
+                            <DataGrid
+                                pageSizeOptions={[10, 25, 50]}
+                                pagination
+                                paginationModel={paginationModel}
+                                onPaginationModelChange={setPaginationModel}
+                                autoHeight
+                                hideFooter
+                                rows={users}
+                                columns={columns}
+                                disableRowSelectionOnClick
+                                getRowId={(row) => row.username}
+                            />
+                        </Card>
+                    </Grid>
+                }
             </Grid>
         </ApexChartWrapper>
     )
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+    try {
+        return {
+            props: {
+                ...(await serverSideTranslations(locale!, ['common'])),
+            },
+            revalidate: 60, // In seconds
+        };
+    } catch (error) {
+        console.log(error)
+        //* if we get here, the product doesn't exist or something else went wrong
+        return {
+            notFound: true,
+        };
+    }
+};
 
 export default Dashboard

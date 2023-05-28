@@ -338,4 +338,14 @@ export interface CandidateDetailResponsePaginator extends ResponseObject<Candida
 export interface CreateCandidateResponse extends ResponseObject<{}> { }
 
 export interface CandidateQuestion extends ResponseObject<ResultCareerdata> { }
-
+export interface Blog {
+  blogid: string
+  blogcd: string
+  title: string
+  category: string
+  description: string
+  image: string
+  pubdt: string
+  introduce?: string
+}
+export interface BlogDataResponsePaginator extends ResponseArray<Blog> { }

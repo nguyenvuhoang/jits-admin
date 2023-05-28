@@ -2,6 +2,7 @@
 import { HorizontalNavItemsType } from '@/@core/layouts/types'
 
 const navigation = (): HorizontalNavItemsType => {
+  
   return [
     {
       icon: 'mdi:home-outline',
@@ -57,7 +58,11 @@ const navigation = (): HorizontalNavItemsType => {
         }
       ]
     },
-
+    {
+      title: 'Blog',
+      icon: 'grommet-icons:blog',
+      path: '/blog'
+    },
     {
       title: 'Others',
       icon: 'mdi:dots-horizontal',

@@ -14,6 +14,7 @@ import themeConfig from '@/configs/themeConfig'
 import { Router } from 'next/router'
 // ** Loader Import
 import GuestGuard from '@/@core/components/GuestGuard'
+import { appWithTranslation } from 'next-i18next'
 import NProgress from 'nprogress'
 import { ReactNode, useState } from 'react'
 
@@ -81,7 +82,7 @@ const Guard = ({ children, authGuard, guestGuard }: GuardProps) => {
   }
 }
 
-export default function App({ Component, emotionCache = clientSideEmotionCache, pageProps }: ExtendedAppProps) {
+const App=({ Component, emotionCache = clientSideEmotionCache, pageProps }: ExtendedAppProps)=> {
 
   const setConfig = Component.setConfig ?? undefined
   const authGuard = Component.authGuard ?? true
@@ -140,3 +141,4 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
     </Provider>
   )
 }
+export default appWithTranslation(App)
