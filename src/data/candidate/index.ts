@@ -1,9 +1,10 @@
-import { CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion } from "@/context/types"
+import { CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, CreateCandidateResponse } from "@/context/types"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import client from "../client"
 import Swal from "sweetalert2"
 import { useRouter } from "next/router"
 import { useAuth } from "@/hooks/useAuth"
+import { AxiosError } from "axios"
 
 export const FetchCandidate = () => {
     const { data, isLoading, refetch } = useQuery<CandidatePaginator, Error>(
@@ -45,7 +46,26 @@ export const useCreateCandidate = () => {
                         router.push('/candidate/management')
                     }
                 })
+            }else{
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: `${data.messagedetail}`
+                })
             }
+        },
+        onError: (errorAsUnknown) => {
+            const error = errorAsUnknown as AxiosError<CreateCandidateResponse>;
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                color: 'red',
+                title: 'Oops...',
+                text: `${error?.response?.status === 400 ? error.response.data.messagedetail : 'Error'}`,
+            })
+
         }
     });
 };

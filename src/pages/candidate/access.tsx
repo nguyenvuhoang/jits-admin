@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -36,6 +36,9 @@ import BlankLayout from '@/@core/layouts/BlankLayout'
 // ** Demo Imports
 import { LogoLight } from '@/@core/components/svg'
 import FooterIllustrationsV2 from '@/views/pages/auth/FooterIllustrationsV2'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useRouter } from 'next/router'
 
 // ** Styled Components
 const LoginIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -80,25 +83,15 @@ const TypographyStyled = styled(Typography)<TypographyProps>(({ theme }) => ({
     [theme.breakpoints.down('md')]: { marginTop: theme.spacing(8) }
 }))
 
-const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ theme }) => ({
-    '& .MuiFormControlLabel-label': {
-        fontSize: '0.875rem',
-        color: theme.palette.text.secondary
-    }
-}))
 
 const schema = yup.object().shape({
     email: yup.string().required(),
     code: yup.string().min(6).required()
 })
 
-const defaultValues = {
-    email: '',
-    code: ''
-}
 
 interface FormData {
-    email: string
+    email: string | string[] | undefined
     code: string
 }
 
@@ -110,13 +103,21 @@ const CandidateAccess = () => {
     const { settings } = useSettings()
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
+    const { query } = useRouter()
+
     // ** Vars
     const { skin } = settings
+
+    const defaultValues = {
+        email: query.email,
+        code: ''
+    }
 
     const {
         control,
         setError,
         handleSubmit,
+        setValue,
         formState: { errors }
     } = useForm({
         defaultValues,
@@ -133,6 +134,14 @@ const CandidateAccess = () => {
             })
         })
     }
+    const initData = (email: string | string[] | undefined) => {
+        setValue('email', email || '')
+    }
+
+    useEffect(() => {
+        initData(query.email)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [query]);
 
     const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
 
@@ -192,9 +201,10 @@ const CandidateAccess = () => {
                                             value={value}
                                             onBlur={onBlur}
                                             onChange={onChange}
-                                            error={Boolean(errors.email)}
-                                            placeholder='jits@jits.com.vn'
-                                            autoComplete='email'
+                                            InputProps={{
+                                                value: query.email,
+                                                readOnly: true
+                                            }}
                                         />
                                     )}
                                 />
@@ -236,5 +246,23 @@ const CandidateAccess = () => {
 CandidateAccess.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 
 CandidateAccess.guestGuard = true
+
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+    try {
+        return {
+            props: {
+                ...(await serverSideTranslations(locale!, ['common'])),
+            },
+            revalidate: 60, // In seconds
+        };
+    } catch (error) {
+        console.log(error)
+        //* if we get here, the product doesn't exist or something else went wrong
+        return {
+            notFound: true,
+        };
+    }
+};
 
 export default CandidateAccess

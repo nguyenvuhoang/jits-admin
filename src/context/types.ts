@@ -6,7 +6,7 @@ export type LoginParams = {
   rememberMe?: boolean
 }
 export type CandidateAccessParams = {
-  email: string
+  email: string | string[] | undefined
   code: string
 }
 
