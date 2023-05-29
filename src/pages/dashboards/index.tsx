@@ -163,9 +163,9 @@ const Dashboard = (props: Props) => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
                     <CardStatisticsVertical
-                        stats={employee?.project.length.toString()}
+                        stats={employee?.project?.length.toString()}
                         color='primary'
-                        trendNumber={employee?.project.length.toString()}
+                        trendNumber={employee?.project?.length.toString()}
                         title={t('text-total-project')}
                         chipText='Last 4 Month'
                         icon={<Icon icon='mdi:check' />}
