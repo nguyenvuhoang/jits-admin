@@ -16,7 +16,7 @@ export interface Userinfo {
   lastname: string
   gender: number
   address: string
-  email: string
+  email: string | string[] | undefined
   birthday: string
   phone: string
   status: string
