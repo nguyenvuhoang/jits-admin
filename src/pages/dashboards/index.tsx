@@ -152,7 +152,7 @@ const Dashboard = (props: Props) => {
                                 ! 🎉
                             </Typography>
                             <Typography variant='body2' sx={{ mb: 3.25 }}>
-                                Let&lsquo;s strive to be an excellent employee
+                                {t('text-let-try')}
                             </Typography>
                             <Button size='small' variant='contained'>
                                 {t('text-view-result')}
