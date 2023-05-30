@@ -69,7 +69,7 @@ export interface LoginUserInput {
 export interface FilterEmployee {
   teamcd: string | null | undefined
   status: string | null | undefined
-  role: string | null | undefined
+  role?: string | null | undefined
 }
 
 export interface Auth {
@@ -197,6 +197,8 @@ export interface EmployeeDetail {
   totaltask: number
   teamcd: string
   team_description: string
+  aboutme?: string
+  avatar?: string
 }
 
 export interface EmployeeDetailResponsePaginator extends ResponseObject<EmployeeDetail> { }
@@ -349,3 +351,14 @@ export interface Blog {
   introduce?: string
 }
 export interface BlogDataResponsePaginator extends ResponseArray<Blog> { }
+
+export interface TeamCodeInput {
+  teamcd: string
+}
+
+export interface EmployeeTeamCode {
+  leader: EmployeeDetail
+  memember: EmployeeDetail[]
+}
+
+export interface EmployeeTeamCodeResponse extends ResponseObject<EmployeeTeamCode> { }

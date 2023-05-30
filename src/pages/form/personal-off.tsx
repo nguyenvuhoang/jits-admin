@@ -45,23 +45,18 @@ const RepeatingContent = styled(Grid)<GridProps>(({ theme }) => ({
 }))
 
 
-type Props = {}
-const PersionalOff = (props: Props) => {
+const PersionalOff = () => {
 
     const { employee } = useAuth()
+
     const defaultValues = {
-        employeecd: '',
-        fullname: '',
-        email: '',
-        deparmentcd: '',
-        position: '',
-        leader: '',
-        manager: '',
-        dateoff: '',
-        typeoff: '',
+        employeecd: employee?.employeecd,
+        fullname: employee?.fullname,
+        email: employee?.email,
+        departmentcd: 'SDD',
         reason: '',
         fromdt: undefined,
-        todt: '',
+        todt: undefined,
         totaldayoff: 0,
         session: [],
         replacepersion: '',
@@ -95,18 +90,34 @@ const PersionalOff = (props: Props) => {
     }
 
     const onSubmit = (data: ApplicationLeaveInputs) => {
-        console.log(data)
+        console.log(data.totaldayoff)
+        
+        const submitData = {
+            employeecd: data.employeecd,
+            fullname: data.fullname,
+            email: data.email,
+            departmentcd: data.departmentcd,
+            formality: data.formality,
+            reason: data.reason,
+            totaldayoff: parseInt(data.totaldayoff.toString(), 10),
+            replacepersion: data.replacepersion,
+            dayoff: [
+                {
+                    fromdt: data.fromdt,
+                    todt: data.todt,
+                    session: data.session
+                }
+            ]
+        }
+        console.log(submitData)
+
     }
 
     const [countDateOff, setCountDateOff] = useState<number>(1)
-    const [date, setDate] = useState<DateType>(new Date())
-
-
     const theme = useTheme()
     const { direction } = theme
     const popperPlacement: ReactDatePickerProps['popperPlacement'] = direction === 'ltr' ? 'bottom-start' : 'bottom-end'
-    const [dateFormat, setDateFormat] = useState<DateType>()
-    console.log(employee?.deparmentcd)
+
     return (
         <>
             <Grid container spacing={6} className='match-height'>
@@ -130,17 +141,16 @@ const PersionalOff = (props: Props) => {
                                             <Controller
                                                 name='employeecd'
                                                 control={control}
+                                                defaultValue={employee?.employeecd || ''}
                                                 rules={{ required: true }}
-                                                render={({ field: { value, onChange } }) => (
+                                                render={({ field }) => (
                                                     <TextField
-                                                        value={value}
+                                                        {...field}
                                                         label='Mã nhân viên'
-                                                        onChange={onChange}
                                                         placeholder='JITS-HOANGNV-000019'
                                                         error={Boolean(errors.employeecd)}
                                                         aria-describedby='validation-employeecd'
                                                         InputProps={{
-                                                            value: employee?.employeecd,
                                                             readOnly: true
                                                         }}
                                                     />
@@ -160,15 +170,13 @@ const PersionalOff = (props: Props) => {
                                                 control={control}
                                                 rules={{ required: true }}
                                                 defaultValue={employee?.fullname || ''}
-                                                render={({ field: { value, onChange } }) => (
+                                                render={({ field }) => (
                                                     <TextField
-                                                        value={value}
+                                                        {...field}
                                                         label='Họ Tên'
                                                         placeholder='JITS'
-                                                        onChange={onChange}
                                                         aria-describedby='validation-fullname'
                                                         InputProps={{
-                                                            value: employee?.fullname,
                                                             readOnly: true
                                                         }}
                                                     />
@@ -187,17 +195,16 @@ const PersionalOff = (props: Props) => {
                                                 name='email'
                                                 control={control}
                                                 rules={{ required: true }}
-                                                render={({ field: { value, onChange } }) => (
+                                                defaultValue={employee?.email || ''}
+                                                render={({ field }) => (
                                                     <TextField
+                                                        {...field}
                                                         type='email'
-                                                        value={value}
                                                         label='Email'
-                                                        onChange={onChange}
                                                         error={Boolean(errors.email)}
                                                         placeholder='jits@jits.com.vn'
                                                         aria-describedby='validation-email'
                                                         inputProps={{
-                                                            value: employee?.email,
                                                             readOnly: true
                                                         }}
                                                     />
@@ -215,21 +222,21 @@ const PersionalOff = (props: Props) => {
                                             <Controller
                                                 name='departmentcd'
                                                 control={control}
+                                                defaultValue=''
                                                 rules={{ required: true }}
-                                                render={({ field: { value, onChange } }) => (
+                                                render={({ field }) => (
                                                     <Select
+                                                        {...field}
                                                         fullWidth
-                                                        value={value}
                                                         id='select-deparmentcd'
                                                         label='Select Department'
                                                         labelId='deparmentcd-select'
-                                                        onChange={onChange}
                                                         inputProps={{
                                                             placeholder: 'Select Department',
-                                                            value: employee?.deparmentcd,
                                                             readOnly: true
                                                         }}
                                                     >
+                                                        <MenuItem value=''>Select Department</MenuItem>
                                                         <MenuItem value='SDD'>Solutions Delivery Dept</MenuItem>
                                                         <MenuItem value='RND-HCM'>R&D Dept in HCM</MenuItem>
                                                         <MenuItem value='RND-HN'>R&D Dept in Ha Noi</MenuItem>
@@ -315,7 +322,7 @@ const PersionalOff = (props: Props) => {
                                                 rules={{ required: true }}
                                                 render={({ field: { value, onChange } }) => (
                                                     <TextField
-                                                        type='text'
+                                                        type='number'
                                                         value={value}
                                                         label='Tổng số ngày nghỉ'
                                                         onChange={onChange}
@@ -375,7 +382,7 @@ const PersionalOff = (props: Props) => {
                                                                                                     onChange={(e) => onChange(e)}
                                                                                                     customInput={
                                                                                                         <CustomInput
-                                                                                                            label='Ngày bắt đầu gửi'
+                                                                                                            label='Ngày bắt đầu nghỉ'
                                                                                                             sx={{
                                                                                                                 minWidth: { lg: 450, md: 300, xs: 150 }
                                                                                                             }} />
@@ -438,7 +445,7 @@ const PersionalOff = (props: Props) => {
                                                                                     <FormControl fullWidth >
                                                                                         <Controller
                                                                                             control={control}
-                                                                                            name="fromdt"
+                                                                                            name="todt"
                                                                                             render={({ field: { value, onChange } }) => (
                                                                                                 <DatePicker
                                                                                                     id='todt'
@@ -456,9 +463,9 @@ const PersionalOff = (props: Props) => {
                                                                                                 />
                                                                                             )}
                                                                                         />
-                                                                                        {errors.fromdt && (
-                                                                                            <FormHelperText sx={{ color: 'error.main' }} id='validation-fromdt'>
-                                                                                                From date is required
+                                                                                        {errors.todt && (
+                                                                                            <FormHelperText sx={{ color: 'error.main' }} id='validation-todt'>
+                                                                                                To date is required
                                                                                             </FormHelperText>
                                                                                         )}
                                                                                     </FormControl>

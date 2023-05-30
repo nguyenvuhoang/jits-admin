@@ -20,5 +20,6 @@ export const API_ENDPOINTS = {
   CANDIDATEACCESS: '/data/candidatelogin',
   CANDIDATEQUESTION: '/data/getsetofquestion',
   CANDIDATESUBMIT: '/data/submittestanswer',
-  BLOG_GETALL: '/data/allblog'
+  BLOG_GETALL: '/data/allblog',
+  EMPLOYEE_GETBYTEAMCODE: '/employee/employeelistbyteamcd'
 }
