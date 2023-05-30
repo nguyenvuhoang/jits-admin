@@ -104,8 +104,8 @@ const TeamPage = () => {
                         >
                             <Box sx={{ minHeight: 58, display: 'flex' }}>
                                 <Avatar
-                                    alt='John Doe'
-                                    sx={{ width: 40, height: 40 }}
+                                    alt={leader?.fullname}
+                                    sx={{ width: 160, height: 160, mb: 5 }}
                                     src={leader?.avatar}
                                 />
                             </Box>
