@@ -2,7 +2,7 @@
 import { HorizontalNavItemsType } from '@/@core/layouts/types'
 
 const navigation = (): HorizontalNavItemsType => {
-  
+
   return [
     {
       icon: 'mdi:home-outline',
@@ -30,6 +30,11 @@ const navigation = (): HorizontalNavItemsType => {
           path: '/project/solution-delivery-dept'
         }
       ]
+    },
+    {
+      icon: 'ant-design:team-outlined',
+      title: 'Team',
+      path: '/team'
     },
     {
       icon: 'mdi:text-box',

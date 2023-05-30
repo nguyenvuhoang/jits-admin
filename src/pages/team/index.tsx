@@ -24,7 +24,7 @@ const StyledCardContent = styled(CardContent)<CardContentProps>(({ theme }) => (
 const TeamPage = () => {
     const { t } = useTranslation('common')
 
-    const [team, setTeam] = useState('CAM')
+    const [team, setTeam] = useState('')
 
     const { employees, refetch } = FetchEmployeeByTeamcode(team)
 
@@ -34,6 +34,7 @@ const TeamPage = () => {
     };
 
     useEffect(() => {
+        refetch()
     }, [team, refetch]);
 
     const leader = employees?.leader
