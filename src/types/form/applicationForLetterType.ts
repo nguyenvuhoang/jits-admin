@@ -17,3 +17,20 @@ export interface ApplicationLeaveInputs {
     formality: string
 
 }
+interface DayOff {
+    fromdt: Date | undefined,
+    todt: Date | undefined,
+    session: string[]
+}
+export interface SubmitApplicationLeaveInputs {
+    employeecd: string
+    fullname: string
+    email: string
+    departmentcd: string
+    reason: string
+    totaldayoff: number
+    replacepersion?: string
+    formality: string
+    dayoff: DayOff[]
+}
+

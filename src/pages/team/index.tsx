@@ -10,9 +10,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import CustomAvatar from '@/@core/components/mui/avatar'
-import Icon from '@/@core/components/icon'
-import moment from 'moment'
 
 
 const StyledCardContent = styled(CardContent)<CardContentProps>(({ theme }) => ({
@@ -78,7 +75,6 @@ const TeamPage = () => {
                             <MenuItem value='CAM'>Cambodia (TSUNAMI)</MenuItem>
                             <MenuItem value='THA'>ThaiLand</MenuItem>
                             <MenuItem value='LAO'>Lao</MenuItem>
-                            <MenuItem value='MMR'>Myanmar</MenuItem>
                             <MenuItem value='MDW'>Middleware team</MenuItem>
                             <MenuItem value='TEST'>Tester</MenuItem>
                             <MenuItem value='MNG'>Manager</MenuItem>
@@ -186,7 +182,7 @@ const TeamPage = () => {
                                                     variant='body1'
                                                     sx={{ color: 'inherit', textDecoration: 'none' }}
                                                 >
-                                                    {member.birthday}
+                                                    {t('text-birthday')}: {member.birthday}
                                                 </Typography>
                                             </li>
                                             <li>
@@ -194,7 +190,7 @@ const TeamPage = () => {
                                                     variant='body1'
                                                     sx={{ color: 'inherit', textDecoration: 'none' }}
                                                 >
-                                                    {member.phone}
+                                                    {t('text-phone')}: {member.phone}
                                                 </Typography>
                                             </li>
                                             <li>
@@ -202,7 +198,16 @@ const TeamPage = () => {
                                                     variant='body1'
                                                     sx={{ color: 'inherit', textDecoration: 'none' }}
                                                 >
-                                                    {member.email}
+                                                    {t('text-email')}: {member.email}
+                                                </Typography>
+                                            </li>
+                                            <li>
+
+                                                <Typography
+                                                    variant='body1'
+                                                    sx={{ color: 'inherit', textDecoration: 'none' }}
+                                                >
+                                                    {t('text-position')}: {member.position}
                                                 </Typography>
                                             </li>
 

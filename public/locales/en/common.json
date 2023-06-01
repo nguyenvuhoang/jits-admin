@@ -155,5 +155,9 @@
   "text-let-try": "Let&lsquo;s strive to be an excellent employee",
   "text-team-profile": "Team profile",
   "text-team-leader": "Team leader",
-  "text-team-member": "Team member"
+  "text-team-member": "Team member",
+  "text-position": "Position",
+  "text-email": "Email",
+  "text-phone": "Phone",
+  "text-birthday": "Birthday"
 }

@@ -1,12 +1,9 @@
 // ** MUI Imports
-import { useTheme } from '@mui/material/styles'
 import Box, { BoxProps } from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
-import { LogoLight } from '../svg'
 
 const FallbackSpinner = ({ sx }: { sx?: BoxProps['sx'] }) => {
   // ** Hook
-  const theme = useTheme()
 
   return (
     <Box

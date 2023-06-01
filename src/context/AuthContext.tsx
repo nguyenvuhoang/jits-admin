@@ -52,7 +52,8 @@ const AuthProvider = ({ children }: Props) => {
       if (storedToken) {
         setLoading(true)
         const candidate = JSON.parse(storedToken)['permission']
-        if (candidate[0] !== 'CANDIDATE') {
+
+        if (!candidate.includes('CANDIDATE')) {
           await axios
             .get(process.env.NEXT_PUBLIC_REST_API_ENDPOINT + API_ENDPOINTS.meEndpoint, {
               headers: {

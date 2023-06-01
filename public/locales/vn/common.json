@@ -155,5 +155,10 @@
   "text-let-try": "Hãy nổ lực hết mình để được phần thưởng cuối năm",
   "text-team-profile":"Thông tin đội nhóm",
   "text-team-leader": "Trưởng nhóm",
-  "text-team-member": "Thành viên"
+  "text-team-member": "Thành viên",
+  "text-position": "Vị trí công việc",
+  "text-email": "Email",
+  "text-phone": "Số điện thoại",
+  "text-birthday": "Ngày sinh"
+
 }

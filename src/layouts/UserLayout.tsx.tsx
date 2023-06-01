@@ -50,7 +50,6 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
     if (hidden && settings.layout === 'horizontal') {
         settings.layout = 'vertical'
     }
-
     return (
         <Layout
             hidden={hidden}

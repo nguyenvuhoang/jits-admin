@@ -364,3 +364,4 @@ export interface EmployeeTeamCode {
 }
 
 export interface EmployeeTeamCodeResponse extends ResponseObject<EmployeeTeamCode> { }
+export interface ApplicationForLeaveResponse extends ResponseObject<{}> { }

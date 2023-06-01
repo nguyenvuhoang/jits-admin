@@ -2,15 +2,16 @@ import Icon from '@/@core/components/icon'
 import PageHeader from '@/@core/components/page-header'
 import Repeater from '@/@core/components/repeater'
 import { Employeeinfo } from '@/context/types'
+import { useSubmitApplicationForLeave } from '@/data/employee'
 import { useAuth } from '@/hooks/useAuth'
 import { ApplicationLeaveInputs } from '@/types/form/applicationForLetterType'
-import { DateType } from '@/types/form/reactDatepickerTypes'
 import CustomInput from '@/views/forms/pickers/PickersCustomInput'
 import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Collapse, Divider, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
 import { ChangeEvent, useEffect, useState } from 'react'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import { Controller, useForm } from 'react-hook-form'
+import Spinner from '@/@core/components/spinner'
 
 
 
@@ -89,9 +90,9 @@ const PersionalOff = () => {
         setValue('formality', (event.target as HTMLInputElement).value);
     }
 
+    const { isLoading, mutate: SubmitApplicationForLeave } = useSubmitApplicationForLeave()
+
     const onSubmit = (data: ApplicationLeaveInputs) => {
-        console.log(data.totaldayoff)
-        
         const submitData = {
             employeecd: data.employeecd,
             fullname: data.fullname,
@@ -109,14 +110,15 @@ const PersionalOff = () => {
                 }
             ]
         }
-        console.log(submitData)
-
+        SubmitApplicationForLeave(submitData)
     }
 
     const [countDateOff, setCountDateOff] = useState<number>(1)
     const theme = useTheme()
     const { direction } = theme
     const popperPlacement: ReactDatePickerProps['popperPlacement'] = direction === 'ltr' ? 'bottom-start' : 'bottom-end'
+
+    if (isLoading) return <Spinner />
 
     return (
         <>
@@ -129,7 +131,6 @@ const PersionalOff = () => {
                     }
                     subtitle={<Typography variant='body2'>Vui lòng điền đầy đủ thông tin bên dưới</Typography>}
                 />
-
                 <Grid item xs={12}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Card>
@@ -147,7 +148,7 @@ const PersionalOff = () => {
                                                     <TextField
                                                         {...field}
                                                         label='Mã nhân viên'
-                                                        placeholder='JITS-HOANGNV-000019'
+                                                        placeholder='JITS'
                                                         error={Boolean(errors.employeecd)}
                                                         aria-describedby='validation-employeecd'
                                                         InputProps={{
@@ -289,7 +290,7 @@ const PersionalOff = () => {
                                             )}
                                         </FormControl>
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={4}>
                                         <FormControl fullWidth>
                                             <Controller
                                                 name='reason'
@@ -314,7 +315,7 @@ const PersionalOff = () => {
                                             )}
                                         </FormControl>
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={4}>
                                         <FormControl fullWidth>
                                             <Controller
                                                 name='totaldayoff'
@@ -337,6 +338,27 @@ const PersionalOff = () => {
                                                     Total day off is required
                                                 </FormHelperText>
                                             )}
+                                        </FormControl>
+
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={4}>
+                                        <FormControl fullWidth>
+                                            <Controller
+                                                name='replacepersion'
+                                                control={control}
+                                                rules={{ required: false }}
+                                                render={({ field: { value, onChange } }) => (
+                                                    <TextField
+                                                        type='text'
+                                                        value={value}
+                                                        label='Người thay thế (nếu có)'
+                                                        onChange={onChange}
+                                                        placeholder='JITS'
+                                                        aria-describedby='validation-replacepersion'
+                                                    />
+                                                )}
+                                            />
                                         </FormControl>
 
                                     </Grid>

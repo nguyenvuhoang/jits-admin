@@ -1,6 +1,7 @@
 import { API_ENDPOINTS } from "@/configs/auth";
-import { AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, LoginUserInput, ProjectReponse, TeamCodeInput, UpdateStatusEmployeeInput, UserResponsePaginator } from "@/context/types";
+import { ApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, LoginUserInput, ProjectReponse, TeamCodeInput, UpdateStatusEmployeeInput, UserResponsePaginator } from "@/context/types";
 import { CandidateInput } from "@/types/dashboards/candidateTyps";
+import { SubmitApplicationLeaveInputs } from "@/types/form/applicationForLetterType";
 import { HttpClient } from "./http-client";
 
 class Client {
@@ -15,7 +16,8 @@ class Client {
         block: (input: BlockEmployeeInput) => HttpClient.post<BlockEmployeeResponse>(API_ENDPOINTS.BLOCK_EMPLOYEE, input),
         postemployee: (employee: EmployeeData) => HttpClient.post<EmployeeResponse>(API_ENDPOINTS.POST_EMPLOYEE, employee),
         approve: (employeeinput: UpdateStatusEmployeeInput) => HttpClient.post<EmployeeResponse>(API_ENDPOINTS.APPROVE_EMPLOYEE, employeeinput),
-        getteamcode: ({ teamcd }: TeamCodeInput) => HttpClient.get<EmployeeTeamCodeResponse>(API_ENDPOINTS.EMPLOYEE_GETBYTEAMCODE, { teamcd })
+        getteamcode: ({ teamcd }: TeamCodeInput) => HttpClient.get<EmployeeTeamCodeResponse>(API_ENDPOINTS.EMPLOYEE_GETBYTEAMCODE, { teamcd }),
+        submitapplicationforleave: (leaveinput: SubmitApplicationLeaveInputs) => HttpClient.post<ApplicationForLeaveResponse>(API_ENDPOINTS.EMPLOYEE_SUBMITAPPFORLEAVE,leaveinput)
     }
     project = {
         getall: (filter: FilterProject) => HttpClient.get<ProjectReponse>(API_ENDPOINTS.GITLAB_ALLPROJECT, filter)

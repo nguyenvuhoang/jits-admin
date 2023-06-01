@@ -1,6 +1,8 @@
 import { EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee } from "@/context/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import client from "../client";
+import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
 export const FetchEmployee = (filter: FilterEmployee) => {
     const { data, isLoading, refetch } = useQuery<EmployeeResponsePaginator, Error>(
@@ -42,7 +44,7 @@ export const FetchEmployeeByTeamcode = (teamcode: string) => {
     const shouldFetch = teamcode !== '';
     const { data, isLoading, refetch } = useQuery<EmployeeTeamCodeResponse, Error>(
         ['employee-list-by-team'],
-        () => client.employee.getteamcode({teamcd: teamcode}),
+        () => client.employee.getteamcode({ teamcd: teamcode }),
         { enabled: shouldFetch }
     )
     return {
@@ -51,3 +53,32 @@ export const FetchEmployeeByTeamcode = (teamcode: string) => {
         refetch
     }
 }
+
+export const useSubmitApplicationForLeave = () => {
+    const router = useRouter()
+    return useMutation(client.employee.submitapplicationforleave, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Nộp phép thành công!',
+                    text: 'ĐƠn xin nghỉ phép của bạn đã nộp. Vui lòng đợi cấp trên của bạn duyệt phép. Quay trở về trang chủ'
+                }).then((response: any) => {
+                    if (response.isConfirmed) {
+                        router.push('/')
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: `${data.messagedetail}`
+                })
+            }
+        }
+    });
+};
