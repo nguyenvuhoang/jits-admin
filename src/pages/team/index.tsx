@@ -10,6 +10,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import CustomAvatar from '@/@core/components/mui/avatar'
+import Icon from '@/@core/components/icon'
+import moment from 'moment'
 
 
 const StyledCardContent = styled(CardContent)<CardContentProps>(({ theme }) => ({
@@ -38,7 +41,8 @@ const TeamPage = () => {
     }, [team, refetch]);
 
     const leader = employees?.leader
-    console.log(leader)
+    const members = employees?.memember
+    console.log(members)
     return (
         <>
             <Head >
@@ -80,63 +84,136 @@ const TeamPage = () => {
                             <MenuItem value='MNG'>Manager</MenuItem>
                             <MenuItem value='BOD'>Board of Director</MenuItem>
                             <MenuItem value='CODEV'>CO-DEV</MenuItem>
-                            <MenuItem value='HRHCM'>Human Resource in HCM</MenuItem>
-                            <MenuItem value='HRHCM'>Accountant</MenuItem>
+                            <MenuItem value='HRHCM'>BO in HCM</MenuItem>
+                            <MenuItem value='HRHN'>BO in HN</MenuItem>
                         </Select>
 
                     </FormControl>
                 </CardContent>
-                <StyledCardContent>
-                    <Typography variant='h5' sx={{ mb: 6, fontWeight: 600, textAlign: 'center' }}>
-                        {t('text-team-leader')}
-                    </Typography>
-                    <Grid item xs={12} sm={6} md={4} >
-                        <Box
-                            sx={{
-                                p: 5,
-                                height: '100%',
-                                display: 'flex',
-                                borderRadius: 1,
-                                textAlign: 'center',
-                                alignItems: 'center',
-                                flexDirection: 'column',
-                                border: theme => `1px solid ${theme.palette.divider}`
-                            }}
-                        >
-                            <Box sx={{ minHeight: 58, display: 'flex' }}>
-                                <Avatar
-                                    alt={leader?.fullname}
-                                    sx={{ width: 160, height: 160, mb: 5 }}
-                                    src={leader?.avatar}
-                                />
-                            </Box>
-                            <Typography variant='h6' sx={{ mb: 1.5, fontWeight: 600 }}>
-                                {leader?.fullname}
-                            </Typography>
-                            <Typography
+
+                {leader &&
+
+                    <StyledCardContent>
+                        <Typography variant='h5' sx={{ mb: 6, fontWeight: 600, textAlign: 'center' }}>
+                            {t('text-team-leader')}
+                        </Typography>
+                        <Grid item xs={12} sm={6} md={4} >
+                            <Box
                                 sx={{
-                                    my: 'auto',
-                                    overflow: 'hidden',
-                                    WebkitLineClamp: '2',
-                                    display: '-webkit-box',
-                                    color: 'text.secondary',
-                                    textOverflow: 'ellipsis',
-                                    WebkitBoxOrient: 'vertical'
+                                    p: 5,
+                                    height: '100%',
+                                    display: 'flex',
+                                    borderRadius: 1,
+                                    textAlign: 'center',
+                                    alignItems: 'center',
+                                    flexDirection: 'column',
+                                    border: theme => `1px solid ${theme.palette.divider}`
                                 }}
                             >
-                                {leader?.aboutme}
-                            </Typography>
-                            <Button
-                                sx={{ mt: 4 }}
-                                component={Link}
-                                variant='outlined'
-                                href='/pages/help-center/getting-started/account/changing-your-username'
-                            >
-                                Read More
-                            </Button>
-                        </Box>
-                    </Grid>
-                </StyledCardContent>
+                                <Box sx={{ minHeight: 58, display: 'flex' }}>
+                                    <Avatar
+                                        alt={leader?.fullname}
+                                        sx={{ width: 160, height: 160, mb: 5 }}
+                                        src={leader?.avatar}
+                                    />
+                                </Box>
+                                <Typography variant='h6' sx={{ mb: 1.5, fontWeight: 600 }}>
+                                    {leader?.fullname}
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        my: 'auto',
+                                        overflow: 'hidden',
+                                        WebkitLineClamp: '2',
+                                        display: '-webkit-box',
+                                        color: 'text.secondary',
+                                        textOverflow: 'ellipsis',
+                                        WebkitBoxOrient: 'vertical'
+                                    }}
+                                >
+                                    {leader?.aboutme}
+                                </Typography>
+                                <Button
+                                    sx={{ mt: 4 }}
+                                    component={Link}
+                                    variant='outlined'
+                                    href='/pages/help-center/getting-started/account/changing-your-username'
+                                >
+                                    Read More
+                                </Button>
+                            </Box>
+                        </Grid>
+                    </StyledCardContent>
+                }
+                {members &&
+                    <StyledCardContent sx={{ backgroundColor: 'action.hover' }}>
+                        <Typography variant='h5' sx={{ mb: 6, fontWeight: 600, textAlign: 'center' }}>
+                            {t('text-team-member')}
+                        </Typography>
+                        <Grid container spacing={6}>
+                            {members.map((member, index) => (
+                                <Grid item xs={12} sm={6} md={4} key={index}>
+                                    <Box
+                                        sx={{
+                                            p: 5,
+                                            boxShadow: 6,
+                                            height: '100%',
+                                            display: 'flex',
+                                            borderRadius: 1,
+                                            flexDirection: 'column',
+                                            alignItems: 'flex-start',
+                                            backgroundColor: 'background.paper'
+                                        }}
+                                    >
+                                        <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
+                                            <Avatar
+                                                alt={member?.fullname}
+                                                sx={{ width: 120, height: 120, mb: 5 }}
+                                                src={member?.cover}
+                                            />
+                                            <Typography
+                                                variant='h6'
+                                                component={Link}
+                                                href={`/user-profile/${member.employeecd}`}
+                                                sx={{ fontWeight: 600, marginLeft: 5, textDecoration: 'none', '&:hover': { color: 'primary.main' } }}
+                                            >
+                                                {member.fullname}
+                                            </Typography>
+                                        </Box>
+                                        <Box component='ul' sx={{ mt: 0, mb: 5, pl: 6.75, '& li': { mb: 2, color: 'primary.main' } }}>
+                                            <li>
+                                                <Typography
+                                                    variant='body1'
+                                                    sx={{ color: 'inherit', textDecoration: 'none' }}
+                                                >
+                                                    {member.birthday}
+                                                </Typography>
+                                            </li>
+                                            <li>
+                                                <Typography
+                                                    variant='body1'
+                                                    sx={{ color: 'inherit', textDecoration: 'none' }}
+                                                >
+                                                    {member.phone}
+                                                </Typography>
+                                            </li>
+                                            <li>
+                                                <Typography
+                                                    variant='body1'
+                                                    sx={{ color: 'inherit', textDecoration: 'none' }}
+                                                >
+                                                    {member.email}
+                                                </Typography>
+                                            </li>
+
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                            ))}
+                        </Grid>
+
+                    </StyledCardContent>
+                }
             </Card>
         </>
     )

@@ -46,7 +46,7 @@ export const FetchEmployeeByTeamcode = (teamcode: string) => {
         { enabled: shouldFetch }
     )
     return {
-        employees: data?.result.data,
+        employees: data?.result?.data,
         isLoading,
         refetch
     }

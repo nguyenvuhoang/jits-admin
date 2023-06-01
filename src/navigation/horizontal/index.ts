@@ -14,6 +14,16 @@ const navigation = (): HorizontalNavItemsType => {
           path: '/dashboards/crm'
         },
         {
+          icon: 'fxemoji:departmentstore',
+          title: 'Department',
+          path: '/department'
+        },
+        {
+          icon: 'ant-design:team-outlined',
+          title: 'Team',
+          path: '/team'
+        },
+        {
           icon: 'mdi:account-group',
           title: 'Employee management',
           path: '/dashboards/employee-management'
@@ -30,11 +40,6 @@ const navigation = (): HorizontalNavItemsType => {
           path: '/project/solution-delivery-dept'
         }
       ]
-    },
-    {
-      icon: 'ant-design:team-outlined',
-      title: 'Team',
-      path: '/team'
     },
     {
       icon: 'mdi:text-box',

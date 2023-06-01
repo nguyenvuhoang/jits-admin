@@ -199,6 +199,8 @@ export interface EmployeeDetail {
   team_description: string
   aboutme?: string
   avatar?: string
+  employeecd?:string
+  birthday?:string
 }
 
 export interface EmployeeDetailResponsePaginator extends ResponseObject<EmployeeDetail> { }
