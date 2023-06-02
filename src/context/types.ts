@@ -199,8 +199,8 @@ export interface EmployeeDetail {
   team_description: string
   aboutme?: string
   avatar?: string
-  employeecd?:string
-  birthday?:string
+  employeecd?: string
+  birthday?: string
 }
 
 export interface EmployeeDetailResponsePaginator extends ResponseObject<EmployeeDetail> { }
@@ -363,5 +363,31 @@ export interface EmployeeTeamCode {
   memember: EmployeeDetail[]
 }
 
+export interface DateOff {
+  fromdt: string
+  session: string[]
+  todt: string
+}
+export interface ApplicationForLeave {
+  id: string
+  employeecd: string
+  fullname: string
+  email: string
+  departmentcd: string
+  position: string
+  leader: string
+  manager: string
+  reason: string
+  totaldayoff: number
+  dayoff: DateOff[]
+  replacepersion: string
+  formality: string
+  status: string
+  createdate: string
+  approveddate?: string
+}
+
 export interface EmployeeTeamCodeResponse extends ResponseObject<EmployeeTeamCode> { }
 export interface ApplicationForLeaveResponse extends ResponseObject<{}> { }
+export interface ListOfApplicationForLeaveResponse extends ResponseArray<ApplicationForLeave> { }
+export interface ApplicationForLeaveByIdResponse extends ResponseObject<ApplicationForLeave> { }

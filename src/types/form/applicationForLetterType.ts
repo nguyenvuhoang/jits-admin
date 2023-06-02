@@ -33,4 +33,7 @@ export interface SubmitApplicationLeaveInputs {
     formality: string
     dayoff: DayOff[]
 }
-
+export interface ListOfApplicationSearchInputs {
+    fullname?: string
+    status?: string
+}

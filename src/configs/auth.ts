@@ -22,5 +22,8 @@ export const API_ENDPOINTS = {
   CANDIDATESUBMIT: '/data/submittestanswer',
   BLOG_GETALL: '/data/allblog',
   EMPLOYEE_GETBYTEAMCODE: '/employee/employeelistbyteamcd',
-  EMPLOYEE_SUBMITAPPFORLEAVE: '/employee/postapplicationforleave'
+  EMPLOYEE_SUBMITAPPFORLEAVE: '/employee/postapplicationforleave',
+  EMPLOYEE_APPROVE_APPLICATION_FOR_LEAVE: '/employee/getlistapplicationforleave',
+  EMPLOYEE_APPLICATION_FOR_LEAVE_BYID: '/employee/getapplicationforleavebyid',
+
 }

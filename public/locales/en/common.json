@@ -159,5 +159,10 @@
   "text-position": "Position",
   "text-email": "Email",
   "text-phone": "Phone",
-  "text-birthday": "Birthday"
+  "text-birthday": "Birthday",
+  "text-approve-application-for-leave": "Approve application for leave",
+  "text-fullname": "Full name",
+  "text-reason": "Reason",
+  "text-totaldayoff":"Total day off",
+  "text-status":"Status"
 }

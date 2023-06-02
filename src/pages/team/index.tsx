@@ -77,8 +77,6 @@ const TeamPage = () => {
                             <MenuItem value='LAO'>Lao</MenuItem>
                             <MenuItem value='MDW'>Middleware team</MenuItem>
                             <MenuItem value='TEST'>Tester</MenuItem>
-                            <MenuItem value='MNG'>Manager</MenuItem>
-                            <MenuItem value='BOD'>Board of Director</MenuItem>
                             <MenuItem value='CODEV'>CO-DEV</MenuItem>
                             <MenuItem value='HRHCM'>BO in HCM</MenuItem>
                             <MenuItem value='HRHN'>BO in HN</MenuItem>
@@ -110,7 +108,7 @@ const TeamPage = () => {
                                     <Avatar
                                         alt={leader?.fullname}
                                         sx={{ width: 160, height: 160, mb: 5 }}
-                                        src={leader?.avatar}
+                                        src={leader?.cover}
                                     />
                                 </Box>
                                 <Typography variant='h6' sx={{ mb: 1.5, fontWeight: 600 }}>

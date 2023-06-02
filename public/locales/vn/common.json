@@ -153,12 +153,16 @@
   "text-add-title": "Vui lòng nhập tiêu đề",
   "text-introduce": "Giới thiệu",
   "text-let-try": "Hãy nổ lực hết mình để được phần thưởng cuối năm",
-  "text-team-profile":"Thông tin đội nhóm",
+  "text-team-profile": "Thông tin đội nhóm",
   "text-team-leader": "Trưởng nhóm",
   "text-team-member": "Thành viên",
   "text-position": "Vị trí công việc",
   "text-email": "Email",
   "text-phone": "Số điện thoại",
-  "text-birthday": "Ngày sinh"
-
+  "text-birthday": "Ngày sinh",
+  "text-approve-application-for-leave": "Duyệt đơn xin nghỉ phép",
+  "text-fullname": "Họ và tên",
+  "text-reason": "Lý do",
+  "text-totaldayoff":"Tổng ngày nghỉ",
+  "text-status":"Trạng thái"
 }

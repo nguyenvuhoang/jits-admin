@@ -49,6 +49,11 @@ const navigation = (): HorizontalNavItemsType => {
           title: 'Application for leave',
           icon: 'mdi:text-box-remove',
           path: '/form/personal-off'
+        },
+        {
+          title: 'Management AFL',
+          icon: 'material-symbols:order-approve-outline',
+          path: '/form/approve-personal-off'
         }
       ]
     },

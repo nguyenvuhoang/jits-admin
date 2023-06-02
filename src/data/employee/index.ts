@@ -1,8 +1,9 @@
-import { EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, ListOfApplicationForLeaveResponse } from "@/context/types";
+import { ListOfApplicationSearchInputs } from "@/types/form/applicationForLetterType";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import client from "../client";
-import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
+import client from "../client";
 
 export const FetchEmployee = (filter: FilterEmployee) => {
     const { data, isLoading, refetch } = useQuery<EmployeeResponsePaginator, Error>(
@@ -82,3 +83,29 @@ export const useSubmitApplicationForLeave = () => {
         }
     });
 };
+
+export const FetchListOfApplicationForLeave = (filter?: ListOfApplicationSearchInputs) => {
+    const { data, isLoading, refetch } = useQuery<ListOfApplicationForLeaveResponse, Error>(
+        ['applicationforleave-list'],
+        () => client.employee.getapplicationforleave(filter)
+    )
+    return {
+        applicationforleave: data?.result.data,
+        isLoading,
+        refetch
+    }
+}
+
+export const FetchApplicationForLeavebyid = (id: string) => {
+    const { data, isLoading, refetch } = useQuery<ApplicationForLeaveByIdResponse, Error>(
+        ['application-for-leave-id'],
+        () => client.employee.getapplicationforleavebyid({
+            id: id
+        })
+    )
+    return {
+        application: data?.result.data,
+        isLoading,
+        refetch
+    }
+}

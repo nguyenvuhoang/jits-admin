@@ -1,36 +1,41 @@
 import Icon from '@/@core/components/icon'
-import CustomAvatar from '@/@core/components/mui/avatar'
 import CustomChip from '@/@core/components/mui/chip'
 import { ThemeColor } from '@/@core/layouts/types'
 import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
-import { Candidate } from '@/context/types'
-import { FetchCandidate } from '@/data/candidate'
+import { ApproveStatus } from '@/@core/utils/approve-status'
+import { ApplicationForLeave } from '@/context/types'
+import { FetchListOfApplicationForLeave } from '@/data/employee'
 import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
 import { Box, Card, CardContent, CardHeader, Grid, IconButton, Menu, MenuItem, Typography, useTheme } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { ChangeEvent, MouseEvent, useState } from 'react'
 
 type Props = {}
 
 interface CellType {
-    row: Candidate
+    row: ApplicationForLeave
 }
 
 interface CandidateStatusType {
     [key: string]: ThemeColor
 }
-const candidateStatusObj: CandidateStatusType = {
-    Đạt: 'success',
-    Rớt: 'error'
+const personalStatusObj: CandidateStatusType = {
+    A: 'success',
+    P: 'warning'
 }
 
-const CandidateManagement = (props: Props) => {
+
+const ApproveForApplicationForLeave = (props: Props) => {
 
     const theme = useTheme()
 
-    const { candidate } = FetchCandidate()
+    const { applicationforleave } = FetchListOfApplicationForLeave()
 
+    const { t } = useTranslation('common')
 
 
     const RowOptions = ({ id }: { id: string }) => {
@@ -42,10 +47,6 @@ const CandidateManagement = (props: Props) => {
         }
         const handleRowOptionsClose = () => {
             setAnchorEl(null)
-        }
-
-        const handleDelete = () => {
-            handleRowOptionsClose()
         }
 
         return (
@@ -72,7 +73,7 @@ const CandidateManagement = (props: Props) => {
                         component={Link}
                         sx={{ '& svg': { mr: 2 } }}
                         onClick={handleRowOptionsClose}
-                        href={`/apps/candidate/view/${id}`}
+                        href={`/apps/form/view/${id}`}
                     >
                         <Icon icon='mdi:eye-outline' fontSize={20} />
                         View
@@ -88,12 +89,11 @@ const CandidateManagement = (props: Props) => {
             flex: 0.275,
             minWidth: 290,
             field: 'fullname',
-            headerName: 'Full name',
+            headerName: `${t('text-fullname')}`,
             renderCell: (params: GridRenderCellParams) => {
                 const { row } = params
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <CustomAvatar src={row.sex === 'Male' ? '/images/avatars/1.png' : '/images/avatars/8.png'} sx={{ mr: 3, width: 34, height: 34 }} />
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                             <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
                                 {row.fullname}
@@ -102,17 +102,6 @@ const CandidateManagement = (props: Props) => {
                     </Box>
                 )
             }
-        },
-        {
-            flex: 0.2,
-            minWidth: 120,
-            headerName: 'Phone',
-            field: 'phone',
-            renderCell: (params: GridRenderCellParams) => (
-                <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {params.row.phone}
-                </Typography>
-            )
         },
         {
             flex: 0.2,
@@ -128,28 +117,50 @@ const CandidateManagement = (props: Props) => {
         {
             flex: 0.2,
             minWidth: 110,
-            field: 'result',
-            headerName: 'Result',
+            field: 'leader',
+            headerName: 'Leader',
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.leader}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'reason',
+            headerName: `${t('text-reason')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.reason}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'totaldayoff',
+            headerName: `${t('text-totaldayoff')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.totaldayoff}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'status',
+            headerName: `${t('text-status')}`,
             renderCell: (params: GridRenderCellParams) => (
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
                     <CustomChip
                         skin='light'
                         size='small'
-                        label={params.row.result}
-                        color={candidateStatusObj[params.row.result]}
+                        label={ApproveStatus(params.row.status)}
+                        color={personalStatusObj[params.row.status]}
                         sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
                     />
-                </Typography>
-            )
-        },
-        {
-            flex: 0.125,
-            field: 'datejob',
-            minWidth: 80,
-            headerName: 'Date job',
-            renderCell: (params: GridRenderCellParams) => (
-                <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {params.row.datejob}
                 </Typography>
             )
         },
@@ -159,13 +170,13 @@ const CandidateManagement = (props: Props) => {
             sortable: false,
             field: 'actions',
             headerName: 'Actions',
-            renderCell: ({ row }: CellType) => <RowOptions id={row.candidateid} />
+            renderCell: ({ row }: CellType) => <RowOptions id={row.id} />
         }
 
     ]
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
-    const [filteredData, setFilteredData] = useState<Candidate[] | undefined>([])
+    const [filteredData, setFilteredData] = useState<ApplicationForLeave[] | undefined>([])
     const [searchText, setSearchText] = useState<string>('')
 
 
@@ -176,7 +187,7 @@ const CandidateManagement = (props: Props) => {
         setSearchText(searchValue)
         const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
 
-        const filteredRows = candidate?.filter(row => {
+        const filteredRows = applicationforleave?.filter(row => {
             return Object.keys(row).some(field => {
                 // @ts-ignore
                 return searchRegex.test(row[field]?.toString())
@@ -197,11 +208,11 @@ const CandidateManagement = (props: Props) => {
                         <Grid container>
                             <Grid item xs={12} sm={12}>
                                 <CardHeader
-                                    title='Candidate mangement'
+                                    title={t('text-approve-application-for-leave')}
                                     subheader={`Ongoing Projects`}
                                     subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
                                     titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
-                                    
+
                                 />
                                 <CardContent sx={{ pt: `${theme.spacing(5)} !important` }}>
                                     <DataGrid
@@ -211,7 +222,7 @@ const CandidateManagement = (props: Props) => {
                                         paginationModel={paginationModel}
                                         slots={{ toolbar: QuickSearchToolbar }}
                                         onPaginationModelChange={setPaginationModel}
-                                        rows={filteredData?.length ? filteredData : (candidate ? candidate : [])}
+                                        rows={filteredData?.length ? filteredData : (applicationforleave ? applicationforleave : [])}
                                         slotProps={{
                                             baseButton: {
                                                 variant: 'outlined'
@@ -222,7 +233,6 @@ const CandidateManagement = (props: Props) => {
                                                 onChange: (event: ChangeEvent<HTMLInputElement>) => handleSearch(event.target.value)
                                             }
                                         }}
-                                        getRowId={(row) => row.candidateid}
                                     />
                                 </CardContent>
                             </Grid>
@@ -233,5 +243,21 @@ const CandidateManagement = (props: Props) => {
         </ApexChartWrapper>
     )
 }
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+    try {
+        return {
+            props: {
+                ...(await serverSideTranslations(locale!, ['common'])),
+            },
+            revalidate: 60, // In seconds
+        };
+    } catch (error) {
+        console.log(error)
+        //* if we get here, the product doesn't exist or something else went wrong
+        return {
+            notFound: true,
+        };
+    }
+};
+export default ApproveForApplicationForLeave
 
-export default CandidateManagement

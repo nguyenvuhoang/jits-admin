@@ -62,9 +62,6 @@ const userStatusObj: UserStatusType = {
 }
 
 
-
-
-
 const EmployeeList = () => {
 
     const [role, setRole] = useState<string>('')
@@ -133,7 +130,7 @@ const EmployeeList = () => {
                         color: 'green',
                         title: 'Approved!',
                         text: 'Approved customer successfully'
-                    }).then((response:any) => {
+                    }).then((response: any) => {
                         if (response.isConfirmed) {
                             setRefresh(true)
                         }
@@ -218,7 +215,7 @@ const EmployeeList = () => {
             field: 'employeecd',
             headerName: 'Code',
             renderCell: ({ row }: CellType) => {
-                const { employeecd,username } = row
+                const { employeecd, username } = row
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         {renderClient(row)}
