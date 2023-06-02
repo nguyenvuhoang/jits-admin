@@ -113,7 +113,6 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
   const { mutate: postEmployee } = useMutation(client.employee.postemployee, {
     
     onSuccess: (data) => {
-      console.log(data)
       if (data.errorcode === 0) {
         handleClose()
       }else{
