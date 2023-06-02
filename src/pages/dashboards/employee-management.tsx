@@ -324,7 +324,6 @@ const EmployeeList = () => {
                                         <MenuItem value='author'>Developer</MenuItem>
                                         <MenuItem value='editor'>Tester</MenuItem>
                                         <MenuItem value='maintainer'>Supporter</MenuItem>
-                                        <MenuItem value='subscriber'>CoDev</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -348,8 +347,8 @@ const EmployeeList = () => {
                                         <MenuItem value='CODEV'>Codev</MenuItem>
                                         <MenuItem value='MNG'>Manager</MenuItem>
                                         <MenuItem value='BOD'>Board of Directors</MenuItem>
-                                        <MenuItem value='HRHCM'>Human Resource in HCM</MenuItem>
-                                        <MenuItem value='ACC'>Accountant</MenuItem>
+                                        <MenuItem value='HRHCM'>BO in HCM</MenuItem>
+                                        <MenuItem value='HRHN'>BO in HCM</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>

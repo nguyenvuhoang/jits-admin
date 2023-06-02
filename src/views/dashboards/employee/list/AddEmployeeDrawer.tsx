@@ -111,9 +111,13 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
   const [errorsServer, setErrorServer] = useState('')
 
   const { mutate: postEmployee } = useMutation(client.employee.postemployee, {
+    
     onSuccess: (data) => {
+      console.log(data)
       if (data.errorcode === 0) {
         handleClose()
+      }else{
+        setErrorServer(data.messagedetail)
       }
 
     },
@@ -121,7 +125,6 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
       const error = errorAsUnknown as AxiosError<EmployeeResponse>;
       const errorMessage = `${error?.response?.status === 400 ? error?.response?.data.messagedetail : 'Error'}`
       setErrorServer(errorMessage)
-
     }
   });
 
@@ -142,6 +145,7 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
   const theme = useTheme()
   const { direction } = theme
   const popperPlacement: ReactDatePickerProps['popperPlacement'] = direction === 'ltr' ? 'bottom-start' : 'bottom-end'
+
 
   return (
     <Drawer
@@ -322,14 +326,13 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
                   <MenuItem value='CAM'>Cambodia (TSUNAMI)</MenuItem>
                   <MenuItem value='THA'>ThaiLand</MenuItem>
                   <MenuItem value='LAO'>Lao</MenuItem>
-                  <MenuItem value='MMR'>Myanamr</MenuItem>
                   <MenuItem value='MDW'>Middleware team</MenuItem>
                   <MenuItem value='TEST'>Tester</MenuItem>
                   <MenuItem value='MNG'>Manager</MenuItem>
                   <MenuItem value='BOD'>Board of Director</MenuItem>
                   <MenuItem value='CODEV'>CO-DEV</MenuItem>
-                  <MenuItem value='HRHCM'>Human Resource in HCM</MenuItem>
-                  <MenuItem value='HRHCM'>Accountant</MenuItem>
+                  <MenuItem value='HRHCM'>BO in HCM</MenuItem>
+                  <MenuItem value='HRHN'>BO in HN</MenuItem>
                 </Select>
               )}
             />
