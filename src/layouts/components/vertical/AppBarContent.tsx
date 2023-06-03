@@ -9,14 +9,13 @@ import Icon from '@/@core/components/icon'
 import { Settings } from '@/@core/context/settingsContext'
 
 // ** Components
-import Autocomplete from '@/layouts/components/Autocomplete'
-import ModeToggler from '@/@core/layouts/components/shared-components/ModeToggler'
-import UserDropdown from '@/@core/layouts/components/shared-components/UserDropdown'
 import LanguageDropdown from '@/@core/layouts/components/shared-components/LanguageDropdown'
-import NotificationDropdown, {
+import ModeToggler from '@/@core/layouts/components/shared-components/ModeToggler'
+import {
   NotificationsType
 } from '@/@core/layouts/components/shared-components/NotificationDropdown'
-import ShortcutsDropdown, { ShortcutsType } from '@/@core/layouts/components/shared-components/ShortcutsDropdown'
+import { ShortcutsType } from '@/@core/layouts/components/shared-components/ShortcutsDropdown'
+import UserDropdown from '@/@core/layouts/components/shared-components/UserDropdown'
 
 // ** Hook Import
 import { useAuth } from '@/hooks/useAuth'
@@ -139,15 +138,14 @@ const AppBarContent = (props: Props) => {
             <Icon icon='mdi:menu' />
           </IconButton>
         ) : null}
-        {auth.user && <Autocomplete hidden={hidden} settings={settings} />}
+        
       </Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
         <LanguageDropdown settings={settings} saveSettings={saveSettings} />
         <ModeToggler settings={settings} saveSettings={saveSettings} />
         {auth.user && (
           <>
-            <ShortcutsDropdown settings={settings} shortcuts={shortcuts} />
-            <NotificationDropdown settings={settings} notifications={notifications} />
+            {/* <NotificationDropdown settings={settings} notifications={notifications} /> */}
             <UserDropdown settings={settings} />
           </>
         )}

@@ -9,16 +9,6 @@ const navigation = (): HorizontalNavItemsType => {
       title: 'Dashboards',
       children: [
         {
-          icon: 'mdi:chart-donut',
-          title: 'CRM',
-          path: '/dashboards/crm'
-        },
-        {
-          icon: 'fxemoji:departmentstore',
-          title: 'Department',
-          path: '/department'
-        },
-        {
           icon: 'ant-design:team-outlined',
           title: 'Team',
           path: '/team'
@@ -77,26 +67,6 @@ const navigation = (): HorizontalNavItemsType => {
       title: 'Blog',
       icon: 'grommet-icons:blog',
       path: '/blog'
-    },
-    {
-      title: 'Others',
-      icon: 'mdi:dots-horizontal',
-      children: [
-        {
-          title: 'Raise Support',
-          icon: 'mdi:lifebuoy',
-          externalLink: true,
-          openInNewTab: true,
-          path: 'https://anhben.com/support'
-        },
-        {
-          title: 'Documentation',
-          icon: 'mdi:file-document-outline',
-          externalLink: true,
-          openInNewTab: true,
-          path: 'https://anhben.com/documentation'
-        }
-      ]
     }
   ]
 }

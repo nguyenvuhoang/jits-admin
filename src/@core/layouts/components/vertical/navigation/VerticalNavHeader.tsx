@@ -128,75 +128,9 @@ const VerticalNavHeader = (props: Props) => {
         userNavMenuBranding(props)
       ) : (
         <LinkStyled href='/'>
-          <svg width={40} fill='none' height={22} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
-            <rect
-              rx='25.1443'
-              width='50.2886'
-              height='143.953'
-              fill={theme.palette.primary.main}
-              transform='matrix(-0.865206 0.501417 0.498585 0.866841 195.571 0)'
-            />
-            <rect
-              rx='25.1443'
-              width='50.2886'
-              height='143.953'
-              fillOpacity='0.4'
-              fill='url(#paint0_linear_7821_79167)'
-              transform='matrix(-0.865206 0.501417 0.498585 0.866841 196.084 0)'
-            />
-            <rect
-              rx='25.1443'
-              width='50.2886'
-              height='143.953'
-              fill={theme.palette.primary.main}
-              transform='matrix(0.865206 0.501417 -0.498585 0.866841 173.147 0)'
-            />
-            <rect
-              rx='25.1443'
-              width='50.2886'
-              height='143.953'
-              fill={theme.palette.primary.main}
-              transform='matrix(-0.865206 0.501417 0.498585 0.866841 94.1973 0)'
-            />
-            <rect
-              rx='25.1443'
-              width='50.2886'
-              height='143.953'
-              fillOpacity='0.4'
-              fill='url(#paint1_linear_7821_79167)'
-              transform='matrix(-0.865206 0.501417 0.498585 0.866841 94.1973 0)'
-            />
-            <rect
-              rx='25.1443'
-              width='50.2886'
-              height='143.953'
-              fill={theme.palette.primary.main}
-              transform='matrix(0.865206 0.501417 -0.498585 0.866841 71.7728 0)'
-            />
-            <defs>
-              <linearGradient
-                y1='0'
-                x1='25.1443'
-                x2='25.1443'
-                y2='143.953'
-                id='paint0_linear_7821_79167'
-                gradientUnits='userSpaceOnUse'
-              >
-                <stop />
-                <stop offset='1' stopOpacity='0' />
-              </linearGradient>
-              <linearGradient
-                y1='0'
-                x1='25.1443'
-                x2='25.1443'
-                y2='143.953'
-                id='paint1_linear_7821_79167'
-                gradientUnits='userSpaceOnUse'
-              >
-                <stop />
-                <stop offset='1' stopOpacity='0' />
-              </linearGradient>
-            </defs>
+          <svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M48.6087 48.9203H6.12715V5.95867H48.7405V24.2382H54.8281V0H0L0.03953 55H54.8676V30.4793H48.78L48.6087 48.9203Z" fill="#F16623" />
+            <path d="M55.5524 25.0853H34.2704C33.3207 22.3818 30.7792 20.4314 27.7561 20.4314C23.9171 20.4314 20.8137 23.552 20.8137 27.4123C20.8137 31.2592 23.9171 34.3932 27.7561 34.3932C30.7658 34.3932 33.3073 32.4429 34.2704 29.7393H38.3502V33.9897H40.3968V32.5639H43.8212V33.9897H46.0551V29.7393H55.5524L57.9601 27.4796L55.5524 25.0853ZM27.7561 29.7393C26.472 29.7393 25.442 28.6901 25.442 27.4123C25.442 26.1345 26.472 25.0853 27.7561 25.0853C29.0402 25.0853 30.0702 26.1345 30.0702 27.4123C30.0702 28.6901 29.0402 29.7393 27.7561 29.7393Z" fill="#F16623" />
           </svg>
           <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
             {themeConfig.templateName}

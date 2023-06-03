@@ -6,45 +6,67 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Dashboards',
       icon: 'mdi:home-outline',
-      badgeContent: 'new',
       badgeColor: 'error',
       children: [
         {
-          title: 'CRM',
-          path: '/dashboards/crm'
-        }
-      ]
-    },
-    {
-      sectionTitle: 'Apps & Pages'
-    },
-    {
-      title: 'Email',
-      icon: 'mdi:email-outline',
-      path: '/apps/email'
-    },
-    {
-      title: 'Chat',
-      icon: 'mdi:message-outline',
-      path: '/apps/chat'
-    },
-    {
-      title: 'Others',
-      icon: 'mdi:dots-horizontal',
-      children: [
-        {
-          title: 'Raise Support',
-          externalLink: true,
-          openInNewTab: true,
-          path: 'https://anhben.com/support'
+          icon: 'ant-design:team-outlined',
+          title: 'Team',
+          path: '/team'
         },
         {
-          title: 'Documentation',
-          externalLink: true,
-          openInNewTab: true,
-          path: 'https://anhben.com/documentation'
+          icon: 'mdi:account-group',
+          title: 'Employee management',
+          path: '/dashboards/employee-management'
         }
       ]
+    },
+    {
+      icon: 'mdi:apps',
+      title: 'Project',
+      children: [
+        {
+          title: 'Solution Delivery Dept',
+          icon: 'mdi:cog-outline',
+          path: '/project/solution-delivery-dept'
+        }
+      ]
+    },
+    {
+      icon: 'mdi:text-box',
+      title: 'Forms',
+      children: [
+        {
+          title: 'Application for leave',
+          icon: 'mdi:text-box-remove',
+          path: '/form/personal-off'
+        },
+        {
+          title: 'Management AFL',
+          icon: 'material-symbols:order-approve-outline',
+          path: '/form/approve-personal-off'
+        }
+      ]
+    },
+    {
+      icon: 'mdi:badge-account-horizontal-outline',
+      title: 'Candidate',
+      children: [
+        {
+          title: 'Candidate management',
+          icon: 'mdi:bag-personal-off',
+          path: '/candidate/management'
+        },
+        {
+          title: 'Create candidate profile',
+          icon: 'fluent:form-new-48-regular',
+          path: '/candidate/create-profile'
+        }
+      ]
+    },
+    {
+      title: 'Blog',
+      icon: 'grommet-icons:blog',
+      path: '/blog'
     }
   ]
 }

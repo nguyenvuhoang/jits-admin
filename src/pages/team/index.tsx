@@ -39,7 +39,6 @@ const TeamPage = () => {
 
     const leader = employees?.leader
     const members = employees?.memember
-    console.log(members)
     return (
         <>
             <Head >
