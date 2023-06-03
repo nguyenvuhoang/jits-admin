@@ -391,3 +391,4 @@ export interface EmployeeTeamCodeResponse extends ResponseObject<EmployeeTeamCod
 export interface ApplicationForLeaveResponse extends ResponseObject<{}> { }
 export interface ListOfApplicationForLeaveResponse extends ResponseArray<ApplicationForLeave> { }
 export interface ApplicationForLeaveByIdResponse extends ResponseObject<ApplicationForLeave> { }
+export interface ApproveApplicationForLeaveResponse extends ResponseObject<{}> { }

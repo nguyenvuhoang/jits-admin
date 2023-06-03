@@ -1,7 +1,8 @@
 import PageHeader from '@/@core/components/page-header'
 import Repeater from '@/@core/components/repeater'
+import Spinner from '@/@core/components/spinner'
 import themeConfig from '@/configs/themeConfig'
-import { FetchApplicationForLeavebyid } from '@/data/employee'
+import { FetchApplicationForLeavebyid, useSubmitApproveApplicationForLeave } from '@/data/employee'
 import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Collapse, Divider, FormControl, FormControlLabel, FormGroup, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
@@ -43,7 +44,6 @@ const RepeatingContent = styled(Grid)<GridProps>(({ theme }) => ({
 const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     const { application } = FetchApplicationForLeavebyid(id)
-    console.log(application?.dayoff?.[0].session)
 
     const [formality, setFormality] = useState('')
 
@@ -58,6 +58,16 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
             setFormality(application.formality)
         }
     }, [application])
+
+    const { isLoading, mutate: SubmitApproveApplicationForLeave } = useSubmitApproveApplicationForLeave()
+
+
+    const ApproveApplicationForLeave = (id: string) => {
+        SubmitApproveApplicationForLeave({ id: id })
+    }
+
+    if (isLoading) return <Spinner />
+
 
     return (
         <>
@@ -316,7 +326,7 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
                             <Card sx={{ position: 'relative', marginTop: '20px' }}>
                                 <CardContent>
                                     <Grid item xs={12}>
-                                        <Button size='large' type='submit' variant='contained'>
+                                        <Button onClick={() => ApproveApplicationForLeave(id)} size='large' type='submit' variant='contained'>
                                             Submit
                                         </Button>
                                     </Grid>

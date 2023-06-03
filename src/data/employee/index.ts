@@ -1,9 +1,10 @@
-import { ApplicationForLeaveByIdResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, ListOfApplicationForLeaveResponse } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, ListOfApplicationForLeaveResponse } from "@/context/types";
 import { ListOfApplicationSearchInputs } from "@/types/form/applicationForLetterType";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import client from "../client";
+import { AxiosError } from "axios";
 
 export const FetchEmployee = (filter: FilterEmployee) => {
     const { data, isLoading, refetch } = useQuery<EmployeeResponsePaginator, Error>(
@@ -80,7 +81,19 @@ export const useSubmitApplicationForLeave = () => {
                     text: `${data.messagedetail}`
                 })
             }
+        },
+        onError: (errorAsUnknown) => {
+            const error = errorAsUnknown as AxiosError<ApproveApplicationForLeaveResponse>;
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                color: 'red',
+                title: 'Oops...',
+                text: `${error?.response?.status === 400 ? error.response.data.messagedetail : 'Error'}`,
+            })
+
         }
+
     });
 };
 
@@ -109,3 +122,32 @@ export const FetchApplicationForLeavebyid = (id: string) => {
         refetch
     }
 }
+
+export const useSubmitApproveApplicationForLeave = () => {
+    const router = useRouter()
+    return useMutation(client.employee.approveapplicationforleave, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Đã duyệt',
+                    text: 'Đơn xin phép đã được duyệt. Quay trở về trang quản lý'
+                }).then((response: any) => {
+                    if (response.isConfirmed) {
+                        router.push('/form/approve-personal-off')
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: `${data.messagedetail}`
+                })
+            }
+        }
+    });
+};
