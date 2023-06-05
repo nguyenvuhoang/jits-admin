@@ -131,11 +131,10 @@ const columns: GridColDef[] = [
         )
     }
 ]
-const Dashboard = (props: Props) => {
+const Dashboard = () => {
     const { t } = useTranslation('common')
     const { employee } = useAuth()
     const { users } = FetchUser()
-
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
     return (

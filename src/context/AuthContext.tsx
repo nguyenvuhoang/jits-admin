@@ -153,8 +153,8 @@ const AuthProvider = ({ children }: Props) => {
         fastmode: '',
         scores: 0,
         avatar: '',
-        isadmin: response.result.data.permission[0] === "ADMIN" ? true : false,
-        role: response.result.data.permission[0] === "ADMIN" ? 'admin' : 'guest',
+        isadmin: response.result.data.permission[0] !== "CANDIDATE" ? true : false,
+        role: response.result.data.permission[0]
       }
       setUser({ ...userdetail })
       const returnUrl = router.query.returnUrl
