@@ -129,7 +129,7 @@ const CandidatePage = ({ candidateid }: InferGetStaticPropsType<typeof getStatic
 export const getStaticPaths: GetStaticPaths = () => {
     return {
         paths: [],
-        fallback: false
+        fallback: 'blocking'
     }
 }
 export const getStaticProps: GetStaticProps = async ({ params }: GetStaticPropsContext) => {

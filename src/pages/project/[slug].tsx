@@ -185,7 +185,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: GetStaticPropsC
 export const getStaticPaths: GetStaticPaths = () => {
     return {
         paths: [],
-        fallback: false
+        fallback: 'blocking'
     }
 }
 export default ProjectPage

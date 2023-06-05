@@ -32,7 +32,7 @@ const EmployeeView = ({ employeecd, employeedtl }: InferGetStaticPropsType<typeo
 export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: [],
-    fallback: false
+    fallback: 'blocking'
   }
 }
 

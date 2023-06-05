@@ -345,7 +345,7 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
 export const getStaticPaths: GetStaticPaths = () => {
     return {
         paths: [],
-        fallback: false
+        fallback: 'blocking'
     }
 }
 export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
