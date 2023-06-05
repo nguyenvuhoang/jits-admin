@@ -1,3 +1,5 @@
+import { HorizontalNavItemsType } from "@/@core/layouts/types"
+
 export type ErrCallbackType = (err: { [key: string]: string }) => void
 
 export type LoginParams = {
@@ -387,8 +389,28 @@ export interface ApplicationForLeave {
   approveddate?: string
 }
 
+export interface SubMenu {
+  title: string
+  path: string
+  icon: string
+}
+
+export interface Menu {
+  title: string
+  path: string
+  icon: string
+  children: SubMenu[]
+}
+
+
 export interface EmployeeTeamCodeResponse extends ResponseObject<EmployeeTeamCode> { }
 export interface ApplicationForLeaveResponse extends ResponseObject<{}> { }
 export interface ListOfApplicationForLeaveResponse extends ResponseArray<ApplicationForLeave> { }
 export interface ApplicationForLeaveByIdResponse extends ResponseObject<ApplicationForLeave> { }
 export interface ApproveApplicationForLeaveResponse extends ResponseObject<{}> { }
+
+export interface MenuResponse extends ResponseObject<HorizontalNavItemsType> { }
+
+export interface SystemInput {
+  language: string | undefined
+}

@@ -11,7 +11,7 @@ import axios from 'axios'
 import { API_ENDPOINTS } from '@/configs/auth'
 
 // ** Types
-import { AuthValuesType, LoginParams, ErrCallbackType, Userinfo, Employeeinfo, CandidateAccessParams } from './types'
+import { AuthValuesType, LoginParams, ErrCallbackType, Userinfo, Employeeinfo, CandidateAccessParams, Menu } from './types'
 import client from '@/data/client'
 import { AUTH_TOKEN_KEY, setAuthToken } from '@/data/client/token.utils'
 import Cookies from 'js-cookie'
@@ -50,6 +50,7 @@ const AuthProvider = ({ children }: Props) => {
     const initAuth = async (): Promise<void> => {
       const storedToken = Cookies.get(AUTH_TOKEN_KEY);
       if (storedToken) {
+        setToken(JSON.parse(storedToken)['token'])
         setLoading(true)
         const candidate = JSON.parse(storedToken)['permission']
 
@@ -89,6 +90,7 @@ const AuthProvider = ({ children }: Props) => {
                 router.replace('/login')
               }
             })
+
         } else {
           setToken(JSON.parse(storedToken)['token'])
           setIsCandidate(true)
@@ -111,7 +113,7 @@ const AuthProvider = ({ children }: Props) => {
             fastmode: '',
             scores: 0,
             avatar: '',
-            isadmin:false,
+            isadmin: false,
             role: 'candidate',
           }
           setUser({ ...userdetail })
