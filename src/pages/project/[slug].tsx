@@ -124,6 +124,7 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
         }
     }
 
+    
     return (
         <ApexChartWrapper>
             <Grid container spacing={6}>
