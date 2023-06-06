@@ -188,7 +188,6 @@ const CandidateManagement = (props: Props) => {
             setFilteredData([])
         }
     }
-
     return (
         <ApexChartWrapper>
             <Grid container spacing={6}>

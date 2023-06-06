@@ -32,6 +32,7 @@
     "clipboard-copy": "^4.0.1",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "file-saver": "^2.0.5",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
@@ -60,6 +61,7 @@
     "yup": "^1.1.0"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.192",
     "@types/nprogress": "^0.2.0",

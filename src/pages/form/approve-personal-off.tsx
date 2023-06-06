@@ -5,7 +5,7 @@ import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
 import { ApproveStatus } from '@/@core/utils/approve-status'
 import { ApplicationForLeave } from '@/context/types'
 import { FetchListOfApplicationForLeave } from '@/data/employee'
-import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
+import ExportApplicationForLeave from '@/views/table/data-grid/ExportApplicationForLeave'
 import { Box, Card, CardContent, CardHeader, Grid, IconButton, Menu, MenuItem, Typography, useTheme } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { GetStaticProps } from 'next'
@@ -25,7 +25,8 @@ interface CandidateStatusType {
 }
 const personalStatusObj: CandidateStatusType = {
     A: 'success',
-    P: 'warning'
+    P: 'warning',
+    R: 'error'
 }
 
 
@@ -106,17 +107,6 @@ const ApproveForApplicationForLeave = (props: Props) => {
         {
             flex: 0.2,
             minWidth: 110,
-            field: 'email',
-            headerName: 'Email',
-            renderCell: (params: GridRenderCellParams) => (
-                <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {params.row.email}
-                </Typography>
-            )
-        },
-        {
-            flex: 0.2,
-            minWidth: 110,
             field: 'leader',
             headerName: 'Leader',
             renderCell: (params: GridRenderCellParams) => (
@@ -125,6 +115,18 @@ const ApproveForApplicationForLeave = (props: Props) => {
                 </Typography>
             )
         },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'formality',
+            headerName: `${t('text-formality')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {t(params.row.formality)}
+                </Typography>
+            )
+        },
+
         {
             flex: 0.2,
             minWidth: 110,
@@ -150,18 +152,27 @@ const ApproveForApplicationForLeave = (props: Props) => {
         {
             flex: 0.2,
             minWidth: 110,
+            field: 'createdate',
+            headerName: `${t('text-date-request')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.createdate}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
             field: 'status',
             headerName: `${t('text-status')}`,
             renderCell: (params: GridRenderCellParams) => (
-                <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    <CustomChip
-                        skin='light'
-                        size='small'
-                        label={ApproveStatus(params.row.status)}
-                        color={personalStatusObj[params.row.status]}
-                        sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
-                    />
-                </Typography>
+                <CustomChip
+                    skin='light'
+                    size='small'
+                    label={ApproveStatus(params.row.status)}
+                    color={personalStatusObj[params.row.status]}
+                    sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
+                />
             )
         },
         {
@@ -176,7 +187,7 @@ const ApproveForApplicationForLeave = (props: Props) => {
     ]
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
-    const [filteredData, setFilteredData] = useState<ApplicationForLeave[] | undefined>([])
+    const [filteredData, setFilteredData] = useState<ApplicationForLeave[] >(applicationforleave!)
     const [searchText, setSearchText] = useState<string>('')
 
 
@@ -188,15 +199,17 @@ const ApproveForApplicationForLeave = (props: Props) => {
         const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
 
         const filteredRows = applicationforleave?.filter(row => {
+            
             return Object.keys(row).some(field => {
                 // @ts-ignore
                 return searchRegex.test(row[field]?.toString())
             })
         })
+
         if (searchValue.length) {
-            setFilteredData(filteredRows)
+            setFilteredData(filteredRows!)
         } else {
-            setFilteredData([])
+            setFilteredData(applicationforleave!)
         }
     }
 
@@ -212,17 +225,17 @@ const ApproveForApplicationForLeave = (props: Props) => {
                                     subheader={`Ongoing Projects`}
                                     subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
                                     titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
-
                                 />
                                 <CardContent sx={{ pt: `${theme.spacing(5)} !important` }}>
                                     <DataGrid
                                         autoHeight
+                                        pagination
                                         columns={columns}
                                         pageSizeOptions={[10, 25, 50]}
                                         paginationModel={paginationModel}
-                                        slots={{ toolbar: QuickSearchToolbar }}
+                                        slots={{ toolbar: ExportApplicationForLeave }}
                                         onPaginationModelChange={setPaginationModel}
-                                        rows={filteredData?.length ? filteredData : (applicationforleave ? applicationforleave : [])}
+                                        rows={filteredData ? filteredData : (applicationforleave ? applicationforleave : [])}
                                         slotProps={{
                                             baseButton: {
                                                 variant: 'outlined'

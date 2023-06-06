@@ -1,3 +1,9 @@
+interface DayOff {
+    fromdt: Date | undefined,
+    todt: Date | undefined,
+    session: string []
+}
+
 export interface ApplicationLeaveInputs {
     employeecd: string
     fullname: string
@@ -9,19 +15,13 @@ export interface ApplicationLeaveInputs {
     dateoff: string
     typeoff: string
     reason: string
-    fromdt: Date | undefined
-    todt: Date | undefined
     totaldayoff: number
-    session: string[]
     replacepersion?: string
     formality: string
+    dayoff: DayOff[]
 
 }
-interface DayOff {
-    fromdt: Date | undefined,
-    todt: Date | undefined,
-    session: string[]
-}
+
 export interface SubmitApplicationLeaveInputs {
     employeecd: string
     fullname: string

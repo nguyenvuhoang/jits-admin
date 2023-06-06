@@ -2,13 +2,14 @@ import PageHeader from '@/@core/components/page-header'
 import Repeater from '@/@core/components/repeater'
 import Spinner from '@/@core/components/spinner'
 import themeConfig from '@/configs/themeConfig'
-import { FetchApplicationForLeavebyid, useSubmitApproveApplicationForLeave } from '@/data/employee'
+import { FetchApplicationForLeavebyid, useSubmitApproveApplicationForLeave,useSubmitRejectApplicationForLeave } from '@/data/employee'
 import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Collapse, Divider, FormControl, FormControlLabel, FormGroup, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import { ChangeEvent, useEffect, useState } from 'react'
+import { useTranslation } from 'next-i18next'
 
 
 const RepeaterWrapper = styled(CardContent)<CardContentProps>(({ theme }) => ({
@@ -51,23 +52,33 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
         setFormality(event.target.value);
     }
 
+    const { t } = useTranslation('common')
+
     const [countDateOff, setCountDateOff] = useState<number>(application?.dayoff.length || 1)
 
     useEffect(() => {
         if (application) {
             setFormality(application.formality)
+            setCountDateOff(application.dayoff.length)
         }
     }, [application])
 
-    const { isLoading, mutate: SubmitApproveApplicationForLeave } = useSubmitApproveApplicationForLeave()
+    const { isLoading : isApprove, mutate: SubmitApproveApplicationForLeave } = useSubmitApproveApplicationForLeave()
+
+    const { isLoading: isReject, mutate: SubmitRejectApplicationForLeave } = useSubmitRejectApplicationForLeave()
 
 
     const ApproveApplicationForLeave = (id: string) => {
         SubmitApproveApplicationForLeave({ id: id })
     }
+    const RejectApplicationForLeave = (id: string) => {
+        SubmitRejectApplicationForLeave({ id: id })
+    }
+    
 
-    if (isLoading) return <Spinner />
+    if (isApprove) return <Spinner />
 
+    if (isReject) return <Spinner />
 
     return (
         <>
@@ -327,7 +338,10 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 <CardContent>
                                     <Grid item xs={12}>
                                         <Button onClick={() => ApproveApplicationForLeave(id)} size='large' type='submit' variant='contained'>
-                                            Submit
+                                            {t('text-sub-application-form')}
+                                        </Button>
+                                        <Button onClick={() => RejectApplicationForLeave(id)} size='large' color="error" type='submit' sx={{ marginLeft: 5 }} variant='contained'>
+                                            {t('text-reject-application-form')}
                                         </Button>
                                     </Grid>
                                 </CardContent>

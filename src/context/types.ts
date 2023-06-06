@@ -408,6 +408,9 @@ export interface ApplicationForLeaveResponse extends ResponseObject<{}> { }
 export interface ListOfApplicationForLeaveResponse extends ResponseArray<ApplicationForLeave> { }
 export interface ApplicationForLeaveByIdResponse extends ResponseObject<ApplicationForLeave> { }
 export interface ApproveApplicationForLeaveResponse extends ResponseObject<{}> { }
+export interface RejectApplicationForLeaveResponse extends ResponseObject<{}> { }
+
+
 
 export interface MenuResponse extends ResponseObject<HorizontalNavItemsType> { }
 

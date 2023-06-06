@@ -56,12 +56,16 @@ const PersionalOff = () => {
         email: employee?.email,
         departmentcd: 'SDD',
         reason: '',
-        fromdt: undefined,
-        todt: undefined,
         totaldayoff: 0,
-        session: [],
         replacepersion: '',
-        formality: ''
+        formality: '',
+        dayoff: [
+            {
+                fromdt: undefined,
+                todt: undefined,
+                session: ['', '']
+            }
+        ]
     }
 
     const {
@@ -102,13 +106,7 @@ const PersionalOff = () => {
             reason: data.reason,
             totaldayoff: parseInt(data.totaldayoff.toString(), 10),
             replacepersion: data.replacepersion,
-            dayoff: [
-                {
-                    fromdt: data.fromdt,
-                    todt: data.todt,
-                    session: data.session
-                }
-            ]
+            dayoff: data.dayoff
         }
         SubmitApplicationForLeave(submitData)
     }
@@ -382,22 +380,20 @@ const PersionalOff = () => {
                                                     const Tag = i === 0 ? Box : Collapse
                                                     return (
                                                         <Tag key={i} className='repeater-wrapper' {...(i !== 0 ? { in: true } : {})}>
-
                                                             <Grid container >
                                                                 <RepeatingContent item xs={12} >
                                                                     <Grid container sx={{ py: 4, width: '100%', pr: { lg: 0, xs: 4 } }}>
                                                                         <Grid item lg={12} md={12} xs={12} sx={{ px: 4, my: { lg: 0, xs: 6 } }}>
-
-
                                                                             <Grid container >
                                                                                 <Grid container item lg={4}>
                                                                                     <FormControl fullWidth >
                                                                                         <Controller
                                                                                             control={control}
-                                                                                            name="fromdt"
+                                                                                            name={`dayoff.${i}.fromdt` as const}
+                                                                                            rules={{ required: true }}
                                                                                             render={({ field: { value, onChange } }) => (
                                                                                                 <DatePicker
-                                                                                                    id='fromdt'
+                                                                                                    id={`fromdt.${i}`}
                                                                                                     selected={value}
                                                                                                     dateFormat='dd/MMM/yyyy'
                                                                                                     popperPlacement={popperPlacement}
@@ -412,7 +408,7 @@ const PersionalOff = () => {
                                                                                                 />
                                                                                             )}
                                                                                         />
-                                                                                        {errors.fromdt && (
+                                                                                        {errors.dayoff?.[`${i}`]?.fromdt && (
                                                                                             <FormHelperText sx={{ color: 'error.main' }} id='validation-fromdt'>
                                                                                                 From date is required
                                                                                             </FormHelperText>
@@ -423,54 +419,53 @@ const PersionalOff = () => {
 
                                                                                     <Controller
                                                                                         control={control}
-                                                                                        name="session"
-                                                                                        render={({ field: { value, onChange } }) => (
-                                                                                            <FormGroup row sx={{ ml: 15 }}>
-                                                                                                <FormControlLabel
-                                                                                                    label='Sáng'
-                                                                                                    control={
-                                                                                                        <Checkbox
-                                                                                                            name='morning-checked'
-                                                                                                            checked={value?.includes('morning')}
-                                                                                                            onChange={(e) => {
-                                                                                                                if (e.target.checked) {
-                                                                                                                    onChange([...value, 'morning']); // add "morning" to the array
-                                                                                                                } else {
-                                                                                                                    onChange(value.filter(v => v !== 'morning')); // remove "morning" from the array
-                                                                                                                }
-                                                                                                            }}
-                                                                                                        />
-                                                                                                    }
-                                                                                                />
-                                                                                                <FormControlLabel
-                                                                                                    label='Chiều'
-                                                                                                    control={
-                                                                                                        <Checkbox
-                                                                                                            name='afternoon-unchecked'
-                                                                                                            checked={value?.includes('afternoon')}
-                                                                                                            onChange={(e) => {
-                                                                                                                if (e.target.checked) {
-                                                                                                                    onChange([...value, 'afternoon']); // add "afternoon" to the array
-                                                                                                                } else {
-                                                                                                                    onChange(value.filter(v => v !== 'afternoon')); // remove "afternoon" from the array
-                                                                                                                }
-                                                                                                            }}
-                                                                                                        />
-                                                                                                    }
-                                                                                                />
+                                                                                        name={`dayoff.${i}.session` as const}
+                                                                                        render={({ field: { value, onChange } }) => {
+                                                                                            return (
+                                                                                                <FormGroup row sx={{ ml: 15 }}>
+                                                                                                    <FormControlLabel
+                                                                                                        label='Sáng'
+                                                                                                        control={
+                                                                                                            <Checkbox
+                                                                                                                name={`morning-checked-${i}`}
+                                                                                                                checked={value?.includes('morning')}
+                                                                                                                onChange={(e) => {
+                                                                                                                    const checked = e.target.checked;
+                                                                                                                    const updatedValue = checked ? [...value, 'morning'] : value.filter(v => v !== 'morning');
+                                                                                                                    onChange(updatedValue);
+                                                                                                                }}
+                                                                                                            />
+                                                                                                        }
+                                                                                                    />
+                                                                                                    <FormControlLabel
+                                                                                                        label='Chiều'
+                                                                                                        control={
+                                                                                                            <Checkbox
+                                                                                                                name={`afternoon-checked-${i}`}
+                                                                                                                checked={value?.includes('afternoon')}
+                                                                                                                onChange={(e) => {
+                                                                                                                    const checked = e.target.checked;
+                                                                                                                    const updatedValue = checked ? [...value, 'afternoon'] : value.filter(v => v !== 'afternoon');
+                                                                                                                    onChange(updatedValue);
+                                                                                                                }}
+                                                                                                            />
+                                                                                                        }
+                                                                                                    />
 
-                                                                                            </FormGroup>
-                                                                                        )}
+                                                                                                </FormGroup>
+                                                                                            )
+                                                                                        }}
                                                                                     />
                                                                                 </Grid>
                                                                                 <Grid container item lg={4}>
                                                                                     <FormControl fullWidth >
                                                                                         <Controller
                                                                                             control={control}
-                                                                                            name="todt"
+                                                                                            name={`dayoff.${i}.todt` as const}
+                                                                                            rules={{ required: true }}
                                                                                             render={({ field: { value, onChange } }) => (
                                                                                                 <DatePicker
-                                                                                                    id='todt'
+                                                                                                    id={`todt.${i}`}
                                                                                                     selected={value}
                                                                                                     dateFormat='dd/MMM/yyyy'
                                                                                                     popperPlacement={popperPlacement}
@@ -485,8 +480,8 @@ const PersionalOff = () => {
                                                                                                 />
                                                                                             )}
                                                                                         />
-                                                                                        {errors.todt && (
-                                                                                            <FormHelperText sx={{ color: 'error.main' }} id='validation-todt'>
+                                                                                        {errors.dayoff?.[`${i}`]?.todt && (
+                                                                                            <FormHelperText sx={{ color: 'error.main' }} id='validation-fromdt'>
                                                                                                 To date is required
                                                                                             </FormHelperText>
                                                                                         )}
