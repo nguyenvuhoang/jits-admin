@@ -11,14 +11,14 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import Icon from '@/@core/components/icon'
 
 // ** Types
-import { ConnectionsTabType } from 'src/@fake-db/types'
+import { ConnectionsTabType } from '@/types/views'
 
 // ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
-import OptionsMenu from 'src/@core/components/option-menu'
+import CustomChip from '@/@core/components/mui/chip'
+import OptionsMenu from '@/@core/components/option-menu'
 
 const Connections = ({ data }: { data: ConnectionsTabType[] }) => {
   return (
