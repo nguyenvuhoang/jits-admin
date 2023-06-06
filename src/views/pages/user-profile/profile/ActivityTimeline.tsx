@@ -14,10 +14,11 @@ import TimelineConnector from '@mui/lab/TimelineConnector'
 import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import Icon from '@/@core/components/icon'
 
 // ** Custom Components Import
-import OptionsMenu from 'src/@core/components/option-menu'
+import OptionsMenu from '@/@core/components/option-menu'
+import Image from 'next/image'
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>({
@@ -126,11 +127,11 @@ const ActivityTimeline = () => {
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Box sx={{ mr: 6, display: 'flex', alignItems: 'center' }}>
-                  <img width={20} height={20} alt='app-guidelines' src='/images/icons/file-icons/pdf.png' />
+                  <Image width={20} height={20} alt='app-guidelines' src='/images/icons/file-icons/pdf.png' />
                   <Typography sx={{ ml: 3, fontWeight: 500 }}>App Guidelines</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <img width={20} height={20} alt='testing-results' src='/images/icons/file-icons/doc.png' />
+                  <Image width={20} height={20} alt='testing-results' src='/images/icons/file-icons/doc.png' />
                   <Typography sx={{ ml: 3, fontWeight: 500 }}>Testing Results</Typography>
                 </Box>
               </Box>

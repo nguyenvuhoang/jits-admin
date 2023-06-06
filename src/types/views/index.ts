@@ -90,3 +90,17 @@ export type ConnectionsTabType = {
     chips: ProfileChipType[]
 }
 export type UserProfileActiveTab = ProfileTabType | TeamsTabType[] | ProjectsTabType[] | ConnectionsTabType[]
+
+
+// User Profile pages
+//-------------------
+export type ProjectTableRowType = {
+    id: number
+    date: string
+    name: string
+    leader: string
+    status: number
+    avatar?: string
+    avatarGroup: string[]
+    avatarColor?: ThemeColor
+}

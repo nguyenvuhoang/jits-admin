@@ -13,14 +13,14 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import Icon from '@/@core/components/icon'
 
 // ** Types
-import { TeamsTabType } from 'src/@fake-db/types'
+import { TeamsTabType } from '@/types/views'
 
 // ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
-import OptionsMenu from 'src/@core/components/option-menu'
+import CustomChip from '@/@core/components/mui/chip'
+import OptionsMenu from '@/@core/components/option-menu'
 
 const Teams = ({ data }: { data: TeamsTabType[] }) => {
   return (

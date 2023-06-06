@@ -2,13 +2,13 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components
-import AboutOverivew from 'src/views/pages/user-profile/profile/AboutOverivew'
-import ProjectsTable from 'src/views/pages/user-profile/profile/ProjectsTable'
-import ActivityTimeline from 'src/views/pages/user-profile/profile/ActivityTimeline'
-import ConnectionsTeams from 'src/views/pages/user-profile/profile/ConnectionsTeams'
+import AboutOverivew from '@/views/pages/user-profile/profile/AboutOverivew'
+import ProjectsTable from '@/views/pages/user-profile/profile/ProjectsTable'
+import ActivityTimeline from '@/views/pages/user-profile/profile/ActivityTimeline'
+import ConnectionsTeams from '@/views/pages/user-profile/profile/ConnectionsTeams'
 
 // ** Types
-import { ProfileTabType } from 'src/@fake-db/types'
+import { ProfileTabType } from '@/types/views'
 
 const ProfileTab = ({ data }: { data: ProfileTabType }) => {
   return data && Object.values(data).length ? (

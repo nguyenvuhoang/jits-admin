@@ -12,14 +12,14 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import Icon from '@/@core/components/icon'
 
 // ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
-import OptionsMenu from 'src/@core/components/option-menu'
+import CustomChip from '@/@core/components/mui/chip'
+import OptionsMenu from '@/@core/components/option-menu'
 
 // ** Types
-import { ProfileTeamsTechType, ProfileConnectionsType } from 'src/@fake-db/types'
+import { ProfileTeamsTechType, ProfileConnectionsType } from '@/types/views'
 
 interface Props {
   teams: ProfileTeamsTechType[]

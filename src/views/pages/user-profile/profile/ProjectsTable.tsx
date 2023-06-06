@@ -15,15 +15,15 @@ import LinearProgress from '@mui/material/LinearProgress'
 import axios from 'axios'
 
 // ** Types Imports
-import { ThemeColor } from 'src/@core/layouts/types'
-import { ProjectTableRowType } from 'src/@fake-db/types'
+import { ThemeColor } from '@/@core/layouts/types'
+import { ProjectTableRowType } from '@/types/views'
 
 // ** Custom Components Imports
-import OptionsMenu from 'src/@core/components/option-menu'
-import CustomAvatar from 'src/@core/components/mui/avatar'
+import OptionsMenu from '@/@core/components/option-menu'
+import CustomAvatar from '@/@core/components/mui/avatar'
 
 // ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
+import { getInitials } from '@/@core/utils/get-initials'
 
 interface CellType {
   row: ProjectTableRowType

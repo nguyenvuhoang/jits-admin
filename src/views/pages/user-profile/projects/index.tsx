@@ -14,18 +14,18 @@ import CardContent from '@mui/material/CardContent'
 import LinearProgress from '@mui/material/LinearProgress'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import Icon from '@/@core/components/icon'
 
 // ** Types
-import { ProjectsTabType } from 'src/@fake-db/types'
+import { ProjectsTabType } from '@/types/views'
 
 // ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
+import { getInitials } from '@/@core/utils/get-initials'
 
 // ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import OptionsMenu from 'src/@core/components/option-menu'
+import CustomChip from '@/@core/components/mui/chip'
+import CustomAvatar from '@/@core/components/mui/avatar'
+import OptionsMenu from '@/@core/components/option-menu'
 
 const ProjectAvatar = ({ project }: { project: ProjectsTabType }) => {
   const { title, avatar, avatarColor = 'primary' } = project
