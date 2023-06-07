@@ -15,6 +15,7 @@ module.exports = {
   trailingSlash: true,
   reactStrictMode: false,
   i18n,
+  productionBrowserSourceMaps: false,
   webpack: config => {
     config.resolve.alias = {
       ...config.resolve.alias
