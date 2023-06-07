@@ -21,10 +21,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useState } from 'react'
 
 
-
-type Props = {}
-
-
 interface TableBodyRowType {
     id: number
     name: string
@@ -135,7 +131,6 @@ const Dashboard = () => {
     const { t } = useTranslation('common')
     const { employee, user } = useAuth()
     const { users } = FetchUser()
-    console.log(user)
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
     return (
@@ -186,11 +181,9 @@ const Dashboard = () => {
                         <Card>
                             <DataGrid
                                 pageSizeOptions={[10, 25, 50]}
-                                pagination
                                 paginationModel={paginationModel}
                                 onPaginationModelChange={setPaginationModel}
                                 autoHeight
-                                hideFooter
                                 rows={users}
                                 columns={columns}
                                 disableRowSelectionOnClick

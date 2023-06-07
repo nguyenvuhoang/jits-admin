@@ -15,6 +15,8 @@ import BlankLayout from '@/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrations from '@/views/pages/misc/FooterIllustrations'
+import Grid from '@mui/material/Grid';
+import { useAuth } from '@/hooks/useAuth'
 
 // ** Styled Components
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -37,6 +39,11 @@ const Img = styled('img')(({ theme }) => ({
 }))
 
 const Error401 = () => {
+  const { logout } = useAuth()
+
+  const handleLogout = () => {
+    logout()
+  }
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
@@ -47,12 +54,13 @@ const Error401 = () => {
           <Typography variant='h5' sx={{ mb: 2.5, fontSize: '1.5rem !important' }}>
             You are not authorized! 🔐
           </Typography>
-          <Typography variant='body2'>You don&prime;t have permission to access this page. Go Home!</Typography>
+          <Typography variant='body2'>You don&prime;t have permission to access this page. Log out!</Typography>
         </BoxWrapper>
         <Img alt='error-illustration' src='/images/pages/401.png' />
-        <Button href='/' component={Link} variant='contained' sx={{ px: 5.5 }}>
-          Back to Home
+        <Button href='/' onClick={handleLogout} variant='contained' sx={{ px: 5.5, marginLeft: 5 }}>
+          Logout
         </Button>
+
       </Box>
       <FooterIllustrations image='/images/pages/misc-401-object.png' />
     </Box>
