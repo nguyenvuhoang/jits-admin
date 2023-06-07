@@ -12,7 +12,6 @@ import Icon from '@/@core/components/icon'
 import { ProfileTeamsType, ProfileTabCommonType } from '@/types/views'
 
 interface Props {
-  teams: ProfileTeamsType[]
   about: ProfileTabCommonType[]
   contacts: ProfileTabCommonType[]
   overview: ProfileTabCommonType[]
@@ -50,37 +49,8 @@ const renderList = (arr: ProfileTabCommonType[]) => {
   }
 }
 
-const renderTeams = (arr: ProfileTeamsType[]) => {
-  if (arr && arr.length) {
-    return arr.map((item, index) => {
-      return (
-        <Box
-          key={index}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            '&:not(:last-of-type)': { mb: 4 },
-            '& svg': { color: `${item.color}.main` }
-          }}
-        >
-          <Icon icon='item.icon' />
-
-          <Typography sx={{ mx: 2, fontWeight: 600, color: 'text.secondary' }}>
-            {item.property.charAt(0).toUpperCase() + item.property.slice(1)}
-          </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
-            {item.value.charAt(0).toUpperCase() + item.value.slice(1)}
-          </Typography>
-        </Box>
-      )
-    })
-  } else {
-    return null
-  }
-}
-
 const AboutOverivew = (props: Props) => {
-  const { teams, about, contacts, overview } = props
+  const { about, contacts, overview } = props
 
   return (
     <Grid container spacing={6}>
@@ -99,12 +69,6 @@ const AboutOverivew = (props: Props) => {
               </Typography>
               {renderList(contacts)}
             </Box>
-            <div>
-              <Typography variant='body2' sx={{ mb: 4, color: 'text.disabled', textTransform: 'uppercase' }}>
-                Teams
-              </Typography>
-              {renderTeams(teams)}
-            </div>
           </CardContent>
         </Card>
       </Grid>

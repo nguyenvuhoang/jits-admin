@@ -1,21 +1,20 @@
 // ** Next Import
 import { GetStaticProps, GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType } from 'next/types'
 
-// ** Third Party Imports
-import axios from 'axios'
-
 // ** Demo Components Imports
 import UserProfile from '@/views/pages/user-profile/UserProfile'
 
 // ** Types
-import { UserProfileActiveTab } from '@/types/views'
+import { useAuth } from '@/hooks/useAuth'
 
 const UserProfileTab = ({ tab, data }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  console.log(tab)
-  return
-  (
+
+  const {employee} = useAuth()
+  console.log(employee)
+
+  return ( 
     <>
-      {/* <UserProfile tab={tab} data={data} /> */}
+      <UserProfile tab={tab} employeeprofile={employee} />
     </>
   )
 }

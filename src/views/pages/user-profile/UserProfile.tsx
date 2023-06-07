@@ -34,6 +34,7 @@ import Profile from '@/views/pages/user-profile/profile'
 import Projects from '@/views/pages/user-profile/projects'
 import Connections from '@/views/pages/user-profile/connections'
 import UserProfileHeader from '@/views/pages/user-profile/UserProfileHeader'
+import { Employeeinfo } from '@/context/types'
 
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   '& .MuiTabs-indicator': {
@@ -53,7 +54,7 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   }
 }))
 
-const UserProfile = ({ tab, data }: { tab: string; data: UserProfileActiveTab }) => {
+const UserProfile = ({ tab, employeeprofile }: { tab: string; employeeprofile: Employeeinfo | null  }) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -65,18 +66,13 @@ const UserProfile = ({ tab, data }: { tab: string; data: UserProfileActiveTab })
   const handleChange = (event: SyntheticEvent, value: string) => {
     setIsLoading(true)
     setActiveTab(value)
-    router
-      .push({
-        pathname: `/pages/user-profile/${value.toLowerCase()}`
-      })
-      .then(() => setIsLoading(false))
   }
 
   useEffect(() => {
-    if (data) {
+    if (employeeprofile) {
       setIsLoading(false)
     }
-  }, [data])
+  }, [employeeprofile])
 
   useEffect(() => {
     if (tab && tab !== activeTab) {
@@ -87,16 +83,16 @@ const UserProfile = ({ tab, data }: { tab: string; data: UserProfileActiveTab })
   }, [tab])
 
   const tabContentList: { [key: string]: ReactElement } = {
-    profile: <Profile data={data as ProfileTabType} />,
-    teams: <Teams data={data as TeamsTabType[]} />,
-    projects: <Projects data={data as ProjectsTabType[]} />,
-    connections: <Connections data={data as ConnectionsTabType[]} />
+    profile: <Profile data={employeeprofile} />,
+    // teams: <Teams data={data as TeamsTabType[]} />,
+    // projects: <Projects data={data as ProjectsTabType[]} />,
+    // connections: <Connections data={data as ConnectionsTabType[]} />
   }
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <UserProfileHeader />
+        <UserProfileHeader data = {employeeprofile} />
       </Grid>
       {activeTab === undefined ? null : (
         <Grid item xs={12}>
