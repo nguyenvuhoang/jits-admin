@@ -20,7 +20,7 @@ function generateLocales() {
 
 module.exports = {
   i18n: {
-    defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE ?? "en",
+    defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE ?? "vn",
     locales: generateLocales(),
     localeDetection: isMultilangEnable,
   },

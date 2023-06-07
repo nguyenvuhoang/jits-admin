@@ -7,11 +7,9 @@ import UserProfile from '@/views/pages/user-profile/UserProfile'
 // ** Types
 import { useAuth } from '@/hooks/useAuth'
 
-const UserProfileTab = ({ tab, data }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const UserProfileTab = ({ tab }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   const {employee} = useAuth()
-  console.log(employee)
-
   return ( 
     <>
       <UserProfile tab={tab} employeeprofile={employee} />

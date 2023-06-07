@@ -2,7 +2,7 @@ import { ThemeColor } from '@/@core/layouts/types'
 
 export type ProfileTabCommonType = {
     icon: string
-    value: string
+    value?: string
     property: string
 }
 

@@ -1,7 +1,7 @@
 interface DayOff {
     fromdt: Date | undefined,
     todt: Date | undefined,
-    session: string []
+    session: string[]
 }
 
 export interface ApplicationLeaveInputs {
@@ -36,4 +36,5 @@ export interface SubmitApplicationLeaveInputs {
 export interface ListOfApplicationSearchInputs {
     fullname?: string
     status?: string
+    employeecd?: string
 }

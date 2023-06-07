@@ -8,25 +8,19 @@ import ProjectsTable from '@/views/pages/user-profile/profile/ProjectsTable'
 
 // ** Types
 import { Employeeinfo } from '@/context/types'
+import ApplicationLeaveForm from './ApplicationLeaveForm'
 
 const ProfileTab = ({ data }: { data: Employeeinfo | null }) => {
   const about = [
-    { property: 'Full Name', value: 'John Doe', icon: 'mdi:account-outline' },
-    { property: 'Status', value: 'active', icon: 'mdi:check' },
-    { property: 'Role', value: 'Developer', icon: 'mdi:star-outline' },
-    { property: 'Country', value: 'USA', icon: 'mdi:flag-outline' },
-    { property: 'Language', value: 'English', icon: 'mdi:translate' }
+    { property: 'Full Name', value: data?.fullname, icon: 'mdi:account-outline' },
+    { property: 'Status', value: data?.status === 'A' ? 'active' : 'inactive', icon: 'mdi:check' },
+    { property: 'Role', value: data?.role, icon: 'eos-icons:role-binding' },
+    { property: 'Team', value: data?.team_description, icon: 'fluent:people-team-16-filled' }
   ]
 
-  const contacts= [
-    { property: 'Contact', value: '(123) 456-7890', icon: 'mdi:phone-outline' },
-    { property: 'Skype', value: 'john.doe', icon: 'mdi:message-outline' },
-    { property: 'Email', value: 'john.doe@example.com', icon: 'mdi:email-outline' }
-  ]
-  const overview = [
-    { property: 'Task Compiled', value: '13.5k', icon: 'mdi:check' },
-    { property: 'Connections', value: '897', icon: 'mdi:account-outline' },
-    { property: 'Projects Compiled', value: '146', icon: 'mdi:view-grid-plus-outline' }
+  const contacts = [
+    { property: 'Contact', value: data?.phone, icon: 'mdi:phone-outline' },
+    { property: 'Email', value: data?.email, icon: 'mdi:email-outline' }
   ]
 
   return data && Object.values(data).length ? (
@@ -35,17 +29,12 @@ const ProfileTab = ({ data }: { data: Employeeinfo | null }) => {
         <AboutOverivew
           about={about}
           contacts={contacts}
-          overview={overview} 
         />
       </Grid>
       <Grid item lg={8} md={7} xs={12}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <ActivityTimeline />
-          </Grid>
-          {/* <ConnectionsTeams connections={data.connections} teams={data.teamsTech} /> */}
-          <Grid item xs={12}>
-            <ProjectsTable />
+            <ApplicationLeaveForm employeecd = {data?.employeecd}/>
           </Grid>
         </Grid>
       </Grid>

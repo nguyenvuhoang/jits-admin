@@ -1,24 +1,17 @@
-// ** React Imports
-import { useState, useEffect } from 'react'
-
 // ** MUI Components
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
-import { styled } from '@mui/material/styles'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-
-// ** Third Party Imports
-import axios from 'axios'
+import { styled } from '@mui/material/styles'
 
 // ** Icon Imports
 import Icon from '@/@core/components/icon'
 
 // ** Types
-import { ProfileHeaderType } from '@/types/views'
-import { Employeeinfo } from '../../../context/types';
+import { Employeeinfo } from '../../../context/types'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -31,15 +24,13 @@ const ProfilePicture = styled('img')(({ theme }) => ({
 }))
 
 const UserProfileHeader = ({ data }: { data: Employeeinfo | null }) => {
-  // ** State
-  const designationIcon = 'mdi:briefcase-outline'
-
+  console.log(data)
   return data !== null ? (
     <Card>
       <CardMedia
         component='img'
         alt='profile-header'
-        image={data.avatar}
+        image="/images/pages/J4o.gif"
         sx={{
           height: { xs: 150, md: 250 }
         }}
@@ -54,7 +45,7 @@ const UserProfileHeader = ({ data }: { data: Employeeinfo | null }) => {
           justifyContent: { xs: 'center', md: 'flex-start' }
         }}
       >
-        <ProfilePicture src={data.avatar} alt='profile-picture' />
+        <ProfilePicture src={data.image} alt='profile-picture' />
         <Box
           sx={{
             width: '100%',
@@ -76,18 +67,10 @@ const UserProfileHeader = ({ data }: { data: Employeeinfo | null }) => {
                 justifyContent: ['center', 'flex-start']
               }}
             >
-              {/* <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                <Icon icon={designationIcon} />
-                <Typography sx={{ color: 'text.secondary', fontWeight: 600 }}>{data.designation}</Typography>
-              </Box> */}
-              {/* <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                <Icon icon='mdi:map-marker-outline' />
-                <Typography sx={{ color: 'text.secondary', fontWeight: 600 }}>{data.location}</Typography>
-              </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                <Icon icon='mdi:calendar-blank-outline' />
-                <Typography sx={{ color: 'text.secondary', fontWeight: 600 }}>Joined {data.joiningDate}</Typography>
-              </Box> */}
+                <Icon icon='fluent-mdl2:party-leader' />
+                <Typography sx={{ color: 'text.secondary', fontWeight: 600 }}>{data.category}</Typography>
+              </Box>
             </Box>
           </Box>
           <Button variant='contained' startIcon={<Icon icon='mdi:account-check-outline' fontSize={20} />}>

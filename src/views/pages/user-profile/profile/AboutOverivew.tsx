@@ -14,7 +14,6 @@ import { ProfileTeamsType, ProfileTabCommonType } from '@/types/views'
 interface Props {
   about: ProfileTabCommonType[]
   contacts: ProfileTabCommonType[]
-  overview: ProfileTabCommonType[]
 }
 
 const renderList = (arr: ProfileTabCommonType[]) => {
@@ -38,7 +37,7 @@ const renderList = (arr: ProfileTabCommonType[]) => {
               {`${item.property.charAt(0).toUpperCase() + item.property.slice(1)}:`}
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>
-              {item.value.charAt(0).toUpperCase() + item.value.slice(1)}
+              {item.value?.charAt(0).toUpperCase() + item.value!.slice(1)}
             </Typography>
           </Box>
         </Box>
@@ -50,7 +49,7 @@ const renderList = (arr: ProfileTabCommonType[]) => {
 }
 
 const AboutOverivew = (props: Props) => {
-  const { about, contacts, overview } = props
+  const { about, contacts } = props
 
   return (
     <Grid container spacing={6}>
@@ -69,18 +68,6 @@ const AboutOverivew = (props: Props) => {
               </Typography>
               {renderList(contacts)}
             </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
-            <div>
-              <Typography variant='body2' sx={{ mb: 4, color: 'text.disabled', textTransform: 'uppercase' }}>
-                Overview
-              </Typography>
-              {renderList(overview)}
-            </div>
           </CardContent>
         </Card>
       </Grid>

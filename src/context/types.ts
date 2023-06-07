@@ -61,6 +61,11 @@ export interface Employeeinfo {
   team_descr: string
   leader_name: string
   project: []
+  image: string
+  category: string
+  role: string
+  team_description: string
+  totaltask: string
 }
 
 
