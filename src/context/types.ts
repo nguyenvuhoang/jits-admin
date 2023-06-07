@@ -32,6 +32,7 @@ export interface Userinfo {
   avatar: string
   isadmin: boolean
   role: string
+  permission?: string[]
   iscandidate?: boolean
 }
 

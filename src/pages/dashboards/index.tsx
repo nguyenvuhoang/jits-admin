@@ -133,8 +133,9 @@ const columns: GridColDef[] = [
 ]
 const Dashboard = () => {
     const { t } = useTranslation('common')
-    const { employee } = useAuth()
+    const { employee, user } = useAuth()
     const { users } = FetchUser()
+    console.log(user)
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
     return (
@@ -180,7 +181,7 @@ const Dashboard = () => {
                         icon={<Icon icon='mdi:currency-usd' />}
                     />
                 </Grid>
-                {users &&
+                {users && user?.permission?.includes('MANAGER') &&
                     <Grid item xs={12} md={12} sm={12}>
                         <Card>
                             <DataGrid
