@@ -3,7 +3,6 @@ import Repeater from '@/@core/components/repeater'
 import Spinner from '@/@core/components/spinner'
 import themeConfig from '@/configs/themeConfig'
 import { FetchApplicationForLeavebyid, useSubmitApproveApplicationForLeave, useSubmitRejectApplicationForLeave, useSubmitConfirmApplicationForLeave } from '@/data/employee'
-import { useAuth } from '@/hooks/useAuth'
 import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Collapse, Divider, FormControl, FormControlLabel, FormGroup, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
@@ -340,7 +339,7 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 </CardContent>
                             </Card>
 
-                            {application.status === 'P' &&
+                            {application.status !== 'A' &&
                                 <Card sx={{ position: 'relative', marginTop: '20px' }}>
                                     <CardContent>
                                         <Grid item xs={12}>
@@ -352,14 +351,14 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
                                                 </>
                                             }
 
-                                            {application?.btnReject &&
+                                            {application?.btnReject && application.status !== 'R' &&
                                                 <Button onClick={() => RejectApplicationForLeave(id)} size='large' color="error" type='submit' sx={{ marginLeft: 5 }} variant='contained'>
                                                     {t('text-reject-application-form')}
                                                 </Button>
                                             }
 
-                                            {application?.btnConfirm &&
-                                                <Button onClick={() => ConfirmApplicationForLeave(id)} size='large' color="error" type='submit' sx={{ marginLeft: 5 }} variant='contained'>
+                                            {application?.btnConfirm && application.status === 'P' &&
+                                                <Button onClick={() => ConfirmApplicationForLeave(id)} size='large' color="warning" type='submit' sx={{ marginLeft: 5 }} variant='contained'>
                                                     {t('text-confirm-application-form')}
                                                 </Button>
                                             }

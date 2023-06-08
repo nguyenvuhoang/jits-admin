@@ -24,7 +24,8 @@ interface ApplicationForLeaveStatusType {
 const personalStatusObj: ApplicationForLeaveStatusType = {
     A: 'success',
     P: 'warning',
-    R: 'error'
+    R: 'error',
+    C: 'info'
 }
 
 
