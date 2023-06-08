@@ -1,6 +1,6 @@
 import themeConfig from '@/configs/themeConfig'
 import { FetchEmployeeByTeamcode } from '@/data/employee'
-import { Avatar, Box, Button, CardContent, CardContentProps, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { Avatar, Box, Button, CardContent, CardContentProps, CircularProgress, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import Card from '@mui/material/Card'
 import { SelectChangeEvent } from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
@@ -39,6 +39,7 @@ const TeamPage = () => {
 
     const leader = employees?.leader
     const members = employees?.memember
+    console.log(members)
     return (
         <>
             <Head >
@@ -145,7 +146,7 @@ const TeamPage = () => {
                         </Typography>
                         <Grid container spacing={6}>
                             {members.map((member, index) => (
-                                <Grid item xs={12} sm={6} md={4} key={index}>
+                                <Grid item xs={12} sm={6} md={4} key={index} >
                                     <Box
                                         sx={{
                                             p: 5,
@@ -155,9 +156,25 @@ const TeamPage = () => {
                                             borderRadius: 1,
                                             flexDirection: 'column',
                                             alignItems: 'flex-start',
-                                            backgroundColor: 'background.paper'
+                                            backgroundColor: 'background.paper',
+                                            opacity: `${member.isleave ? 0.5 : 1}`,
+                                            position: 'relative', // Thêm thuộc tính position
                                         }}
                                     >
+                                        {member.isleave && (
+                                            <Typography
+                                                variant="h5"
+                                                className="rotating-text"
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: '50%',
+                                                    left: '35%',
+                                                    transform: 'translate(-50%, -50%)',
+                                                }}
+                                            >
+                                                OFF TODAY
+                                            </Typography>
+                                        )}
                                         <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
                                             <Avatar
                                                 alt={member?.fullname}
@@ -207,7 +224,6 @@ const TeamPage = () => {
                                                     {t('text-position')}: {member.position}
                                                 </Typography>
                                             </li>
-
                                         </Box>
                                     </Box>
                                 </Grid>

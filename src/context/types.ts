@@ -209,6 +209,7 @@ export interface EmployeeDetail {
   avatar?: string
   employeecd?: string
   birthday?: string
+  isleave?: boolean
 }
 
 export interface EmployeeDetailResponsePaginator extends ResponseObject<EmployeeDetail> { }

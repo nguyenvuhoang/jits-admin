@@ -99,3 +99,18 @@ a {
     color-scheme: dark;
   }
 }
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating-text {
+  animation: rotation 2s infinite linear;
+}
+.muted-row {
+  opacity: 0.5; /* Giá trị opacity tùy ý, ví dụ 0.5 làm mờ 50% */
+}

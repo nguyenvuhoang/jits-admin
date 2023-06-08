@@ -31,6 +31,7 @@ interface TableBodyRowType {
     role: 'admin' | 'editor' | 'author' | 'maintainer' | 'subscriber'
     firstname: string
     lastname: string
+    isleave: boolean
 }
 
 
@@ -127,6 +128,8 @@ const columns: GridColDef[] = [
         )
     }
 ]
+
+
 const Dashboard = () => {
     const { t } = useTranslation('common')
     const { employee, user } = useAuth()
