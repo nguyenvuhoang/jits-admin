@@ -55,7 +55,7 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     const { t } = useTranslation('common')
 
-    const {employee} = useAuth()
+    const { employee } = useAuth()
 
     const [countDateOff, setCountDateOff] = useState<number>(application?.dayoff.length || 1)
 
@@ -258,8 +258,6 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
                                                                     <RepeatingContent item xs={12} >
                                                                         <Grid container sx={{ py: 4, width: '100%', pr: { lg: 0, xs: 4 } }}>
                                                                             <Grid item lg={12} md={12} xs={12} sx={{ px: 4, my: { lg: 0, xs: 6 } }}>
-
-
                                                                                 <Grid container >
                                                                                     <Grid container item lg={4}>
                                                                                         <FormControl fullWidth >

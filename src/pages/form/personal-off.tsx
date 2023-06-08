@@ -7,9 +7,9 @@ import { useSubmitApplicationForLeave } from '@/data/employee'
 import { useAuth } from '@/hooks/useAuth'
 import { ApplicationLeaveInputs } from '@/types/form/applicationForLetterType'
 import CustomInput from '@/views/forms/pickers/PickersCustomInput'
-import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Collapse, Divider, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, IconButton, Collapse, Divider, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState, SyntheticEvent } from 'react'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -115,6 +115,20 @@ const PersionalOff = () => {
     const theme = useTheme()
     const { direction } = theme
     const popperPlacement: ReactDatePickerProps['popperPlacement'] = direction === 'ltr' ? 'bottom-start' : 'bottom-end'
+
+
+    const HandleRemoveForm = (countForm: number) => {
+        setCountDateOff(countForm - 1)
+        deleteForm
+    }
+
+
+    const deleteForm = (e: SyntheticEvent) => {
+        e.preventDefault()
+
+        // @ts-ignore
+        e.target.closest('.repeater-wrapper').remove()
+    }
 
     if (isLoading) return <Spinner />
 
@@ -415,7 +429,7 @@ const PersionalOff = () => {
                                                                                         )}
                                                                                     </FormControl>
                                                                                 </Grid>
-                                                                                <Grid container item lg={3} sx={{ ml: 20 }}>
+                                                                                <Grid container item lg={3} sx={{ ml: 10 }}>
 
                                                                                     <Controller
                                                                                         control={control}
@@ -487,6 +501,11 @@ const PersionalOff = () => {
                                                                                         )}
                                                                                     </FormControl>
                                                                                 </Grid>
+                                                                                {countDateOff !== 1 &&
+                                                                                    <IconButton size='small' onClick={() => HandleRemoveForm(countDateOff)}>
+                                                                                        <Icon icon='mdi:close' fontSize={20} />
+                                                                                    </IconButton>
+                                                                                }
                                                                             </Grid>
                                                                         </Grid>
                                                                     </Grid>

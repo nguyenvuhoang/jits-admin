@@ -119,7 +119,7 @@ const ApproveForApplicationForLeave = () => {
             headerName: `${t('text-formality')}`,
             renderCell: (params: GridRenderCellParams) => (
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {t(params.row.formality)}
+                    {t(params.row.formalitycaption)}
                 </Typography>
             )
         },
