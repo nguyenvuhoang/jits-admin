@@ -26,7 +26,7 @@ export const getStaticPaths: GetStaticPaths = () => {
       { params: { tab: 'projects' } },
       { params: { tab: 'connections' } }
     ],
-    fallback: false
+    fallback: 'blocking'
   }
 }
 
