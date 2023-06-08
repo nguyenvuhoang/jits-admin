@@ -26,7 +26,7 @@
   "Pages": "Pages",
   "User Profile": "User Profile",
   "Profile": "Profile",
-  "Teams": "Teams",
+  "Teams": "Đội",
   "Project": "Dự án",
   "Connections": "Connections",
   "Account Settings": "Account Settings",
@@ -186,5 +186,10 @@
   "September": "Tháng 9",
   "October": "Tháng 10",
   "November": "Tháng 11",
-  "December": "Tháng 12"
+  "December": "Tháng 12",
+  "text-profile": "Hồ sơ",
+  "text-settings": "Thiết lập",
+  "text-logout": "Đăng xuất",
+  "text-role": "Quyền",
+  "text-contact": "Liên hệ"
 }

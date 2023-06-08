@@ -9,17 +9,19 @@ import ProjectsTable from '@/views/pages/user-profile/profile/ProjectsTable'
 // ** Types
 import { Employeeinfo } from '@/context/types'
 import ApplicationLeaveForm from './ApplicationLeaveForm'
+import { useTranslation } from 'next-i18next'
 
 const ProfileTab = ({ data }: { data: Employeeinfo | null }) => {
+  const { t } = useTranslation('common')
   const about = [
-    { property: 'Full Name', value: data?.fullname, icon: 'mdi:account-outline' },
-    { property: 'Status', value: data?.status === 'A' ? 'active' : 'inactive', icon: 'mdi:check' },
-    { property: 'Role', value: data?.role, icon: 'eos-icons:role-binding' },
-    { property: 'Team', value: data?.team_description, icon: 'fluent:people-team-16-filled' }
+    { property: `${t('text-fullname')}`, value: data?.fullname, icon: 'mdi:account-outline' },
+    { property: `${t('text-status')}`, value: data?.status === 'A' ? 'active' : 'inactive', icon: 'mdi:check' },
+    { property: `${t('text-role')}`, value: data?.role, icon: 'eos-icons:role-binding' },
+    { property: `${t('Teams')}`, value: data?.team_description, icon: 'fluent:people-team-16-filled' }
   ]
 
   const contacts = [
-    { property: 'Contact', value: data?.phone, icon: 'mdi:phone-outline' },
+    { property: `${t('text-contact')}`, value: data?.phone, icon: 'mdi:phone-outline' },
     { property: 'Email', value: data?.email, icon: 'mdi:email-outline' }
   ]
 
@@ -34,7 +36,7 @@ const ProfileTab = ({ data }: { data: Employeeinfo | null }) => {
       <Grid item lg={8} md={7} xs={12}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <ApplicationLeaveForm employeecd = {data?.employeecd}/>
+            <ApplicationLeaveForm employeecd={data?.employeecd} />
           </Grid>
         </Grid>
       </Grid>

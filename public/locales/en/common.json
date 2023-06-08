@@ -167,7 +167,7 @@
   "text-status": "Status",
   "text-date-off": "Date off",
   "text-sub-application-form": "Submit",
-  "text-reject-application-form":"Reject",
+  "text-reject-application-form": "Reject",
   "text-formality": "Formality",
   "annual": "Annual",
   "text-date-request": "Date request",
@@ -186,5 +186,10 @@
   "September": "September",
   "October": "October",
   "November": "November",
-  "December": "December"
+  "December": "December",
+  "text-profile": "Profile",
+  "text-settings": "Settings",
+  "text-logout": "Logout",
+  "text-role": "Role",
+  "text-contact": "Contact"
 }

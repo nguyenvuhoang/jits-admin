@@ -168,7 +168,7 @@ const Dashboard = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
                     <CardStatisticsVertical
-                        stats='$13.4k'
+                        stats={employee?.totaltask.toString()}
                         color='success'
                         trendNumber='+38%'
                         title={t('text-total-task')}

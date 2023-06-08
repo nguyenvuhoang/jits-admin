@@ -22,6 +22,7 @@ import { useAuth } from '@/hooks/useAuth'
 
 // ** Type Imports
 import { Settings } from '@/@core/context/settingsContext'
+import { useTranslation } from 'next-i18next'
 
 interface Props {
   settings: Settings
@@ -39,6 +40,8 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 const UserDropdown = (props: Props) => {
   // ** Props
   const { settings } = props
+
+  const { t } = useTranslation('common')
 
   // ** States
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
@@ -122,7 +125,7 @@ const UserDropdown = (props: Props) => {
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>{user?.firstname + ' ' + user?.lastname}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {user?.role}
               </Typography>
             </Box>
           </Box>
@@ -131,15 +134,15 @@ const UserDropdown = (props: Props) => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/user-profile/profile')}>
           <Box sx={styles}>
             <Icon icon='mdi:account-outline' />
-            Profile
+            {t('text-profile')}
           </Box>
         </MenuItem>
-        
+
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/account-settings/account')}>
           <Box sx={styles}>
             <Icon icon='mdi:cog-outline' />
-            Settings
+            {t('text-settings')}
           </Box>
         </MenuItem>
         <Divider />
@@ -148,7 +151,7 @@ const UserDropdown = (props: Props) => {
           sx={{ py: 2, '& svg': { mr: 2, fontSize: '1.375rem', color: 'text.primary' } }}
         >
           <Icon icon='mdi:logout-variant' />
-          Logout
+          {t('text-logout')}
         </MenuItem>
       </Menu>
     </Fragment>
