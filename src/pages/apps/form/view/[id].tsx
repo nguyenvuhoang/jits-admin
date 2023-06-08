@@ -2,7 +2,7 @@ import PageHeader from '@/@core/components/page-header'
 import Repeater from '@/@core/components/repeater'
 import Spinner from '@/@core/components/spinner'
 import themeConfig from '@/configs/themeConfig'
-import { FetchApplicationForLeavebyid, useSubmitApproveApplicationForLeave, useSubmitRejectApplicationForLeave } from '@/data/employee'
+import { FetchApplicationForLeavebyid, useSubmitApproveApplicationForLeave, useSubmitRejectApplicationForLeave, useSubmitConfirmApplicationForLeave } from '@/data/employee'
 import { useAuth } from '@/hooks/useAuth'
 import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Collapse, Divider, FormControl, FormControlLabel, FormGroup, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
@@ -55,8 +55,6 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     const { t } = useTranslation('common')
 
-    const { employee } = useAuth()
-
     const [countDateOff, setCountDateOff] = useState<number>(application?.dayoff.length || 1)
 
     useEffect(() => {
@@ -71,6 +69,8 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     const { isLoading: isReject, mutate: SubmitRejectApplicationForLeave } = useSubmitRejectApplicationForLeave()
 
+    const { isLoading: isConfirm, mutate: SubmitConfirmApplicationForLeave } = useSubmitConfirmApplicationForLeave()
+
 
     const ApproveApplicationForLeave = (id: string) => {
         SubmitApproveApplicationForLeave({ id: id })
@@ -78,10 +78,16 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
     const RejectApplicationForLeave = (id: string) => {
         SubmitRejectApplicationForLeave({ id: id })
     }
+    const ConfirmApplicationForLeave = (id: string) => {
+        SubmitConfirmApplicationForLeave({ id: id })
+    }
 
     if (isApprove) return <Spinner />
 
     if (isReject) return <Spinner />
+
+    if (isConfirm) return <Spinner />
+
 
     return (
         <>
@@ -334,16 +340,30 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 </CardContent>
                             </Card>
 
-                            {employee?.teamcd === 'MNG' && application.status === 'P' &&
+                            {application.status === 'P' &&
                                 <Card sx={{ position: 'relative', marginTop: '20px' }}>
                                     <CardContent>
                                         <Grid item xs={12}>
-                                            <Button onClick={() => ApproveApplicationForLeave(id)} size='large' type='submit' variant='contained'>
-                                                {t('text-sub-application-form')}
-                                            </Button>
-                                            <Button onClick={() => RejectApplicationForLeave(id)} size='large' color="error" type='submit' sx={{ marginLeft: 5 }} variant='contained'>
-                                                {t('text-reject-application-form')}
-                                            </Button>
+                                            {application?.btnApprove &&
+                                                <>
+                                                    <Button onClick={() => ApproveApplicationForLeave(id)} size='large' type='submit' variant='contained'>
+                                                        {t('text-sub-application-form')}
+                                                    </Button>
+                                                </>
+                                            }
+
+                                            {application?.btnReject &&
+                                                <Button onClick={() => RejectApplicationForLeave(id)} size='large' color="error" type='submit' sx={{ marginLeft: 5 }} variant='contained'>
+                                                    {t('text-reject-application-form')}
+                                                </Button>
+                                            }
+
+                                            {application?.btnConfirm &&
+                                                <Button onClick={() => ConfirmApplicationForLeave(id)} size='large' color="error" type='submit' sx={{ marginLeft: 5 }} variant='contained'>
+                                                    {t('text-confirm-application-form')}
+                                                </Button>
+                                            }
+
                                         </Grid>
                                     </CardContent>
                                 </Card>

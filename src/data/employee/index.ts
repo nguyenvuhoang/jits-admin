@@ -180,3 +180,33 @@ export const useSubmitRejectApplicationForLeave = () => {
         }
     });
 };
+
+
+export const useSubmitConfirmApplicationForLeave = () => {
+    const router = useRouter()
+    return useMutation(client.employee.confirmapplicationforleave, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Đã xác công việc',
+                    text: 'Bạn đã xác nhận công việc cho thành viên của mình. Quay trở về trang quản lý'
+                }).then((response: any) => {
+                    if (response.isConfirmed) {
+                        router.push('/form/approve-personal-off')
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: `${data.messagedetail}`
+                })
+            }
+        }
+    });
+};

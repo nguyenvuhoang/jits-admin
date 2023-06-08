@@ -191,5 +191,6 @@
   "text-settings": "Settings",
   "text-logout": "Logout",
   "text-role": "Role",
-  "text-contact": "Contact"
+  "text-contact": "Contact",
+  "text-confirm-application-form" :"Confirm"
 }

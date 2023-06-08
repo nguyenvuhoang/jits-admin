@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "jits-web-admin",
+  "private_key_id": "ff099ecfb5ae92ff22872343f167b100ff4ea0dd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDz7PGiB3SPA7fG\nHgAZjxRAgxjZ/lINVMvGdiI8FMtRE1OoqbUCL6Wt1elSuBEvLz60KKq76Q4NfHZc\nNPvyiIjTyBDjVzVFVHrfkn3M0vYjQi0v4otuMraXsrAhlSE+/OA30ZP550qEbGjv\nNwOlqJkftyBC6lMCxiRFm2FvRtWXii/zz6gVmqo/suCeIYIG49A2iU6O7FvFa/pS\nL9DLM85XJOiQvQ8WQvHn849MNUcY7StpvfmngCNL5RmRh6SKBdmuWEGpnC6wMymy\nSS+kZe/hr5Zoea0w5o7OBBjHp3jQc1ovEFPEKFJvPM/qyWE9eRpyLBK8PCsLKwuA\nVjki7MZPAgMBAAECggEAS1YF9wYYcMc0LiM74qj3F0mmFkXe77Ed0qjPwACoHt06\nPGBVwFwY7oyfqGWjIRCVbC0XNjwvk+i54ZaXrfuPTuF+nchkcoo5/O0Qn38UeCVL\nMXvlll5hWI7eqTCW+Q4+7d5ztn5B3I5jBmbWYIam7E2x0BjxFG0/7KOlvymAdHGm\nJJbN4B3SawN43MJCPooVbqthSAqNkXtXbFoz2JghuKEdYGKog90+XQmkvqwyXPyi\nAj5dnRjZFeOGbGY8ghQDCHIs/CypjG1Q7Q4TCQsfq4En0YM5hxDIviIdL4tZvYkL\nZXD8t3161Wj6P2VPVZ2r8LEBWtWPNhvXL4taMhmUQQKBgQD+xbR8sN8rsZQ3M8TS\nK6U0ZrjCs9DhgH54Z1H3nQ1+np9xcEt106+UzmlE6L/3Y3rGXVrHJg0R4QGUw06x\nwhwSLlZ/Yp8AqhJWJQ/LOwZkmofPOwjRC0HcPafIWz5akKy6TUcIuyP+JDId/Qna\nVnPJIbv0zQBp9TLYR0coyj85LwKBgQD1GdulvBSdfkYSwR9/caiFHMpPyYEEeBaj\ngC0bvAfaHSKS3oYm+3/Lgn1nykiwsC99LnsNbgEZJgcKu16DTQ9+NszJChHppl//\nJKqgAW7qHUTM2Qr7qUNQPhb9F8DjjZYsJnuyttSRXqkcSk8RZQDfDR2Qw5msujXn\na8TWoTO84QKBgQDIaPs2Tufu9gyyc92yujSFiPxz5IE+shZKXnQjBP8ViG/CC2TA\nthlbRBeY5kIDt9RfcBY1rCAB3W6h+BTSTfBI+Px/zjNnkWFFNHg9FRxNTSXiBP1F\ne8Z+Gl3+hJADK+VD1AA5xQRmKVDnOCJlBzajlA7HXe+iaghqC3/VfWrIbwKBgQCl\nKiakmYh+1O/dhXx3Qh0gjlUazRv+6fm/dglvrhbQeV+p/wAB1uq4NhfR0DOJtUBb\nJ+5OD3n3+3M1XSwEaPJux/jZ5MpLXA1Gfuvn5O9cHhsVu5C2I8qzkROmu9IExY2T\n9N7YgHHgAB0Pble3zgt3Q3xP6C9vgRAAAdRkGb8moQKBgQC+j4yqWnCGN6+XXzsl\nxx8SCrtAWDNgk+kAdDKXjM5yvSU3HqgOFjyccfTm/7wC9sveptplM1yHIjB9Okfh\n58fZnqeloPgTo4P2ZgzW4dR50u2mKThjbk3yFOQi/dViDoEeqWxFWh7SL2pxGin6\nw9X0dqRcF/s+YN6+/OrqLO0obw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "jitswebadmin@jits-web-admin.iam.gserviceaccount.com",
+  "client_id": "110012572822731235587",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/jitswebadmin%40jits-web-admin.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
