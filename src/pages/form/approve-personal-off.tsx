@@ -14,30 +14,27 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { ChangeEvent, MouseEvent, useState } from 'react'
 
-type Props = {}
-
 interface CellType {
     row: ApplicationForLeave
 }
 
-interface CandidateStatusType {
+interface ApplicationForLeaveStatusType {
     [key: string]: ThemeColor
 }
-const personalStatusObj: CandidateStatusType = {
+const personalStatusObj: ApplicationForLeaveStatusType = {
     A: 'success',
     P: 'warning',
     R: 'error'
 }
 
 
-const ApproveForApplicationForLeave = (props: Props) => {
+const ApproveForApplicationForLeave = () => {
 
     const theme = useTheme()
 
     const { applicationforleave } = FetchListOfApplicationForLeave()
 
     const { t } = useTranslation('common')
-
 
     const RowOptions = ({ id }: { id: string }) => {
         const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -187,7 +184,7 @@ const ApproveForApplicationForLeave = (props: Props) => {
     ]
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
-    const [filteredData, setFilteredData] = useState<ApplicationForLeave[] >(applicationforleave!)
+    const [filteredData, setFilteredData] = useState<ApplicationForLeave[] >()
     const [searchText, setSearchText] = useState<string>('')
 
 

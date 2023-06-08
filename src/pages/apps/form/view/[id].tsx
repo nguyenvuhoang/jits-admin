@@ -2,14 +2,14 @@ import PageHeader from '@/@core/components/page-header'
 import Repeater from '@/@core/components/repeater'
 import Spinner from '@/@core/components/spinner'
 import themeConfig from '@/configs/themeConfig'
-import { FetchApplicationForLeavebyid, useSubmitApproveApplicationForLeave,useSubmitRejectApplicationForLeave } from '@/data/employee'
+import { FetchApplicationForLeavebyid, useSubmitApproveApplicationForLeave, useSubmitRejectApplicationForLeave } from '@/data/employee'
 import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Collapse, Divider, FormControl, FormControlLabel, FormGroup, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { useTranslation } from 'next-i18next'
 
 
 const RepeaterWrapper = styled(CardContent)<CardContentProps>(({ theme }) => ({
@@ -63,7 +63,8 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
         }
     }, [application])
 
-    const { isLoading : isApprove, mutate: SubmitApproveApplicationForLeave } = useSubmitApproveApplicationForLeave()
+
+    const { isLoading: isApprove, mutate: SubmitApproveApplicationForLeave } = useSubmitApproveApplicationForLeave()
 
     const { isLoading: isReject, mutate: SubmitRejectApplicationForLeave } = useSubmitRejectApplicationForLeave()
 
@@ -74,11 +75,12 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
     const RejectApplicationForLeave = (id: string) => {
         SubmitRejectApplicationForLeave({ id: id })
     }
-    
 
     if (isApprove) return <Spinner />
 
     if (isReject) return <Spinner />
+
+    
 
     return (
         <>

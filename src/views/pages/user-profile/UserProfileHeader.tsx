@@ -24,7 +24,7 @@ const ProfilePicture = styled('img')(({ theme }) => ({
 }))
 
 const UserProfileHeader = ({ data }: { data: Employeeinfo | null }) => {
-  console.log(data)
+
   return data !== null ? (
     <Card>
       <CardMedia
