@@ -3,6 +3,7 @@ import Repeater from '@/@core/components/repeater'
 import Spinner from '@/@core/components/spinner'
 import themeConfig from '@/configs/themeConfig'
 import { FetchApplicationForLeavebyid, useSubmitApproveApplicationForLeave, useSubmitRejectApplicationForLeave } from '@/data/employee'
+import { useAuth } from '@/hooks/useAuth'
 import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Collapse, Divider, FormControl, FormControlLabel, FormGroup, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
@@ -54,6 +55,8 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     const { t } = useTranslation('common')
 
+    const {employee} = useAuth()
+
     const [countDateOff, setCountDateOff] = useState<number>(application?.dayoff.length || 1)
 
     useEffect(() => {
@@ -79,8 +82,6 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
     if (isApprove) return <Spinner />
 
     if (isReject) return <Spinner />
-
-    
 
     return (
         <>
@@ -335,19 +336,20 @@ const ViewForm = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 </CardContent>
                             </Card>
 
-
-                            <Card sx={{ position: 'relative', marginTop: '20px' }}>
-                                <CardContent>
-                                    <Grid item xs={12}>
-                                        <Button onClick={() => ApproveApplicationForLeave(id)} size='large' type='submit' variant='contained'>
-                                            {t('text-sub-application-form')}
-                                        </Button>
-                                        <Button onClick={() => RejectApplicationForLeave(id)} size='large' color="error" type='submit' sx={{ marginLeft: 5 }} variant='contained'>
-                                            {t('text-reject-application-form')}
-                                        </Button>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
+                            {employee?.teamcd === 'MNG' && application.status === 'P' &&
+                                <Card sx={{ position: 'relative', marginTop: '20px' }}>
+                                    <CardContent>
+                                        <Grid item xs={12}>
+                                            <Button onClick={() => ApproveApplicationForLeave(id)} size='large' type='submit' variant='contained'>
+                                                {t('text-sub-application-form')}
+                                            </Button>
+                                            <Button onClick={() => RejectApplicationForLeave(id)} size='large' color="error" type='submit' sx={{ marginLeft: 5 }} variant='contained'>
+                                                {t('text-reject-application-form')}
+                                            </Button>
+                                        </Grid>
+                                    </CardContent>
+                                </Card>
+                            }
                         </>
                     }
                 </Grid>
