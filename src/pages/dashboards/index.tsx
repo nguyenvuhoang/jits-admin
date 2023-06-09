@@ -7,6 +7,7 @@ import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
 import { getInitials } from '@/@core/utils/get-initials'
 import { FetchUser } from '@/data/user'
 import { useAuth } from '@/hooks/useAuth'
+import CalendarEmployee from '@/views/apps/employee/view/CalendarEmployee'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
@@ -179,6 +180,9 @@ const Dashboard = () => {
                         icon={<Icon icon='iconoir:task-list' />}
                     />
                 </Grid>
+
+                <CalendarEmployee />
+
                 {users && user?.permission?.includes('MANAGER') &&
                     <Grid item xs={12} md={12} sm={12}>
                         <Card>
