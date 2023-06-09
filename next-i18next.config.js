@@ -7,7 +7,7 @@ invariant(
 );
 
 const isMultilangEnable =
-  process.env.NEXT_PUBLIC_ENABLE_MULTI_LANG === "true" &&
+  process.env.NEXT_PUBLIC_ENABLE_MULTI_LANG === true &&
   !!process.env.NEXT_PUBLIC_AVAILABLE_LANGUAGES;
 
 function generateLocales() {
@@ -20,7 +20,7 @@ function generateLocales() {
 
 module.exports = {
   i18n: {
-    defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE ?? "vn",
+    defaultLocale: "vn",
     locales: generateLocales(),
     localeDetection: isMultilangEnable,
   },

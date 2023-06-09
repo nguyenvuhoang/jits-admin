@@ -9,6 +9,8 @@ import { ApplicationLeaveInputs } from '@/types/form/applicationForLetterType'
 import CustomInput from '@/views/forms/pickers/PickersCustomInput'
 import { Box, Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, IconButton, Collapse, Divider, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, GridProps, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { ChangeEvent, useEffect, useState, SyntheticEvent } from 'react'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import { Controller, useForm } from 'react-hook-form'
@@ -553,5 +555,20 @@ const PersionalOff = () => {
         </>
     )
 }
-
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+    try {
+        return {
+            props: {
+                ...(await serverSideTranslations(locale!, ['common'])),
+            },
+            revalidate: 60, // In seconds
+        };
+    } catch (error) {
+        console.log(error)
+        //* if we get here, the product doesn't exist or something else went wrong
+        return {
+            notFound: true,
+        };
+    }
+};
 export default PersionalOff

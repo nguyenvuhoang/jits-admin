@@ -162,18 +162,21 @@ const TeamPage = () => {
                                         }}
                                     >
                                         {member.isleave && (
-                                            <Typography
-                                                variant="h5"
-                                                className="rotating-text"
-                                                sx={{
-                                                    position: 'absolute',
-                                                    top: '50%',
-                                                    left: '35%',
-                                                    transform: 'translate(-50%, -50%)',
-                                                }}
-                                            >
-                                                OFF TODAY
-                                            </Typography>
+                                            <Box sx={{color: 'primary.main'}}>
+                                                <Typography
+                                                    variant="h5"
+                                                    className="rotating-text"
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        top: '50%',
+                                                        left: '35%',
+                                                        transform: 'translate(-50%, -50%)',
+                                                        color: 'inherit'
+                                                    }}
+                                                >
+                                                    OFF TODAY
+                                                </Typography>
+                                            </Box>
                                         )}
                                         <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
                                             <Avatar

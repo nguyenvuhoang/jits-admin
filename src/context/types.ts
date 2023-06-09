@@ -66,6 +66,7 @@ export interface Employeeinfo {
   role: string
   team_description: string
   totaltask: string
+  description: string
 }
 
 

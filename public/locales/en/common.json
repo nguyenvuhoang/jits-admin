@@ -192,5 +192,10 @@
   "text-logout": "Logout",
   "text-role": "Role",
   "text-contact": "Contact",
-  "text-confirm-application-form" :"Confirm"
+  "text-confirm-application-form" :"Confirm",
+  "text-address":"Address",
+  "text-employee-information":"Employee information",
+  "text-description-employee" :"About me",
+  "text-save-change":"Save change",
+  "text-reset":"Reset"
 }

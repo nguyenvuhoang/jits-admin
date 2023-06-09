@@ -139,7 +139,7 @@ const UserDropdown = (props: Props) => {
         </MenuItem>
 
         <Divider />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/account-settings/account')}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/account-settings/account')}>
           <Box sx={styles}>
             <Icon icon='mdi:cog-outline' />
             {t('text-settings')}

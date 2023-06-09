@@ -192,5 +192,10 @@
   "text-logout": "Đăng xuất",
   "text-role": "Quyền",
   "text-contact": "Liên hệ",
-  "text-confirm-application-form" :"Xác nhận công việc"
+  "text-confirm-application-form" :"Xác nhận công việc",
+  "text-address":"Địa chỉ",
+  "text-employee-information":"Thông tin cá nhân",
+  "text-description-employee" :"Đôi lời giới thiệu",
+  "text-save-change":"Lưu thay đổi",
+  "text-reset":"Làm lại"
 }

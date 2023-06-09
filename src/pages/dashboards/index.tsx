@@ -166,17 +166,17 @@ const Dashboard = () => {
                         trendNumber={employee?.project?.length.toString()}
                         title={t('text-total-project')}
                         chipText='Last 4 Month'
-                        icon={<Icon icon='mdi:check' />}
+                        icon={<Icon icon='arcticons:projectm' />}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
                     <CardStatisticsVertical
                         stats={employee?.totaltask.toString()}
                         color='success'
-                        trendNumber='+38%'
+                        trendNumber={employee?.totaltask.toString()}
                         title={t('text-total-task')}
                         chipText='Last Six Month'
-                        icon={<Icon icon='mdi:currency-usd' />}
+                        icon={<Icon icon='iconoir:task-list' />}
                     />
                 </Grid>
                 {users && user?.permission?.includes('MANAGER') &&
