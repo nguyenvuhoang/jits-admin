@@ -25,7 +25,8 @@ const blankEvent = {
     calendar: '',
     guests: [],
     location: '',
-    description: ''
+    description: '',
+    icon: ''
   }
 }
 
@@ -33,7 +34,6 @@ const Calendar = (props: CalendarType) => {
   // ** Props
   const {
     store,
-    dispatch,
     direction,
     updateEvent,
     calendarApi,
@@ -106,12 +106,12 @@ const Calendar = (props: CalendarType) => {
 
         return [
           // Background Color
-          `bg-${colorName}`
+          `bg-${colorName}`,
+          `event-avatar`
         ]
       },
 
       eventClick({ event: clickedEvent }: any) {
-        dispatch(handleSelectEvent(clickedEvent))
         handleAddEventSidebarToggle()
 
         // * Only grab required field otherwise it goes in infinity loop
@@ -137,7 +137,6 @@ const Calendar = (props: CalendarType) => {
         ev.allDay = true
 
         // @ts-ignore
-        dispatch(handleSelectEvent(ev))
         handleAddEventSidebarToggle()
       },
 
@@ -147,7 +146,6 @@ const Calendar = (props: CalendarType) => {
         ? We can use `eventDragStop` but it doesn't return updated event so we have to use `eventDrop` which returns updated event
       */
       eventDrop({ event: droppedEvent }: any) {
-        dispatch(updateEvent(droppedEvent))
       },
 
       /*
@@ -155,7 +153,30 @@ const Calendar = (props: CalendarType) => {
         ? Docs: https://fullcalendar.io/docs/eventResize
       */
       eventResize({ event: resizedEvent }: any) {
-        dispatch(updateEvent(resizedEvent))
+      },
+
+      eventContent({ event }: any) {
+        var eventAvatar = document.createElement('img');
+        eventAvatar.classList.add('event-avatar');
+        eventAvatar.src = event.extendedProps.icon;
+        eventAvatar.width = 40
+        eventAvatar.height = 40
+        // Thêm các thuộc tính CSS khác cho biểu tượng avatar (ví dụ: src, alt)
+
+        var eventTitle = document.createElement('div');
+        eventTitle.classList.add('fc-title');
+        eventTitle.textContent = event.title;
+
+        var eventContentWrapper = document.createElement('div');
+        eventContentWrapper.classList.add('event-content-wrapper');
+        eventContentWrapper.appendChild(eventAvatar);
+        eventContentWrapper.appendChild(eventTitle);
+
+        var eventWrapper = document.createElement('div');
+        eventWrapper.classList.add('fc-content');
+        eventWrapper.appendChild(eventContentWrapper);
+
+        return { domNodes: [eventWrapper] };
       },
 
       ref: calendarRef,

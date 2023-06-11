@@ -114,3 +114,22 @@ a {
 .muted-row {
   opacity: 0.5; /* Giá trị opacity tùy ý, ví dụ 0.5 làm mờ 50% */
 }
+.fc-event .event-avatar {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 5px;
+  /* Thêm các thuộc tính CSS khác cho biểu tượng avatar */
+}
+.fc-event .fc-title {
+  display: inline-block;
+  vertical-align: middle;
+  
+  /* Thêm các thuộc tính CSS khác cho tiêu đề sự kiện */
+}
+.fc-event .event-content-wrapper {
+  display: flex;
+  align-items: center;
+  /* Thêm các thuộc tính CSS khác cho wrapper */
+}

@@ -181,8 +181,9 @@ const Dashboard = () => {
                     />
                 </Grid>
 
-                <CalendarEmployee />
-
+                <Grid item xs={12} sm={12} md={12}>
+                    <CalendarEmployee />
+                </Grid>
                 {users && user?.permission?.includes('MANAGER') &&
                     <Grid item xs={12} md={12} sm={12}>
                         <Card>

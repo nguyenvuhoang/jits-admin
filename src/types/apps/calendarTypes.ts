@@ -28,6 +28,7 @@ export type EventType = {
     calendar?: string
     description?: string
     guests?: string[] | string | undefined
+    icon?: string
   }
 }
 
@@ -64,7 +65,6 @@ export type CalendarStoreType = {
 
 export type CalendarType = {
   calendarApi: any
-  dispatch: Dispatch<any>
   store: CalendarStoreType
   direction: 'ltr' | 'rtl'
   calendarsColor: CalendarColors
