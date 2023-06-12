@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import client from "../client";
 import { AxiosError } from "axios";
+import { QueryClient } from '@tanstack/react-query'
 
 export const FetchEmployee = (filter: FilterEmployee) => {
     const { data, isLoading, refetch } = useQuery<EmployeeResponsePaginator, Error>(
@@ -110,8 +111,11 @@ export const FetchListOfApplicationForLeave = (filter?: ListOfApplicationSearchI
 }
 
 export const FetchApplicationForLeavebyid = (id: string) => {
+    const queryClient = new QueryClient()
+    const queryKey = `application-for-leave-id-${id}`;
+    queryClient.removeQueries({ queryKey: [queryKey], exact: true });
     const { data, isLoading, refetch } = useQuery<ApplicationForLeaveByIdResponse, Error>(
-        ['application-for-leave-id'],
+        [queryKey],
         () => client.employee.getapplicationforleavebyid({
             id: id
         })
