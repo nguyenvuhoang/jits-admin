@@ -48,9 +48,6 @@ const EmployeeViewFormApplication = ({ application }: Props) => {
         formState: { errors }
     } = useForm({})
 
-    console.log(application)
-
-
     return (
         <>
             <form>
