@@ -65,7 +65,27 @@ const PersionalOff = () => {
             {
                 fromdt: undefined,
                 todt: undefined,
-                session: ['', '']
+                session: []
+            },
+            {
+                fromdt: undefined,
+                todt: undefined,
+                session: []
+            },
+            {
+                fromdt: undefined,
+                todt: undefined,
+                session: []
+            },
+            {
+                fromdt: undefined,
+                todt: undefined,
+                session: []
+            },
+            {
+                fromdt: undefined,
+                todt: undefined,
+                session: []
             }
         ]
     }
@@ -108,7 +128,7 @@ const PersionalOff = () => {
             reason: data.reason,
             totaldayoff: parseInt(data.totaldayoff.toString(), 10),
             replacepersion: data.replacepersion,
-            dayoff: data.dayoff
+            dayoff: data.dayoff.filter(item => item.fromdt !== undefined)
         }
         SubmitApplicationForLeave(submitData)
     }
@@ -447,6 +467,7 @@ const PersionalOff = () => {
                                                                                                                 checked={value?.includes('morning')}
                                                                                                                 onChange={(e) => {
                                                                                                                     const checked = e.target.checked;
+                                                                                                                    
                                                                                                                     const updatedValue = checked ? [...value, 'morning'] : value.filter(v => v !== 'morning');
                                                                                                                     onChange(updatedValue);
                                                                                                                 }}

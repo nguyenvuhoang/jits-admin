@@ -116,7 +116,7 @@ const ApproveForApplicationForLeave = () => {
         {
             flex: 0.2,
             minWidth: 110,
-            field: 'formality',
+            field: 'formalitycaption',
             headerName: `${t('text-formality')}`,
             renderCell: (params: GridRenderCellParams) => (
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>

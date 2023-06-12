@@ -33,7 +33,7 @@ const blankEvent = {
 const Calendar = (props: CalendarType) => {
   // ** Props
   const {
-    store,
+    events,
     direction,
     updateEvent,
     calendarApi,
@@ -54,10 +54,10 @@ const Calendar = (props: CalendarType) => {
     }
   }, [calendarApi, setCalendarApi])
 
-  if (store) {
+  if (events) {
     // ** calendarOptions(Props)
     const calendarOptions = {
-      events: store.events.length ? store.events : [],
+      events: events.length ? events : [],
       plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin, bootstrap5Plugin],
       initialView: 'dayGridMonth',
       headerToolbar: {
@@ -92,7 +92,7 @@ const Calendar = (props: CalendarType) => {
         Max number of events within a given day
         ? Docs: https://fullcalendar.io/docs/dayMaxEvents
       */
-      dayMaxEvents: 2,
+      dayMaxEvents: 5,
 
       /*
         Determines if day names and week names are clickable

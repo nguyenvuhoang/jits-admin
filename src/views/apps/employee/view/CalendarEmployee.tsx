@@ -6,6 +6,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { Theme } from '@mui/material/styles'
 import Calendar from '@/views/apps/calendar/Calendar'
 import { CalendarColors } from '@/types/apps/calendarTypes'
+import { FetchEventApplicationForLeave } from '@/data/employee'
 
 type Props = {}
 
@@ -27,60 +28,7 @@ const CalendarEmployee = (props: Props) => {
 
     const mdAbove = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 
-    const store = {
-        events: [
-            {
-                id: 1,
-                url: '',
-                title: 'DangNV Off',
-                start: new Date(),
-                end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-                allDay: true,
-                extendedProps: {
-                    calendar: 'Personal',
-                    icon: 'https://api.jits.com.vn:4001/employee/image/cover/dangnv.png'
-                }
-            },
-            {
-                id: 2,
-                url: '',
-                title: 'HoangNV Off',
-                start: new Date(),
-                end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-                allDay: true,
-                extendedProps: {
-                    calendar: 'Business',
-                    icon: 'https://api.jits.com.vn:4001/employee/image/cover/hoangnv.png',
-                }
-            },
-            {
-                id: 3,
-                url: '',
-                title: 'DungVT Ngay 2',
-                start: new Date(new Date().getTime() + 24 * 60 * 60 * 1000) ,
-                end: new Date(new Date().getTime() + 48 * 60 * 60 * 1000),
-                allDay: true,
-                extendedProps: {
-                    calendar: 'Personal',
-                    icon: 'https://api.jits.com.vn:4001/employee/image/cover/dangnv.png'
-                }
-            },
-            {
-                id: 4,
-                url: '',
-                title: 'EangNV Off Ngay 2',
-                start: new Date(new Date().getTime() + 24 * 60 * 60 * 1000) ,
-                end: new Date(new Date().getTime() + 48 * 60 * 60 * 1000),
-                allDay: true,
-                extendedProps: {
-                    calendar: 'Personal',
-                    icon: 'https://api.jits.com.vn:4001/employee/image/cover/dangnv.png'
-                }
-            },
-        ],
-        selectedEvent: null,
-        selectedCalendars: ['']
-    }
+    const { event } = FetchEventApplicationForLeave()
 
     const updateEvent = () => {
 
@@ -119,17 +67,19 @@ const CalendarEmployee = (props: Props) => {
                 }}
 
             >
-                <Calendar
-                    store={store}
-                    direction={direction}
-                    updateEvent={() => updateEvent()}
-                    calendarApi={calendarApi}
-                    calendarsColor={calendarsColor}
-                    setCalendarApi={setCalendarApi}
-                    handleSelectEvent={handleSelectEvent}
-                    handleLeftSidebarToggle={handleLeftSidebarToggle}
-                    handleAddEventSidebarToggle={handleAddEventSidebarToggle}
-                />
+                {event &&
+                    < Calendar
+                        events={event}
+                        direction={direction}
+                        updateEvent={() => updateEvent()}
+                        calendarApi={calendarApi}
+                        calendarsColor={calendarsColor}
+                        setCalendarApi={setCalendarApi}
+                        handleSelectEvent={handleSelectEvent}
+                        handleLeftSidebarToggle={handleLeftSidebarToggle}
+                        handleAddEventSidebarToggle={handleAddEventSidebarToggle}
+                    />
+                }
             </Box>
 
         </CalendarWrapper>

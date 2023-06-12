@@ -1,10 +1,9 @@
 // ** React Imports
-import { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 
 // ** MUI Components
 import CustomChip from '@/@core/components/mui/chip'
 import { ApproveStatus } from '@/@core/utils/approve-status'
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
@@ -17,9 +16,12 @@ import { ThemeColor } from '@/@core/layouts/types'
 
 // ** Utils Import
 import { FetchListOfApplicationForLeave } from '@/data/employee'
-import { Button, CardContent, Grid, GridProps } from '@mui/material'
+import { Button, CardContent, Grid, GridProps, IconButton, Menu, MenuItem } from '@mui/material'
 
+import Icon from '@/@core/components/icon'
+import { ApplicationForLeave } from '@/context/types'
 import Link from 'next/link'
+import Swal from 'sweetalert2'
 
 
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
@@ -51,12 +53,69 @@ const personalStatusObj: ApplicationForLeaveStatusType = {
   R: 'error'
 }
 
+interface CellType {
+  row: ApplicationForLeave
+}
+
 const ApplicationLeaveForm = ({ employeecd }: { employeecd: string }) => {
   const theme = useTheme()
   const { t } = useTranslation('common')
 
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
   const { applicationforleave } = FetchListOfApplicationForLeave({ employeecd: employeecd })
+
+
+  const RowOptions = ({ id }: { id: string }) => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+    const rowOptionsOpen = Boolean(anchorEl)
+
+    const handleRowOptionsClick = (event: MouseEvent<HTMLElement>) => {
+      setAnchorEl(event.currentTarget)
+    }
+    const handleRowOptionsClose = () => {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        color: 'gold',
+        title: 'Hold on!',
+        text: 'This feature is not available. Please come back later'
+    })
+      setAnchorEl(null)
+    }
+
+    return (
+      <>
+        <IconButton size='small' onClick={handleRowOptionsClick}>
+          <Icon icon='mdi:dots-vertical' />
+        </IconButton>
+        <Menu
+          keepMounted
+          anchorEl={anchorEl}
+          open={rowOptionsOpen}
+          onClose={handleRowOptionsClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          PaperProps={{ style: { minWidth: '8rem' } }}
+        >
+          <MenuItem
+            component={Link}
+            sx={{ '& svg': { mr: 2 } }}
+            onClick={handleRowOptionsClose}
+            href="#"
+          >
+            <Icon icon='flat-color-icons:cancel' fontSize={20} />
+            {t('text-request-cancel')}
+          </MenuItem>
+        </Menu>
+      </>
+    )
+  }
 
   const columns: GridColDef[] = [
     {
@@ -73,11 +132,11 @@ const ApplicationLeaveForm = ({ employeecd }: { employeecd: string }) => {
     {
       flex: 0.2,
       minWidth: 110,
-      field: 'formality',
+      field: 'formalitycaption',
       headerName: `${t('text-formality')}`,
       renderCell: (params: GridRenderCellParams) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {t(params.row.formality)}
+          {t(params.row.formalitycaption)}
         </Typography>
       )
     },
@@ -129,7 +188,16 @@ const ApplicationLeaveForm = ({ employeecd }: { employeecd: string }) => {
           sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
         />
       )
+    },
+    {
+      flex: 0.1,
+      minWidth: 90,
+      sortable: false,
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: ({ row }: CellType) => < RowOptions id={row.id} />
     }
+
   ]
 
 

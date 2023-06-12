@@ -58,14 +58,12 @@ export type EventStateType = {
 }
 
 export type CalendarStoreType = {
-  events: EventType[]
-  selectedEvent: null | EventType
-  selectedCalendars: CalendarFiltersType[] | string[]
+  events: EventType[] | undefined
 }
 
 export type CalendarType = {
   calendarApi: any
-  store: CalendarStoreType
+  events: EventType[] | undefined
   direction: 'ltr' | 'rtl'
   calendarsColor: CalendarColors
   setCalendarApi: (val: any) => void

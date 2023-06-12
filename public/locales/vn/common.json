@@ -197,5 +197,6 @@
   "text-employee-information":"Thông tin cá nhân",
   "text-description-employee" :"Đôi lời giới thiệu",
   "text-save-change":"Lưu thay đổi",
-  "text-reset":"Làm lại"
+  "text-reset":"Làm lại",
+  "text-request-cancel" :"Hủy phép"
 }

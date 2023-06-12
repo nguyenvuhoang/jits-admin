@@ -1,4 +1,5 @@
 import { HorizontalNavItemsType } from "@/@core/layouts/types"
+import { EventType } from "@/types/apps/calendarTypes"
 
 export type ErrCallbackType = (err: { [key: string]: string }) => void
 
@@ -421,6 +422,8 @@ export interface ApplicationForLeaveByIdResponse extends ResponseObject<Applicat
 export interface ApproveApplicationForLeaveResponse extends ResponseObject<{}> { }
 export interface RejectApplicationForLeaveResponse extends ResponseObject<{}> { }
 export interface ConfirmApplicationForLeaveResponse extends ResponseObject<{}> { }
+
+export interface GetListApplicationForLeaveResponse extends ResponseArray<EventType> { }
 
 
 

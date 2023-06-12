@@ -197,5 +197,6 @@
   "text-employee-information":"Employee information",
   "text-description-employee" :"About me",
   "text-save-change":"Save change",
-  "text-reset":"Reset"
+  "text-reset":"Reset",
+  "text-request-cancel" :"Request cancel"
 }
