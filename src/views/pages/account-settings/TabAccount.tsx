@@ -153,8 +153,9 @@ const TabAccount = () => {
       aboutme: formData.description
     }
     SubmitUpdateEmployeeInfo(submitData)
-    
+
   }
+  const isMaxDesc = formData.description && formData.description.length - 400 < 0 ? true : false
 
   if (isLoading) return <Spinner />
   return (
@@ -214,10 +215,15 @@ const TabAccount = () => {
                         label={t('text-description-employee')}
                         fullWidth
                         multiline
+                        inputProps={{ maxLength: 400, minLength: 300 }}
                         rows={8}
+                        aria-describedby='form-description-employee'
                         value={formData.description}
                         onChange={e => handleFormChange('description', e.target.value)}
                       />
+                      <FormHelperText id='form-description-employee' sx={{color: isMaxDesc ? 'white' : 'red' , fontSize:14}} className={!isMaxDesc ? 'flashing-text' : ''} >
+                        Vui lòng nhập mô tả từ 300 - 400 ký tự. Ngoài ra hệ thống sẽ lấy văn mẫu để hiển thị. Độ dài bạn đã nhâp là {formData.description?.length}
+                      </FormHelperText>
                     </Grid>
 
                     <Grid item xs={12}>

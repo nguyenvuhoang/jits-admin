@@ -133,3 +133,19 @@ a {
   align-items: center;
   /* Thêm các thuộc tính CSS khác cho wrapper */
 }
+
+@keyframes flashing {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.flashing-text {
+  animation: flashing 1s infinite;
+}
