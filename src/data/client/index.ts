@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "@/configs/auth";
-import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpdateStatusEmployeeInput, UserResponsePaginator } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator } from "@/context/types";
 import { CandidateInput } from "@/types/dashboards/candidateTyps";
 import { ListOfApplicationSearchInputs, SubmitApplicationLeaveInputs } from "@/types/form/applicationForLetterType";
 import { HttpClient } from "./http-client";
@@ -26,7 +26,8 @@ class Client {
         approveapplicationforleave: ({ id }: { id: string }) => HttpClient.put<ApproveApplicationForLeaveResponse>(API_ENDPOINTS.EMPLOYEE_APPROVE_FOR_LEAVE, { id }),
         rejectapplicationforleave: ({ id }: { id: string }) => HttpClient.put<RejectApplicationForLeaveResponse>(API_ENDPOINTS.EMPLOYEE_REJECT_FOR_LEAVE, { id }),
         confirmapplicationforleave: ({ id }: { id: string }) => HttpClient.put<ConfirmApplicationForLeaveResponse>(API_ENDPOINTS.EMPLOYEE_CONFIRM_FOR_LEAVE, { id }),
-        getlistfl: () => HttpClient.get<GetListApplicationForLeaveResponse>(API_ENDPOINTS.GET_EMPLOYEE_LISTFL)
+        getlistfl: () => HttpClient.get<GetListApplicationForLeaveResponse>(API_ENDPOINTS.GET_EMPLOYEE_LISTFL),
+        updateinfo : (info: UpadateInfoField) => HttpClient.put<UpdateEmployeeResponse>(API_ENDPOINTS.UPDATE_EMPLOYEE_INFO,info)
     }
     project = {
         getall: (filter: FilterProject) => HttpClient.get<ProjectReponse>(API_ENDPOINTS.GITLAB_ALLPROJECT, filter)

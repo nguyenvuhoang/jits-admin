@@ -1,5 +1,5 @@
 // ** React Imports
-import { createContext, useEffect, useState, ReactNode } from 'react'
+import { ReactNode, createContext, useEffect, useState } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -11,10 +11,10 @@ import axios from 'axios'
 import { API_ENDPOINTS } from '@/configs/auth'
 
 // ** Types
-import { AuthValuesType, LoginParams, ErrCallbackType, Userinfo, Employeeinfo, CandidateAccessParams, Menu } from './types'
 import client from '@/data/client'
 import { AUTH_TOKEN_KEY, setAuthToken } from '@/data/client/token.utils'
 import Cookies from 'js-cookie'
+import { AuthValuesType, CandidateAccessParams, Employeeinfo, ErrCallbackType, LoginParams, Userinfo } from './types'
 
 // ** Defaults
 const defaultProvider: AuthValuesType = {
@@ -28,6 +28,7 @@ const defaultProvider: AuthValuesType = {
   candidateaccess: () => Promise.resolve(),
   token: null,
   isCandidate: false,
+  updateTimestamp: () => null
 }
 
 const AuthContext = createContext(defaultProvider)
@@ -43,9 +44,10 @@ const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
   const [employee, setEmployee] = useState<Employeeinfo | null>(defaultProvider.employee)
   const [isCandidate, setIsCandidate] = useState<boolean>(defaultProvider.isCandidate)
+  const [timestamp, setTimestamp] = useState<number>(Date.now());
+
   // ** Hooks
   const router = useRouter()
-
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       const storedToken = Cookies.get(AUTH_TOKEN_KEY);
@@ -124,7 +126,7 @@ const AuthProvider = ({ children }: Props) => {
     }
     initAuth()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token])
+  }, [token, timestamp])
 
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
     const { username, password, rememberMe } = params
@@ -215,6 +217,11 @@ const AuthProvider = ({ children }: Props) => {
     router.push('/login')
   }
 
+  const updateTimestamp = (newTimestamp: number) => {
+    setTimestamp(newTimestamp);
+  };
+
+
   const values = {
     user,
     loading,
@@ -225,10 +232,12 @@ const AuthProvider = ({ children }: Props) => {
     candidateaccess: handleCandidateAccess,
     token,
     employee,
-    isCandidate
+    isCandidate,
+    updateTimestamp
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
 }
 
 export { AuthContext, AuthProvider }
+

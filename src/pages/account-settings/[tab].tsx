@@ -5,7 +5,6 @@ import { GetStaticProps, GetStaticPaths, GetStaticPropsContext, InferGetStaticPr
 // ** Demo Components Imports
 import AccountSettings from '@/views/pages/account-settings/AccountSettings'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useAuth } from '@/hooks/useAuth'
 
 const AccountSettingsTab = ({ tab }: InferGetStaticPropsType<typeof getStaticProps>) => {
 

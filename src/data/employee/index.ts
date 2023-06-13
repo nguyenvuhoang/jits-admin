@@ -1,4 +1,4 @@
-import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, GetListApplicationForLeaveResponse, ListOfApplicationForLeaveResponse } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, GetListApplicationForLeaveResponse, ListOfApplicationForLeaveResponse, UpadateInfoField, UpdateEmployeeResponse } from "@/context/types";
 import { ListOfApplicationSearchInputs } from "@/types/form/applicationForLetterType";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import client from "../client";
 import { AxiosError } from "axios";
 import { QueryClient } from '@tanstack/react-query'
+import { useAuth } from "@/hooks/useAuth";
 
 export const FetchEmployee = (filter: FilterEmployee) => {
     const { data, isLoading, refetch } = useQuery<EmployeeResponsePaginator, Error>(
@@ -92,7 +93,6 @@ export const useSubmitApplicationForLeave = () => {
                 title: 'Oops...',
                 text: `${error?.response?.status === 400 ? error.response.data.messagedetail : 'Error'}`,
             })
-
         }
 
     });
@@ -152,9 +152,63 @@ export const useSubmitApproveApplicationForLeave = () => {
                     text: `${data.messagedetail}`
                 })
             }
+        },
+        onError: (errorAsUnknown) => {
+            const error = errorAsUnknown as AxiosError<ApproveApplicationForLeaveResponse>;
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                color: 'red',
+                title: 'Oops...',
+                text: `${error?.response?.status === 400 ? error.response.data.messagedetail : 'Error'}`,
+            })
         }
     });
 };
+
+
+export const useSubmitUpdateEmployeeInfo = () => {
+    const router = useRouter()
+    const { updateTimestamp } = useAuth()
+
+    return useMutation(client.employee.updateinfo, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Thành công!!!',
+                    text: 'Thông tin của bạn đã được chỉnh sửa. Trở lại trang quản lý cá nhân'
+                }).then((response: any) => {
+                    updateTimestamp(Date.now())
+                    if (response.isConfirmed) {
+                        router.push('/user-profile/profile/')
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: `${data.messagedetail}`
+                })
+            }
+        },
+        onError: (errorAsUnknown) => {
+            const error = errorAsUnknown as AxiosError<UpdateEmployeeResponse>;
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                color: 'red',
+                title: 'Oops...',
+                text: `${error?.response?.status === 400 ? error.response.data.messagedetail : 'Error'}`,
+            })
+        }
+    });
+};
+
 
 export const useSubmitRejectApplicationForLeave = () => {
     const router = useRouter()

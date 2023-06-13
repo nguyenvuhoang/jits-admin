@@ -148,7 +148,8 @@ export type AuthValuesType = {
   login: (params: LoginParams, errorCallback?: ErrCallbackType) => void,
   candidateaccess: (params: CandidateAccessParams, errorCallback?: ErrCallbackType) => void
   token: string | null,
-  isCandidate: boolean
+  isCandidate: boolean,
+  updateTimestamp: (value: number) => void
 }
 
 
@@ -425,10 +426,16 @@ export interface ConfirmApplicationForLeaveResponse extends ResponseObject<{}> {
 
 export interface GetListApplicationForLeaveResponse extends ResponseArray<EventType> { }
 
-
+export interface UpdateEmployeeResponse extends ResponseObject<{}> { }
 
 export interface MenuResponse extends ResponseObject<HorizontalNavItemsType> { }
 
 export interface SystemInput {
   language: string | undefined
+}
+
+export interface UpadateInfoField {
+  address: string | undefined
+  phone: string | undefined
+  aboutme: string | undefined
 }

@@ -77,7 +77,6 @@ const DoTestPage = () => {
                 const submitData = {
                     careerdata: postdata
                 }
-                console.log(data)
                 SubmitDoTestCandidate(submitData)
                 // setSubmit(true)
             }

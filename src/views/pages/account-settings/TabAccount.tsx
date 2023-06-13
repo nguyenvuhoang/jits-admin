@@ -20,6 +20,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import Button, { ButtonProps } from '@mui/material/Button'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { useTranslation } from 'next-i18next'
+import Spinner from '@/@core/components/spinner'
 
 // ** Third Party Imports
 import { useForm, Controller } from 'react-hook-form'
@@ -28,6 +29,7 @@ import { useForm, Controller } from 'react-hook-form'
 import Icon from '@/@core/components/icon'
 import { useAuth } from '@/hooks/useAuth'
 import Swal from 'sweetalert2'
+import { useSubmitUpdateEmployeeInfo } from '@/data/employee'
 
 interface Data {
   email: string | undefined
@@ -66,9 +68,7 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
 const TabAccount = () => {
   const { t } = useTranslation('common')
 
-  const { employee } = useAuth()
-
-  console.log(employee)
+  const { employee, loading } = useAuth()
 
   const initialData: Data = {
     address: employee?.address || '',
@@ -143,91 +143,99 @@ const TabAccount = () => {
     }
   }, [employee]);
 
-  const saveChange =  () => {
-    Swal.fire({
-      position: 'center',
-      icon: 'warning',
-      color: 'gold',
-      title: 'Under build',
-      text: 'Tính năng đang trong gia đoạn thử nghiệm, nên chưa thể thay đổi thông tin'
-    })
+
+  const { isLoading, mutate: SubmitUpdateEmployeeInfo } = useSubmitUpdateEmployeeInfo()
+
+  const saveChange = () => {
+    const submitData = {
+      address: formData.address,
+      phone: formData.phone,
+      aboutme: formData.description
+    }
+    SubmitUpdateEmployeeInfo(submitData)
+    
   }
 
+  if (isLoading) return <Spinner />
   return (
-    <Grid container spacing={6}>
-      {/* Account Details Card */}
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title={t('text-employee-information')} />
-          <form >
-            <CardContent sx={{ pt: 0 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <ImgStyled src={imgSrc} alt='Profile Pic' />
-              </Box>
-            </CardContent>
-            <Divider />
-            <CardContent>
-              <Grid container spacing={6}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label={t('text-fullname')}
-                    fullWidth
-                    value={formData.fullname}
-                    onChange={e => handleFormChange('fullname', e.target.value)}
-                    inputProps={{ readOnly: true }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label={t('text-email')}
-                    fullWidth
-                    type='email'
-                    value={formData.email}
-                    onChange={e => handleFormChange('email', e.target.value)}
-                    inputProps={{ readOnly: true }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label={t('text-address')}
-                    fullWidth
-                    value={formData.address}
-                    onChange={e => handleFormChange('address', e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label={t('text-phone')}
-                    fullWidth
-                    value={formData.phone}
-                    onChange={e => handleFormChange('phone', e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <TextField
-                    label={t('text-description-employee')}
-                    fullWidth
-                    multiline
-                    rows={8}
-                    value={formData.description}
-                    onChange={e => handleFormChange('description', e.target.value)}
-                  />
-                </Grid>
+    <>
+      {!loading &&
+        <Grid container spacing={6}>
+          {/* Account Details Card */}
+          <Grid item xs={12}>
+            <Card>
+              <CardHeader title={t('text-employee-information')} />
+              <form >
+                <CardContent sx={{ pt: 0 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <ImgStyled src={imgSrc} alt='Profile Pic' />
+                  </Box>
+                </CardContent>
+                <Divider />
+                <CardContent>
+                  <Grid container spacing={6}>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        label={t('text-fullname')}
+                        fullWidth
+                        value={formData.fullname}
+                        onChange={e => handleFormChange('fullname', e.target.value)}
+                        inputProps={{ readOnly: true }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        label={t('text-email')}
+                        fullWidth
+                        type='email'
+                        value={formData.email}
+                        onChange={e => handleFormChange('email', e.target.value)}
+                        inputProps={{ readOnly: true }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        label={t('text-address')}
+                        fullWidth
+                        value={formData.address}
+                        onChange={e => handleFormChange('address', e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        label={t('text-phone')}
+                        fullWidth
+                        value={formData.phone}
+                        onChange={e => handleFormChange('phone', e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                      <TextField
+                        label={t('text-description-employee')}
+                        fullWidth
+                        multiline
+                        rows={8}
+                        value={formData.description}
+                        onChange={e => handleFormChange('description', e.target.value)}
+                      />
+                    </Grid>
 
-                <Grid item xs={12}>
-                  <Button variant='contained' sx={{ mr: 3 }} onClick={() => saveChange()}>
-                    {t('text-save-change')}
-                  </Button>
-                  <Button type='reset' variant='outlined' color='secondary' onClick={() => setFormData(initialData)}>
-                    {t('text-reset')} 
-                  </Button>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </form>
-        </Card>
-      </Grid>
-    </Grid>
+                    <Grid item xs={12}>
+                      <Button variant='contained' sx={{ mr: 3 }} onClick={() => saveChange()}>
+                        {t('text-save-change')}
+                      </Button>
+                      <Button type='reset' variant='outlined' color='secondary' onClick={() => setFormData(initialData)}>
+                        {t('text-reset')}
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </form>
+            </Card>
+          </Grid>
+        </Grid>
+      }
+    </>
   )
 }
 
