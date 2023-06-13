@@ -1,5 +1,6 @@
 import CustomAvatar from '@/@core/components/mui/avatar'
 import OptionsMenu from '@/@core/components/option-menu'
+import Spinner from '@/@core/components/spinner'
 import { ThemeColor } from '@/@core/layouts/types'
 import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
 import { getInitials } from '@/@core/utils/get-initials'
@@ -95,7 +96,7 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
     ]
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
-    const { project,error } = FetchProject({
+    const { project, isLoading } = FetchProject({
         per_page: 100,
         page: 0,
         order_by: "last_activity_at"
@@ -124,6 +125,7 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
         }
     }
 
+    if (isLoading)  return <Spinner />
     
     return (
         <ApexChartWrapper>
