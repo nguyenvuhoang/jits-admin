@@ -30,5 +30,6 @@ export const API_ENDPOINTS = {
   EMPLOYEE_CONFIRM_FOR_LEAVE: '/employee/confirmapplicationforleave',
   GET_MENU: '/employee/getmenu',
   GET_EMPLOYEE_LISTFL: '/employee/getlistafl',
-  UPDATE_EMPLOYEE_INFO: '/employee/updateemployeeinfor'
+  UPDATE_EMPLOYEE_INFO: '/employee/updateemployeeinfor',
+  DEVICE_GETALL: '/employee/getalldevice'
 }

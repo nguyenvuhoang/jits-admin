@@ -415,6 +415,37 @@ export interface Menu {
   children: SubMenu[]
 }
 
+export interface DeviceInfo {
+  deviceid: string
+  buydate: string
+  price: any
+  name: string
+  chip: string
+  ram: string
+  disk: string
+  owner: string
+  receiveddate: string
+  whoreceived: string
+  returneddate: string
+  returnedreason: string
+  historyfix: string
+  historyupgrade: string
+  checkedlastdate: string
+  checkedreason: string
+  checkedresult: string
+  noted: string
+  departmentcd: string
+  type: string
+  size: any
+  resolution: string
+  officecd: string
+  unused2: string
+  unused3: string
+  unused4: string
+  unused5: string
+}
+
+
 
 export interface EmployeeTeamCodeResponse extends ResponseObject<EmployeeTeamCode> { }
 export interface ApplicationForLeaveResponse extends ResponseObject<{}> { }
@@ -439,3 +470,5 @@ export interface UpadateInfoField {
   phone: string | undefined
   aboutme: string | undefined
 }
+
+export interface GetListDeviceResponse extends ResponseArray<DeviceInfo> { }

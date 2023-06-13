@@ -4,6 +4,7 @@ import CustomChip from '@/@core/components/mui/chip'
 import { ThemeColor } from '@/@core/layouts/types'
 import { getInitials } from '@/@core/utils/get-initials'
 import { Status } from '@/@core/utils/system'
+import themeConfig from '@/configs/themeConfig'
 import { EmployeeResponse } from '@/context/types'
 import client from '@/data/client'
 import { FetchEmployee } from '@/data/employee'
@@ -15,6 +16,7 @@ import { Box, Card, CardContent, CardHeader, Divider, FormControl, Grid, IconBut
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import Head from 'next/head'
 import Link from 'next/link'
 import { MouseEvent, useCallback, useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
@@ -298,96 +300,102 @@ const EmployeeList = () => {
     ]
 
     return (
-        <Grid container spacing={6}>
-            <Grid item xs={12}>
-                <Card>
-                    <CardHeader title='Employee management' sx={{ pb: 4, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
-                    <CardContent>
-                        <Grid container spacing={6}>
-                            <Grid item sm={4} xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel id='role-select'>Select Role</InputLabel>
-                                    <Select
-                                        fullWidth
-                                        value={role}
-                                        id='select-role'
-                                        label='Select Role'
-                                        labelId='role-select'
-                                        onChange={handleRoleChange}
-                                        inputProps={{ placeholder: 'Select Role' }}
-                                    >
-                                        <MenuItem value=''>Select Role</MenuItem>
-                                        <MenuItem value='admin'>Admin</MenuItem>
-                                        <MenuItem value='author'>Developer</MenuItem>
-                                        <MenuItem value='editor'>Tester</MenuItem>
-                                        <MenuItem value='maintainer'>Supporter</MenuItem>
-                                    </Select>
-                                </FormControl>
+        <>
+            <Head>
+                <title>{`${themeConfig.templateName} - Employee management`}</title>
+            </Head>
+
+            <Grid container spacing={6}>
+                <Grid item xs={12}>
+                    <Card>
+                        <CardHeader title='Employee management' sx={{ pb: 4, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
+                        <CardContent>
+                            <Grid container spacing={6}>
+                                <Grid item sm={4} xs={12}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id='role-select'>Select Role</InputLabel>
+                                        <Select
+                                            fullWidth
+                                            value={role}
+                                            id='select-role'
+                                            label='Select Role'
+                                            labelId='role-select'
+                                            onChange={handleRoleChange}
+                                            inputProps={{ placeholder: 'Select Role' }}
+                                        >
+                                            <MenuItem value=''>Select Role</MenuItem>
+                                            <MenuItem value='admin'>Admin</MenuItem>
+                                            <MenuItem value='author'>Developer</MenuItem>
+                                            <MenuItem value='editor'>Tester</MenuItem>
+                                            <MenuItem value='maintainer'>Supporter</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item sm={4} xs={12}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id='team-select'>Select Team</InputLabel>
+                                        <Select
+                                            fullWidth
+                                            value={team}
+                                            id='select-team'
+                                            label='Select Team'
+                                            labelId='team-select'
+                                            onChange={handleTeamChange}
+                                            inputProps={{ placeholder: 'Select Team' }}
+                                        >
+                                            <MenuItem value=''>Select Team</MenuItem>
+                                            <MenuItem value='CAM'>Cambodia</MenuItem>
+                                            <MenuItem value='THA'>Thailand</MenuItem>
+                                            <MenuItem value='LAO'>Lao</MenuItem>
+                                            <MenuItem value='MIDDLE'>Middleware</MenuItem>
+                                            <MenuItem value='CODEV'>Codev</MenuItem>
+                                            <MenuItem value='MNG'>Manager</MenuItem>
+                                            <MenuItem value='BOD'>Board of Directors</MenuItem>
+                                            <MenuItem value='HRHCM'>BO in HCM</MenuItem>
+                                            <MenuItem value='HRHN'>BO in HCM</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item sm={4} xs={12}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id='status-select'>Select Status</InputLabel>
+                                        <Select
+                                            fullWidth
+                                            value={status}
+                                            id='select-status'
+                                            label='Select Status'
+                                            labelId='status-select'
+                                            onChange={handleStatusChange}
+                                            inputProps={{ placeholder: 'Select Role' }}
+                                        >
+                                            <MenuItem value=''>Select Role</MenuItem>
+                                            <MenuItem value='P'>Pending</MenuItem>
+                                            <MenuItem value='A'>Active</MenuItem>
+                                            <MenuItem value='B'>Block</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
                             </Grid>
-                            <Grid item sm={4} xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel id='team-select'>Select Team</InputLabel>
-                                    <Select
-                                        fullWidth
-                                        value={team}
-                                        id='select-team'
-                                        label='Select Team'
-                                        labelId='team-select'
-                                        onChange={handleTeamChange}
-                                        inputProps={{ placeholder: 'Select Team' }}
-                                    >
-                                        <MenuItem value=''>Select Team</MenuItem>
-                                        <MenuItem value='CAM'>Cambodia</MenuItem>
-                                        <MenuItem value='THA'>Thailand</MenuItem>
-                                        <MenuItem value='LAO'>Lao</MenuItem>
-                                        <MenuItem value='MIDDLE'>Middleware</MenuItem>
-                                        <MenuItem value='CODEV'>Codev</MenuItem>
-                                        <MenuItem value='MNG'>Manager</MenuItem>
-                                        <MenuItem value='BOD'>Board of Directors</MenuItem>
-                                        <MenuItem value='HRHCM'>BO in HCM</MenuItem>
-                                        <MenuItem value='HRHN'>BO in HCM</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item sm={4} xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel id='status-select'>Select Status</InputLabel>
-                                    <Select
-                                        fullWidth
-                                        value={status}
-                                        id='select-status'
-                                        label='Select Status'
-                                        labelId='status-select'
-                                        onChange={handleStatusChange}
-                                        inputProps={{ placeholder: 'Select Role' }}
-                                    >
-                                        <MenuItem value=''>Select Role</MenuItem>
-                                        <MenuItem value='P'>Pending</MenuItem>
-                                        <MenuItem value='A'>Active</MenuItem>
-                                        <MenuItem value='B'>Block</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                    <Divider />
-                    <TableHeader value={value} handleFilter={handleFilter} toggle={toggleAddUEmployeeDrawer} />
-                    {employees &&
-                        <DataGrid
-                            autoHeight
-                            pagination
-                            pageSizeOptions={[10, 25, 50]}
-                            paginationModel={paginationModel}
-                            onPaginationModelChange={setPaginationModel}
-                            columns={columns}
-                            rows={employees}
-                            getRowId={(row) => row.employeeid}
-                        />
-                    }
-                </Card>
+                        </CardContent>
+                        <Divider />
+                        <TableHeader value={value} handleFilter={handleFilter} toggle={toggleAddUEmployeeDrawer} />
+                        {employees &&
+                            <DataGrid
+                                autoHeight
+                                pagination
+                                pageSizeOptions={[10, 25, 50]}
+                                paginationModel={paginationModel}
+                                onPaginationModelChange={setPaginationModel}
+                                columns={columns}
+                                rows={employees}
+                                getRowId={(row) => row.employeeid}
+                            />
+                        }
+                    </Card>
+                </Grid>
+                <AddEmployeeDrawer open={addEmployeeOpen} toggle={toggleAddUEmployeeDrawer} />
             </Grid>
-            <AddEmployeeDrawer open={addEmployeeOpen} toggle={toggleAddUEmployeeDrawer} />
-        </Grid>
+        </>
     )
 }
 
