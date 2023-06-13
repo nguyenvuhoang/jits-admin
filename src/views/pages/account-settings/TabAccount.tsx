@@ -155,7 +155,7 @@ const TabAccount = () => {
     SubmitUpdateEmployeeInfo(submitData)
 
   }
-  const isMaxDesc = formData.description && formData.description.length - 400 < 0 ? true : false
+  const isMaxDesc = (formData.description && (formData.description.length - 300 > 0)) ? true : false
 
   if (isLoading) return <Spinner />
   return (
@@ -221,15 +221,17 @@ const TabAccount = () => {
                         value={formData.description}
                         onChange={e => handleFormChange('description', e.target.value)}
                       />
-                      <FormHelperText id='form-description-employee' sx={{color: isMaxDesc ? 'white' : 'red' , fontSize:14}} className={!isMaxDesc ? 'flashing-text' : ''} >
+                      <FormHelperText id='form-description-employee' sx={{ color: isMaxDesc ? 'white' : 'red', fontSize: 14 }} className={!isMaxDesc ? 'flashing-text' : ''} >
                         Vui lòng nhập mô tả từ 300 - 400 ký tự. Ngoài ra hệ thống sẽ lấy văn mẫu để hiển thị. Độ dài bạn đã nhâp là {formData.description?.length}
                       </FormHelperText>
                     </Grid>
 
                     <Grid item xs={12}>
-                      <Button variant='contained' sx={{ mr: 3 }} onClick={() => saveChange()}>
-                        {t('text-save-change')}
-                      </Button>
+                      {isMaxDesc &&
+                        <Button variant='contained' sx={{ mr: 3 }} onClick={() => saveChange()}>
+                          {t('text-save-change')}
+                        </Button>
+                      }
                       <Button type='reset' variant='outlined' color='secondary' onClick={() => setFormData(initialData)}>
                         {t('text-reset')}
                       </Button>
