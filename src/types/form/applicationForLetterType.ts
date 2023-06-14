@@ -19,7 +19,6 @@ export interface ApplicationLeaveInputs {
     replacepersion?: string
     formality: string
     dayoff: DayOff[]
-
 }
 
 export interface SubmitApplicationLeaveInputs {
@@ -37,4 +36,23 @@ export interface ListOfApplicationSearchInputs {
     fullname?: string
     status?: string
     employeecd?: string
+}
+
+
+export interface OnsiteInputs {
+    employeecd: string
+    fullname: string
+    email: string
+    departmentcd: string
+    position: string
+    leader: string
+    manager: string
+    dateoff: string
+    typeoff: string
+    reason: string
+    totaldayoff: number
+    replacepersion?: string
+    formality: string
+    dayoff: DayOff[]
+    onsiteplace: string
 }
