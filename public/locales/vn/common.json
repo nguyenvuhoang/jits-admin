@@ -208,6 +208,9 @@
   "text-price": "Giá",
   "text-device-name": "Tên máy",
   "text-specifications": "Thông số kỹ thuật",
-  "text-owner": "Chủ sở hữu",
-  "text-search-device": "Tìm kiếm thiết bị"
+  "text-owner": "Đối tượng đang sử dụng",
+  "text-search-device": "Tìm kiếm thiết bị",
+  "text-office": "Văn phòng",
+  "text-device-management":"Quản lý thông tin thiết bị",
+  "text-historyfix":"Lịch sử sửa chửa"
 }

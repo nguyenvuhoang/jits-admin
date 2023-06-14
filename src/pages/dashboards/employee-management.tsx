@@ -101,9 +101,6 @@ const EmployeeList = () => {
     const handleFilter = useCallback((val: string) => {
         setValue(val)
     }, [])
-
-
-
     const RowOptions = ({ id, status }: { id: string, status: string }) => {
         const { user } = useAuth()
         // ** State

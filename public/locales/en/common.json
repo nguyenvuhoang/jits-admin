@@ -209,5 +209,8 @@
   "text-device-name": "Device name",
   "text-specifications": "Specifications",
   "text-owner": "Owner",
-  "text-search-device": "Search device"
+  "text-search-device": "Search device",
+  "text-office": "Office",
+  "text-device-management":"Device management",
+  "text-historyfix":"History fix"
 }

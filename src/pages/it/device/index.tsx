@@ -12,7 +12,8 @@ import { GetStaticProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import { useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
 
 interface CellType {
     row: DeviceInfo
@@ -37,12 +38,15 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 }))
 
 const DevicePage = () => {
+    // HooKs
     const { t } = useTranslation('common')
-
     const [value, setValue] = useState<string>('')
     const [refresh, setRefresh] = useState(false)
-
+    const [searchText, setSearchText] = useState<string>('')
     const [type, setType] = useState<string>('')
+    const [filteredData, setFilteredData] = useState<DeviceInfo[] | undefined>([])
+
+
     const handleTypeChange = useCallback((e: SelectChangeEvent) => {
         setType(e.target.value)
     }, [])
@@ -60,7 +64,7 @@ const DevicePage = () => {
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
-
+    // API
     const { device, isLoading, refetch } = FetchDevice()
 
     const toggleAddUEmployeeDrawer = () => { }
@@ -87,6 +91,7 @@ const DevicePage = () => {
         'Screen': { color: 'info', icon: 'carbon:screen' }
     }
 
+    // Render
     const renderClient = (row: DeviceInfo) => {
         const color = typeStatusObj[row.type] ? typeStatusObj[row.type].color : 'primary'
         return (
@@ -105,13 +110,22 @@ const DevicePage = () => {
         }
     }
 
+    const renderOffice = (row: DeviceInfo) => {
+        const officecd = row.officecd
+        switch (officecd) {
+            case 'office0101': return `Văn Phòng Quận 7`
+            case 'office0102': return `Văn Phòng Bình Thạnh`
+            default: return officecd
+        }
+    }
+
     const columns: GridColDef[] = [
 
         {
             flex: 0.2,
             minWidth: 230,
             field: 'deviceid',
-            headerName: `${ t('text-code') } `,
+            headerName: `${t('text-code')} `,
             renderCell: ({ row }: CellType) => {
                 const { deviceid } = row
                 return (
@@ -130,7 +144,7 @@ const DevicePage = () => {
         {
             flex: 0.15,
             minWidth: 120,
-            headerName: `${ t('text-device-name') } `,
+            headerName: `${t('text-device-name')} `,
             field: 'name',
             renderCell: ({ row }: CellType) => {
                 return (
@@ -144,7 +158,7 @@ const DevicePage = () => {
             flex: 0.2,
             minWidth: 250,
             field: 'buydate',
-            headerName: `${ t('text-buydate') } `,
+            headerName: `${t('text-buydate')} `,
             renderCell: ({ row }: CellType) => {
                 return (
                     <Typography noWrap variant='body2'>
@@ -157,12 +171,12 @@ const DevicePage = () => {
             flex: 0.15,
             field: 'price',
             minWidth: 150,
-            headerName: `${ t('text-price') } `,
+            headerName: `${t('text-price')} `,
             renderCell: ({ row }: CellType) => {
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
                         <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-                            {`${ row.price.toLocaleString('en-US') } VND`}
+                            {`${row.price.toLocaleString('en-US')} VND`}
                         </Typography>
                     </Box>
                 )
@@ -172,7 +186,7 @@ const DevicePage = () => {
             flex: 0.15,
             field: 'specifications',
             minWidth: 150,
-            headerName: `${ t('text-specifications') } `,
+            headerName: `${t('text-specifications')} `,
             renderCell: ({ row }: CellType) => {
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
@@ -187,7 +201,7 @@ const DevicePage = () => {
             flex: 0.15,
             field: 'owner',
             minWidth: 150,
-            headerName: `${ t('text-owner') } `,
+            headerName: `${t('text-owner')} `,
             renderCell: ({ row }: CellType) => {
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
@@ -200,14 +214,29 @@ const DevicePage = () => {
         },
         {
             flex: 0.15,
-            field: 'officecd',
+            field: 'historyfix',
             minWidth: 150,
-            headerName: `${ t('text-office') } `,
+            headerName: `${t('text-historyfix')} `,
             renderCell: ({ row }: CellType) => {
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
                         <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-                            {row.officecd}
+                            {row.historyfix}
+                        </Typography>
+                    </Box>
+                )
+            }
+        },
+        {
+            flex: 0.15,
+            field: 'officecd',
+            minWidth: 150,
+            headerName: `${t('text-office')} `,
+            renderCell: ({ row }: CellType) => {
+                return (
+                    <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
+                        <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
+                            {renderOffice(row)}
                         </Typography>
                     </Box>
                 )
@@ -215,6 +244,25 @@ const DevicePage = () => {
         }
     ]
 
+    const escapeRegExp = (value: string) => {
+        return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+    }
+    const handleSearch = (searchValue: string) => {
+        setSearchText(searchValue)
+        const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
+
+        const filteredRows = device?.filter(row => {
+            return Object.keys(row).some(field => {
+                // @ts-ignore
+                return searchRegex.test(row[field]?.toString())
+            })
+        })
+        if (searchValue.length) {
+            setFilteredData(filteredRows)
+        } else {
+            setFilteredData([])
+        }
+    }
 
 
     if (isLoading) return <Spinner />
@@ -222,12 +270,12 @@ const DevicePage = () => {
     return (
         <>
             <Head>
-                <title>{`${ themeConfig.templateName } - Device management`}</title>
+                <title>{`${themeConfig.templateName} - Device management`}</title>
             </Head>
             <Grid container spacing={6}>
                 <Grid item xs={12}>
                     <Card>
-                        <CardHeader title='Employee management' sx={{ pb: 4, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
+                        <CardHeader title={t('text-device-management')} sx={{ pb: 4, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
                         <CardContent>
                             <Grid container spacing={6}>
                                 <Grid item sm={4} xs={12}>
@@ -240,7 +288,7 @@ const DevicePage = () => {
                                             label={t('text-select-office')}
                                             labelId='status-select'
                                             onChange={handleOfficeChange}
-                                            inputProps={{ placeholder: `${ t('text-select-office') } ` }}
+                                            inputProps={{ placeholder: `${t('text-select-office')} ` }}
                                         >
                                             <MenuItem value=''>{t('text-select-office')}</MenuItem>
                                             <MenuItem value='office0101'>Hồ Chí Minh - Nguyễn Hữu Thọ</MenuItem>
@@ -266,7 +314,7 @@ const DevicePage = () => {
                                             <MenuItem value='RND-HCM'>RND-Hà Nội</MenuItem>
                                             <MenuItem value='SDD'>Phòng Triển khai</MenuItem>
                                             <MenuItem value='HR'>Hành Chính Nhân Sự</MenuItem>
-                                            
+
                                         </Select>
                                     </FormControl>
                                 </Grid>
@@ -285,17 +333,16 @@ const DevicePage = () => {
                                         >
                                             <MenuItem value=''>{t('text-select-type')}</MenuItem>
                                             <MenuItem value='Laptop'>Laptop</MenuItem>
-                                            <MenuItem value='Phone & Ipad'>Phone & Ipad</MenuItem>
-                                            <MenuItem value='Screen'>Screen</MenuItem>
+                                            <MenuItem value='Phone & Ipad'>Điện thoại & Ipad</MenuItem>
+                                            <MenuItem value='Screen'>Màn hình</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                
+
 
                             </Grid>
                         </CardContent>
                         <Divider />
-                        <TableHeader value={value} handleFilter={handleFilter} toggle={toggleAddUEmployeeDrawer} />
                         {device &&
                             <DataGrid
                                 autoHeight
@@ -304,7 +351,18 @@ const DevicePage = () => {
                                 paginationModel={paginationModel}
                                 onPaginationModelChange={setPaginationModel}
                                 columns={columns}
-                                rows={device}
+                                rows={filteredData?.length ? filteredData : (device ? device : [])}
+                                slots={{ toolbar: QuickSearchToolbar }}
+                                slotProps={{
+                                    baseButton: {
+                                        variant: 'outlined'
+                                    },
+                                    toolbar: {
+                                        value: searchText,
+                                        clearSearch: () => handleSearch(''),
+                                        onChange: (event: ChangeEvent<HTMLInputElement>) => handleSearch(event.target.value)
+                                    }
+                                }}
                                 getRowId={(row) => row.deviceid}
                             />
                         }
