@@ -10,6 +10,7 @@ interface ObjectAdvance {
     currency: string
     amount: number
     exchangereate: number
+    description: string
 
 }
 

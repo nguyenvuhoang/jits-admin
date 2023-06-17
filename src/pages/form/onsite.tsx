@@ -19,9 +19,13 @@ import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import { Controller, useForm } from 'react-hook-form'
 import DatePickerWrapper from '@/@core/styles/libs/react-datepicker'
 import Swal from "sweetalert2";
+import writtenNumber from '@/@core/utils/writtenNumber'
+
+
 
 const OnsitePage = () => {
 
+    writtenNumber.defaults.lang = 'vn';
 
     const { employee } = useAuth()
 
@@ -49,7 +53,6 @@ const OnsitePage = () => {
         transport: undefined,
         customerfee: undefined,
         other: undefined
-
     }
 
     const {
@@ -102,29 +105,30 @@ const OnsitePage = () => {
 
     const unit = watch('onsitefee.unit');
     const quantity = watch('onsitefee.quantity');
-    const onsitefeeamount = unit * quantity;
+    const onsitefeeamount = (unit && quantity) ? unit * quantity : 0;
 
     const unithotel = watch('hotelfee.unit');
     const quantityhotel = watch('hotelfee.quantity');
-    const hotelfeeamount = unithotel && quantityhotel && unithotel * quantityhotel;
+    const hotelfeeamount = (unithotel && quantityhotel) ? unithotel * quantityhotel : 0;
 
 
     const unittransport = watch('transport.unit');
     const quantitytransport = watch('transport.quantity');
-    const transportamount = unittransport && quantitytransport && unittransport * quantitytransport;
+    const transportamount = (unittransport && quantitytransport) ? unittransport * quantitytransport : 0;
 
     const unitcustomerfee = watch('customerfee.unit');
     const quantitycustomerfee = watch('customerfee.quantity');
-    const customerfeeamount = unitcustomerfee && quantitycustomerfee && unitcustomerfee * quantitycustomerfee
+    const customerfeeamount = (unitcustomerfee && quantitycustomerfee) ? unitcustomerfee * quantitycustomerfee : 0
 
     const unitother = watch('other.unit');
     const quantityother = watch('other.quantity');
-    const otheramount = unitother && quantityother && unitother * quantityother
+    const otheramount = (unitother && quantityother) ? unitother * quantityother : 0
 
-
+    const [total, setTotal] = useState<number>(0)
+    
     useEffect(() => {
         setValue('onsitefee.amount', onsitefeeamount);
-    }, [unit, quantity, setValue, onsitefeeamount]);
+    }, [unit, quantity, setValue, onsitefeeamount,total]);
 
     useEffect(() => {
         setValue('hotelfee.amount', hotelfeeamount);
@@ -141,6 +145,18 @@ const OnsitePage = () => {
     useEffect(() => {
         setValue('other.amount', otheramount);
     }, [unitother, quantityother, setValue, otheramount]);
+
+    useEffect(() => {
+        const totalAmount =
+        onsitefeeamount +
+        hotelfeeamount +
+        transportamount +
+        customerfeeamount +
+        otheramount;
+        console.log(totalAmount)
+        setTotal(totalAmount);
+    }, [onsitefeeamount, hotelfeeamount, transportamount, customerfeeamount, otheramount]);
+
 
 
     if (isLoading) return <Spinner />
@@ -1214,28 +1230,32 @@ const OnsitePage = () => {
                                                         <TableRow>
                                                             <TableCell rowSpan={4} />
                                                             <TableCell colSpan={3}>Tổng cộng</TableCell>
-                                                            <TableCell colSpan={2} >{onsitefeeamount + hotelfeeamount + transportamount + customerfeeamount + otheramount}</TableCell>
+                                                            <TableCell colSpan={2} >{total}</TableCell>
+                                                        </TableRow>
+                                                        <TableRow>
+                                                            <TableCell rowSpan={4} />
+                                                            <TableCell colSpan={3}>Bằng chữ: {writtenNumber(total,{lang: 'vi'})}</TableCell>
                                                         </TableRow>
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
                                         </Grid>
-                                        <Grid item xs={12} sm={12} sx={{marginTop: 5}}>
+                                        <Grid item xs={12} sm={12} sx={{ marginTop: 5 }}>
                                             <TableContainer component={Paper}>
-                                                    <InputLabel id='advance'>Đề nghị tạm ứng</InputLabel>
-                                                    <Table sx={{ minWidth: 700 }} aria-label='advance' >
-                                                        <TableHead>
-                                                            <TableRow>
-                                                                <TableCell> Loại tiền </TableCell>
-                                                                <TableCell> Số tiền </TableCell>
-                                                                <TableCell> Tỷ giá (Vietcombank) </TableCell>
-                                                                <TableCell> Ghi chú </TableCell>
-                                                            </TableRow>
-                                                        </TableHead>
-                                                        <TableBody>
-                                                            <TableRow>
-                                                                <TableCell>
-                                                                <FormControl>
+                                                <InputLabel id='advance'>Đề nghị tạm ứng</InputLabel>
+                                                <Table sx={{ minWidth: 700 }} aria-label='advance' >
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell> Loại tiền </TableCell>
+                                                            <TableCell> Số tiền </TableCell>
+                                                            <TableCell> Tỷ giá (Vietcombank) </TableCell>
+                                                            <TableCell> Ghi chú </TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        <TableRow>
+                                                            <TableCell>
+                                                                <FormControl variant='standard'>
                                                                     <InputLabel id='select-advance-currency'>Chọn loại tiền</InputLabel>
                                                                     <Controller
                                                                         name='advance.currency'
@@ -1254,10 +1274,63 @@ const OnsitePage = () => {
                                                                         )}
                                                                     />
                                                                 </FormControl>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        </TableBody>                    
-                                                    </Table>
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <FormControl>
+                                                                    <Controller
+                                                                        name='advance.amount'
+                                                                        control={control}
+                                                                        rules={{ required: false }}
+                                                                        render={({ field: { value, onChange } }) => (
+                                                                            <Input
+                                                                                type='number'
+                                                                                value={value}
+                                                                                onChange={onChange}
+                                                                                placeholder={`0`}
+                                                                                aria-describedby='validation-amount'
+                                                                            />
+                                                                        )}
+                                                                    />
+                                                                </FormControl>
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <FormControl>
+                                                                    <Controller
+                                                                        name='advance.exchangereate'
+                                                                        control={control}
+                                                                        rules={{ required: false }}
+                                                                        render={({ field: { value, onChange } }) => (
+                                                                            <Input
+                                                                                type='number'
+                                                                                value={value}
+                                                                                onChange={onChange}
+                                                                                placeholder={`0`}
+                                                                                aria-describedby='validation-exchangereate'
+                                                                            />
+                                                                        )}
+                                                                    />
+                                                                </FormControl>
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <FormControl fullWidth>
+                                                                    <Controller
+                                                                        name='advance.description'
+                                                                        control={control}
+                                                                        rules={{ required: false }}
+                                                                        render={({ field: { value, onChange } }) => (
+                                                                            <Input
+                                                                                type='text'
+                                                                                value={value}
+                                                                                onChange={onChange}
+                                                                                aria-describedby='validation-description'
+                                                                            />
+                                                                        )}
+                                                                    />
+                                                                </FormControl>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    </TableBody>
+                                                </Table>
                                             </TableContainer>
                                         </Grid>
                                     </Grid>
