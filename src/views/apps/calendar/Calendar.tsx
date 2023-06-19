@@ -42,7 +42,8 @@ const Calendar = (props: CalendarType) => {
     handleSelectEvent,
     handleLeftSidebarToggle,
     handleAddEventSidebarToggle,
-    editTable
+    editTable,
+    eventStartEditable
   } = props
 
   // ** Refs
@@ -184,7 +185,7 @@ const Calendar = (props: CalendarType) => {
 
       // Get direction from app state (store)
       direction,
-      eventStartEditable: false
+      eventStartEditable: eventStartEditable
     }
 
     // @ts-ignore
