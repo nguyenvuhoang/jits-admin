@@ -126,7 +126,7 @@ const PersionalOff = () => {
             departmentcd: data.departmentcd,
             formality: data.formality,
             reason: data.reason,
-            totaldayoff: parseInt(data.totaldayoff.toString(), 10),
+            totaldayoff: parseFloat(data.totaldayoff.toString(), 10),
             replacepersion: data.replacepersion,
             dayoff: data.dayoff.filter(item => item.fromdt !== undefined)
         }
