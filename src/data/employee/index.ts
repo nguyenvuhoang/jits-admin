@@ -281,3 +281,32 @@ export const FetchEventApplicationForLeave = () => {
         refetch
     }
 }
+
+export const useSubmitOnsite = () => {
+    const router = useRouter()
+    return useMutation(client.employee.submitonsite, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Gửi phiếu đăng ký công tác',
+                    text: 'Bạn đã gửi phiếu đăng ký công tác. Đợi cấp trên xét duyệt thông tin. Quay trở về trang chủ'
+                }).then((response: any) => {
+                    if (response.isConfirmed) {
+                        router.push('/')
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: `${data.messagedetail}`
+                })
+            }
+        }
+    });
+};

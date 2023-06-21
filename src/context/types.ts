@@ -472,3 +472,4 @@ export interface UpadateInfoField {
 }
 
 export interface GetListDeviceResponse extends ResponseArray<DeviceInfo> { }
+export interface SubmitOnsiteResponse extends ResponseObject<{}> { }

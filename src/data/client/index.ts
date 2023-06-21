@@ -1,8 +1,10 @@
 import { API_ENDPOINTS } from "@/configs/auth";
-import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, ProjectReponse, RejectApplicationForLeaveResponse, SubmitOnsiteResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator } from "@/context/types";
 import { CandidateInput } from "@/types/dashboards/candidateTyps";
 import { ListOfApplicationSearchInputs, SubmitApplicationLeaveInputs } from "@/types/form/applicationForLetterType";
+
 import { HttpClient } from "./http-client";
+import { OnsiteInputs } from "@/types/form/onsiteType";
 
 class Client {
     system = {
@@ -27,7 +29,8 @@ class Client {
         rejectapplicationforleave: ({ id }: { id: string }) => HttpClient.put<RejectApplicationForLeaveResponse>(API_ENDPOINTS.EMPLOYEE_REJECT_FOR_LEAVE, { id }),
         confirmapplicationforleave: ({ id }: { id: string }) => HttpClient.put<ConfirmApplicationForLeaveResponse>(API_ENDPOINTS.EMPLOYEE_CONFIRM_FOR_LEAVE, { id }),
         getlistfl: () => HttpClient.get<GetListApplicationForLeaveResponse>(API_ENDPOINTS.GET_EMPLOYEE_LISTFL),
-        updateinfo : (info: UpadateInfoField) => HttpClient.put<UpdateEmployeeResponse>(API_ENDPOINTS.UPDATE_EMPLOYEE_INFO,info)
+        updateinfo: (info: UpadateInfoField) => HttpClient.put<UpdateEmployeeResponse>(API_ENDPOINTS.UPDATE_EMPLOYEE_INFO, info),
+        submitonsite: (info: OnsiteInputs) => HttpClient.post<SubmitOnsiteResponse>(API_ENDPOINTS.SUBMIT_ONSIE, info)
     }
     project = {
         getall: (filter: FilterProject) => HttpClient.get<ProjectReponse>(API_ENDPOINTS.GITLAB_ALLPROJECT, filter)
@@ -45,7 +48,7 @@ class Client {
         getall: () => HttpClient.get<BlogDataResponsePaginator>(API_ENDPOINTS.BLOG_GETALL)
     }
     device = {
-        getall : () => HttpClient.get<GetListDeviceResponse>(API_ENDPOINTS.DEVICE_GETALL)
+        getall: () => HttpClient.get<GetListDeviceResponse>(API_ENDPOINTS.DEVICE_GETALL)
     }
 }
 

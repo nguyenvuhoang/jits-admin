@@ -1,26 +1,23 @@
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 // ** MUI Components
-import Head from 'next/head';
+import PageHeader from '@/@core/components/page-header';
+import Spinner from '@/@core/components/spinner';
+import DatePickerWrapper from '@/@core/styles/libs/react-datepicker';
+import writtenNumber from '@/@core/utils/writtenNumber';
 import themeConfig from '@/configs/themeConfig';
-import Icon from '@/@core/components/icon'
-import PageHeader from '@/@core/components/page-header'
-import Repeater from '@/@core/components/repeater'
-import Spinner from '@/@core/components/spinner'
-import { Employeeinfo } from '@/context/types'
-import { useSubmitApplicationForLeave } from '@/data/employee'
-import { useAuth } from '@/hooks/useAuth'
-import { OnsiteInputs } from '@/types/form/onsiteType'
-import CustomInput from '@/views/forms/pickers/PickersCustomInput'
-import { Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Table, TableHead, TableRow, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, TableBody, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography, TableContainer, Paper, TableCell, OutlinedInput, Input } from '@mui/material'
-import { styled, useTheme } from '@mui/material/styles'
-import { ChangeEvent, useEffect, useState, SyntheticEvent } from 'react'
-import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
-import { Controller, useForm } from 'react-hook-form'
-import DatePickerWrapper from '@/@core/styles/libs/react-datepicker'
-import Swal from "sweetalert2";
-import writtenNumber from '@/@core/utils/writtenNumber'
+import { Employeeinfo } from '@/context/types';
+import { useSubmitOnsite } from '@/data/employee';
+import { useAuth } from '@/hooks/useAuth';
+import { OnsiteInputs } from '@/types/form/onsiteType';
+import CustomInput from '@/views/forms/pickers/PickersCustomInput';
+import { Button, Card, CardContent, CardHeader, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, Input, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'next-i18next';
+import Head from 'next/head';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
+import { Controller, useForm } from 'react-hook-form';
 
 
 
@@ -47,9 +44,9 @@ const OnsitePage = () => {
         support1: '',
         support2: '',
         support3: '',
-        proposal1: '',
-        proposal2: '',
-        proposal3: '',
+        proposal1: false,
+        proposal2: false,
+        proposal3: false,
         note: '',
         onsitefee: undefined,
         hotelfee: undefined,
@@ -81,18 +78,10 @@ const OnsitePage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [employee]);
 
-    const { isLoading, mutate: SubmitApplicationForLeave } = useSubmitApplicationForLeave()
+    const { isLoading, mutate: SubmitOnsite } = useSubmitOnsite()
 
     const onSubmit = (data: OnsiteInputs) => {
-        Swal.fire({
-            title: `Hello ${data.fullname}`,
-            text: 'Ứng dụng còn đang trong quá trình phát triển',
-            imageUrl: '/images/misc/commingsoon.gif',
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
-        })
-        // SubmitApplicationForLeave(submitData)
+        SubmitOnsite(data)
     }
     const theme = useTheme()
     const { direction } = theme
@@ -157,8 +146,6 @@ const OnsitePage = () => {
         otheramount;
         setTotal(totalAmount);
     }, [onsitefeeamount, hotelfeeamount, transportamount, customerfeeamount, otheramount]);
-
-    console.log(errors)
 
 
     if (isLoading) return <Spinner />
@@ -645,7 +632,7 @@ const OnsitePage = () => {
                                                         <Controller
                                                             name='proposal2'
                                                             control={control}
-                                                            rules={{ required: true }}
+                                                            rules={{ required: false }}
                                                             render={({ field }) => (
                                                                 <FormControlLabel label={"Đặt vé chiều đi, chiều về riêng"}
                                                                     control={<Checkbox {...field} name="diff-go-back" color={"primary"} />} />
@@ -661,7 +648,7 @@ const OnsitePage = () => {
                                                         <Controller
                                                             name='proposal3'
                                                             control={control}
-                                                            rules={{ required: true }}
+                                                            rules={{ required: false }}
                                                             render={({ field }) => (
                                                                 <FormControlLabel label={"Đặt vé một chiều"}
                                                                     control={<Checkbox {...field} name="one-way" color={"info"} />} />
