@@ -472,3 +472,21 @@ export interface UpadateInfoField {
 }
 
 export interface GetListDeviceResponse extends ResponseArray<DeviceInfo> { }
+
+export interface Notification {
+  id: number
+  refid: string
+  type: string
+  slug: string
+  sender: string
+  receiver: string
+  title: string
+  content: string
+  datetime: string
+  isread: boolean
+  language: string
+  image: any
+} 
+
+export interface NotificationResponse extends ResponseArray<Notification> { }
+

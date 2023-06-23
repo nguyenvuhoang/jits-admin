@@ -7,7 +7,7 @@ import { Settings } from '@/@core/context/settingsContext'
 // ** Components
 import LanguageDropdown from '@/@core/layouts/components/shared-components/LanguageDropdown'
 import ModeToggler from '@/@core/layouts/components/shared-components/ModeToggler'
-import {
+import NotificationDropdown, {
   NotificationsType
 } from '@/@core/layouts/components/shared-components/NotificationDropdown'
 import { ShortcutsType } from '@/@core/layouts/components/shared-components/ShortcutsDropdown'
@@ -15,6 +15,7 @@ import UserDropdown from '@/@core/layouts/components/shared-components/UserDropd
 
 // ** Hook Import
 import { useAuth } from '@/hooks/useAuth'
+import { FetchNotification } from '@/data/employee'
 
 interface Props {
   hidden: boolean
@@ -26,9 +27,9 @@ const notifications: NotificationsType[] = [
   {
     meta: 'Today',
     avatarAlt: 'Flora',
-    title: 'Congratulation Flora! 🎉',
+    title: 'Xin nghỉ phép🎉',
     avatarImg: '/images/avatars/4.png',
-    subtitle: 'Won the monthly best seller badge'
+    subtitle: 'Ngô Văn Đang Xin nghỉ phép từ ngày 6/23/2023 12:00:00 AMđến ngày 6/23/2023 12:00:00 AM'
   },
   {
     meta: 'Yesterday',
@@ -113,17 +114,19 @@ const AppBarContent = (props: Props) => {
   // ** Hook
   const auth = useAuth()
 
+  const { notification } = FetchNotification()
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       {
         !auth.isCandidate ?
           <>
-            
+
             <LanguageDropdown settings={settings} saveSettings={saveSettings} />
             <ModeToggler settings={settings} saveSettings={saveSettings} />
             {auth.user && (
               <>
-                {/* <NotificationDropdown settings={settings} notifications={notifications} /> */}
+                <NotificationDropdown settings={settings} notifications={notification} />
                 <UserDropdown settings={settings} />
               </>
             )}

@@ -31,5 +31,6 @@ export const API_ENDPOINTS = {
   GET_MENU: '/employee/getmenu',
   GET_EMPLOYEE_LISTFL: '/employee/getlistafl',
   UPDATE_EMPLOYEE_INFO: '/employee/updateemployeeinfor',
-  DEVICE_GETALL: '/employee/getalldevice'
+  DEVICE_GETALL: '/employee/getalldevice',
+  GET_NOTIFICATION: '/employee/getnotify'
 }

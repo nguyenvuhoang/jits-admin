@@ -1,4 +1,4 @@
-import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, GetListApplicationForLeaveResponse, ListOfApplicationForLeaveResponse, UpadateInfoField, UpdateEmployeeResponse } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, GetListApplicationForLeaveResponse, ListOfApplicationForLeaveResponse, NotificationResponse, UpadateInfoField, UpdateEmployeeResponse } from "@/context/types";
 import { ListOfApplicationSearchInputs } from "@/types/form/applicationForLetterType";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -277,6 +277,18 @@ export const FetchEventApplicationForLeave = () => {
     )
     return {
         event: data?.result.data,
+        isLoading,
+        refetch
+    }
+}
+
+export const FetchNotification = () => {
+    const { data, isLoading, refetch } = useQuery<NotificationResponse, Error>(
+        ['notification'],
+        () => client.employee.getnotification()
+    )
+    return {
+        notification: data?.result.data,
         isLoading,
         refetch
     }

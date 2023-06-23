@@ -29,31 +29,33 @@ import CustomAvatar from '@/@core/components/mui/avatar'
 
 // ** Util Import
 import { getInitials } from '@/@core/utils/get-initials'
+import { Notification } from '@/context/types'
+import { useRouter } from 'next/router'
 
 export type NotificationsType = {
   meta: string
   title: string
   subtitle: string
 } & (
-  | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
-  | {
+    | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
+    | {
       avatarAlt?: never
       avatarImg?: never
       avatarText: string
       avatarIcon?: never
       avatarColor?: ThemeColor
     }
-  | {
+    | {
       avatarAlt?: never
       avatarImg?: never
       avatarText?: never
       avatarIcon: ReactNode
       avatarColor?: ThemeColor
     }
-)
+  )
 interface Props {
   settings: Settings
-  notifications: NotificationsType[]
+  notifications: Notification[] | undefined
 }
 
 // ** Styled Menu component
@@ -128,33 +130,33 @@ const NotificationDropdown = (props: Props) => {
 
   // ** Hook
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
+  const router = useRouter()
 
   // ** Vars
   const { direction } = settings
 
   const handleDropdownOpen = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
+
+  }
+  const handleNotification = (id: string) => {
+    router.push(`/apps/form/view/${id}`)
   }
 
   const handleDropdownClose = () => {
     setAnchorEl(null)
+
   }
 
-  const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
-    const { avatarAlt, avatarImg, avatarIcon, avatarText, avatarColor } = notification
+  const RenderAvatar = ({ notification }: { notification: Notification }) => {
+    const { image, sender, type } = notification
 
-    if (avatarImg) {
-      return <Avatar alt={avatarAlt} src={avatarImg} />
-    } else if (avatarIcon) {
-      return (
-        <Avatar skin='light' color={avatarColor}>
-          {avatarIcon}
-        </Avatar>
-      )
+    if (image) {
+      return <Avatar alt={sender} src={image} />
     } else {
       return (
-        <Avatar skin='light' color={avatarColor}>
-          {getInitials(avatarText as string)}
+        <Avatar skin='light' color="primary" >
+          {getInitials(type as string)}
         </Avatar>
       )
     }
@@ -166,9 +168,13 @@ const NotificationDropdown = (props: Props) => {
         <Badge
           color='error'
           variant='dot'
-          invisible={!notifications.length}
+          invisible={!notifications?.length}
           sx={{
-            '& .MuiBadge-badge': { top: 4, right: 4, boxShadow: theme => `0 0 0 2px ${theme.palette.background.paper}` }
+            '& .MuiBadge-badge':
+            {
+              top: 4, right: 4,
+              boxShadow: theme => `0 0 0 2px ${theme.palette.background.paper}`
+            }
           }}
         >
           <Icon icon='mdi:bell-outline' />
@@ -192,22 +198,26 @@ const NotificationDropdown = (props: Props) => {
               skin='light'
               size='small'
               color='primary'
-              label={`${notifications.length} New`}
+              label={`${notifications?.length} New`}
               sx={{ height: 20, fontSize: '0.75rem', fontWeight: 500, borderRadius: '10px' }}
             />
           </Box>
         </MenuItem>
         <ScrollWrapper hidden={hidden}>
-          {notifications.map((notification: NotificationsType, index: number) => (
-            <MenuItem key={index} onClick={handleDropdownClose}>
+          {notifications?.map((notification: Notification, index: number) => (
+            <MenuItem
+              key={index}
+              onClick={() => handleNotification(notification.refid)}
+              sx={{ backgroundColor: `${notification.isread ? 'transparent' : '#666CFF'} ` }}
+            >
               <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                 <RenderAvatar notification={notification} />
                 <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
                   <MenuItemTitle>{notification.title}</MenuItemTitle>
-                  <MenuItemSubtitle variant='body2'>{notification.subtitle}</MenuItemSubtitle>
+                  <MenuItemSubtitle variant='body2'>{notification.content}</MenuItemSubtitle>
                 </Box>
                 <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                  {notification.meta}
+                  {notification.datetime}
                 </Typography>
               </Box>
             </MenuItem>
