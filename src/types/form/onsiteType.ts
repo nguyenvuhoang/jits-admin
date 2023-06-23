@@ -31,9 +31,9 @@ export interface OnsiteInputs {
     support3: string | undefined | null
     routeback: string
     routego: string
-    proposal1: string
-    proposal2: string
-    proposal3: string
+    proposal1: boolean
+    proposal2: boolean
+    proposal3: boolean
     note: string
     airport1: string
     airport2: string
@@ -45,5 +45,4 @@ export interface OnsiteInputs {
     customerfee: ObjectOnsite | undefined
     other: ObjectOnsite | undefined
     advance: ObjectAdvance | undefined
-
 }

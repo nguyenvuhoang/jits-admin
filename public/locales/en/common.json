@@ -211,6 +211,7 @@
   "text-owner": "Owner",
   "text-search-device": "Search device",
   "text-office": "Office",
-  "text-device-management":"Device management",
-  "text-historyfix":"History fix"
+  "text-device-management": "Device management",
+  "text-historyfix": "History fix",
+  "text-sub-onsite-register": "Submit"
 }

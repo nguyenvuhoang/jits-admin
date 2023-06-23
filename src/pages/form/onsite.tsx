@@ -1,31 +1,31 @@
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 // ** MUI Components
-import Head from 'next/head';
+import PageHeader from '@/@core/components/page-header';
+import Spinner from '@/@core/components/spinner';
+import DatePickerWrapper from '@/@core/styles/libs/react-datepicker';
+import writtenNumber from '@/@core/utils/writtenNumber';
 import themeConfig from '@/configs/themeConfig';
-import Icon from '@/@core/components/icon'
-import PageHeader from '@/@core/components/page-header'
-import Repeater from '@/@core/components/repeater'
-import Spinner from '@/@core/components/spinner'
-import { Employeeinfo } from '@/context/types'
-import { useSubmitApplicationForLeave } from '@/data/employee'
-import { useAuth } from '@/hooks/useAuth'
-import { OnsiteInputs } from '@/types/form/onsiteType'
-import CustomInput from '@/views/forms/pickers/PickersCustomInput'
-import { Button, Card, CardContent, CardContentProps, CardHeader, Checkbox, Table, TableHead, TableRow, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, TableBody, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography, TableContainer, Paper, TableCell, OutlinedInput, Input } from '@mui/material'
-import { styled, useTheme } from '@mui/material/styles'
-import { ChangeEvent, useEffect, useState, SyntheticEvent } from 'react'
-import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
-import { Controller, useForm } from 'react-hook-form'
-import DatePickerWrapper from '@/@core/styles/libs/react-datepicker'
-import Swal from "sweetalert2";
-import writtenNumber from '@/@core/utils/writtenNumber'
+import { Employeeinfo } from '@/context/types';
+import { useSubmitOnsite } from '@/data/employee';
+import { useAuth } from '@/hooks/useAuth';
+import { OnsiteInputs } from '@/types/form/onsiteType';
+import CustomInput from '@/views/forms/pickers/PickersCustomInput';
+import { Button, Card, CardContent, CardHeader, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, Input, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { useTranslation } from 'next-i18next';
+import Head from 'next/head';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
+import { Controller, useForm } from 'react-hook-form';
 
 
 
 const OnsitePage = () => {
 
     writtenNumber.defaults.lang = 'vn';
+
+    const {t} = useTranslation('common')
 
     const { employee } = useAuth()
 
@@ -44,9 +44,9 @@ const OnsitePage = () => {
         support1: '',
         support2: '',
         support3: '',
-        proposal1: '',
-        proposal2: '',
-        proposal3: '',
+        proposal1: false,
+        proposal2: false,
+        proposal3: false,
         note: '',
         onsitefee: undefined,
         hotelfee: undefined,
@@ -78,19 +78,10 @@ const OnsitePage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [employee]);
 
-    const { isLoading, mutate: SubmitApplicationForLeave } = useSubmitApplicationForLeave()
+    const { isLoading, mutate: SubmitOnsite } = useSubmitOnsite()
 
     const onSubmit = (data: OnsiteInputs) => {
-        console.log(data)
-        Swal.fire({
-            title: `Hello ${data.fullname}`,
-            text: 'Ứng dụng còn đang trong quá trình phát triển',
-            imageUrl: '/images/misc/commingsoon.gif',
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
-        })
-        // SubmitApplicationForLeave(submitData)
+        SubmitOnsite(data)
     }
     const theme = useTheme()
     const { direction } = theme
@@ -153,10 +144,8 @@ const OnsitePage = () => {
         transportamount +
         customerfeeamount +
         otheramount;
-        console.log(totalAmount)
         setTotal(totalAmount);
     }, [onsitefeeamount, hotelfeeamount, transportamount, customerfeeamount, otheramount]);
-
 
 
     if (isLoading) return <Spinner />
@@ -339,7 +328,7 @@ const OnsitePage = () => {
                                                 />
                                                 {errors.onsiteplace && (
                                                     <FormHelperText sx={{ color: 'error.main' }} id='onsiteplace-error'>
-                                                        {errors.onsiteplace.message}
+                                                        Vui lòng chọn địa điểm công tác
                                                     </FormHelperText>
                                                 )}
                                             </FormControl>
@@ -390,7 +379,7 @@ const OnsitePage = () => {
                                                 />
                                                 {errors.fromdt && (
                                                     <FormHelperText sx={{ color: 'error.main' }} id='validation-fromdt'>
-                                                        From date is required
+                                                        Vui lòng chọn ngày bắt đầu công tác
                                                     </FormHelperText>
                                                 )}
                                             </FormControl>
@@ -420,7 +409,7 @@ const OnsitePage = () => {
                                                 />
                                                 {errors.todt && (
                                                     <FormHelperText sx={{ color: 'error.main' }} id='validation-todt'>
-                                                        To date is required
+                                                        Vui lòng chọn ngày về
                                                     </FormHelperText>
                                                 )}
                                             </FormControl>
@@ -450,7 +439,7 @@ const OnsitePage = () => {
                                                 />
                                                 {errors.purpose && (
                                                     <FormHelperText sx={{ color: 'error.main' }} id='purpose-error'>
-                                                        {errors.purpose.message}
+                                                        Chọn mục đích công tác
                                                     </FormHelperText>
                                                 )}
                                             </FormControl>
@@ -587,7 +576,7 @@ const OnsitePage = () => {
                                                 />
                                                 {errors.routego && (
                                                     <FormHelperText sx={{ color: 'error.main' }} id='routego-error'>
-                                                        {errors.routego.message}
+                                                        Vui lòng nhập lộ trình chiều đi
                                                     </FormHelperText>
                                                 )}
                                             </FormControl>
@@ -612,7 +601,7 @@ const OnsitePage = () => {
                                                 />
                                                 {errors.routeback && (
                                                     <FormHelperText sx={{ color: 'error.main' }} id='routeback-error'>
-                                                        {errors.routeback.message}
+                                                        Vui lòng nhập lộ trình chiều về
                                                     </FormHelperText>
                                                 )}
                                             </FormControl>
@@ -643,7 +632,7 @@ const OnsitePage = () => {
                                                         <Controller
                                                             name='proposal2'
                                                             control={control}
-                                                            rules={{ required: true }}
+                                                            rules={{ required: false }}
                                                             render={({ field }) => (
                                                                 <FormControlLabel label={"Đặt vé chiều đi, chiều về riêng"}
                                                                     control={<Checkbox {...field} name="diff-go-back" color={"primary"} />} />
@@ -659,7 +648,7 @@ const OnsitePage = () => {
                                                         <Controller
                                                             name='proposal3'
                                                             control={control}
-                                                            rules={{ required: true }}
+                                                            rules={{ required: false }}
                                                             render={({ field }) => (
                                                                 <FormControlLabel label={"Đặt vé một chiều"}
                                                                     control={<Checkbox {...field} name="one-way" color={"info"} />} />
@@ -705,7 +694,7 @@ const OnsitePage = () => {
                                             <InputLabel id='choose-goto-airport'>Di chuyển ra sân bay</InputLabel>
                                             <FormControl fullWidth>
                                                 <FormGroup row >
-                                                    <Grid item xs={12} sm={3} >
+                                                    <Grid item xs={12} sm={2} >
                                                         <Controller
                                                             name='airport1'
                                                             control={control}
@@ -721,7 +710,7 @@ const OnsitePage = () => {
                                                             {errors.airport1.message}
                                                         </FormHelperText>
                                                     )}
-                                                    <Grid item xs={12} sm={3} >
+                                                    <Grid item xs={12} sm={2} >
                                                         <Controller
                                                             name='airport2'
                                                             control={control}
@@ -737,7 +726,7 @@ const OnsitePage = () => {
                                                             {errors.airport2.message}
                                                         </FormHelperText>
                                                     )}
-                                                    <Grid item xs={12} sm={3} >
+                                                    <Grid item xs={12} sm={2} >
                                                         <Controller
                                                             name='airport3'
                                                             control={control}
@@ -753,7 +742,7 @@ const OnsitePage = () => {
                                                             {errors.proposal3.message}
                                                         </FormHelperText>
                                                     )}
-                                                    <Grid item xs={12} sm={3} >
+                                                    <Grid item xs={12} sm={2} >
                                                         <Controller
                                                             name='airport4'
                                                             control={control}
@@ -788,7 +777,7 @@ const OnsitePage = () => {
                                                 <Table sx={{ minWidth: 700 }} aria-label='cost' >
                                                     <TableHead>
                                                         <TableRow>
-                                                            <TableCell> STT </TableCell>
+                                                            <TableCell style={{ width: '100px' }}> STT </TableCell>
                                                             <TableCell> Nội dung </TableCell>
                                                             <TableCell align='center' colSpan={3}> Chi phí </TableCell>
                                                         </TableRow>
@@ -820,7 +809,7 @@ const OnsitePage = () => {
                                                                     <Controller
                                                                         name="onsitefee.item"
                                                                         control={control}
-                                                                        defaultValue="Công tác phí"
+                                                                        defaultValue="Phụ cấp công tác phí"
                                                                         render={({ field }) => (
                                                                             <Input type='text' {...field} disableUnderline={true} disabled={true} />
                                                                         )}
@@ -905,7 +894,7 @@ const OnsitePage = () => {
                                                                     <Controller
                                                                         name="hotelfee.item"
                                                                         control={control}
-                                                                        defaultValue="Tiền khách sạn"
+                                                                        defaultValue="Thuê phòng nghỉ/ Khách sạn"
                                                                         render={({ field }) => (
                                                                             <Input type='text' {...field} disableUnderline={true} disabled={true} />
                                                                         )}
@@ -990,9 +979,9 @@ const OnsitePage = () => {
                                                                     <Controller
                                                                         name="transport.item"
                                                                         control={control}
-                                                                        defaultValue="CP di chuyển"
+                                                                        defaultValue="Phí di chuyển Nhập - Xuất cảnh (Nước ngoài)"
                                                                         render={({ field }) => (
-                                                                            <Input type='text' {...field} disableUnderline={true} disabled={true} />
+                                                                            <Input type='text' {...field} disableUnderline={true} disabled={true} sx={{width: 350}}/>
                                                                         )}
                                                                     />
                                                                 </FormControl>
@@ -1076,9 +1065,9 @@ const OnsitePage = () => {
                                                                     <Controller
                                                                         name="customerfee.item"
                                                                         control={control}
-                                                                        defaultValue="Tiếp khách / Quà biếu"
+                                                                        defaultValue="Tiếp khách / Quà biếu (dự kiến)"
                                                                         render={({ field }) => (
-                                                                            <Input type='text' {...field} disableUnderline={true} disabled={true} />
+                                                                            <Input type='text' {...field} disableUnderline={true} disabled={true} sx={{width: 300}} />
                                                                         )}
                                                                     />
                                                                 </FormControl>
@@ -1162,9 +1151,9 @@ const OnsitePage = () => {
                                                                     <Controller
                                                                         name="other.item"
                                                                         control={control}
-                                                                        defaultValue="CP khác"
+                                                                        defaultValue="Chi phí khác ở nước ngoài (dự kiến)"
                                                                         render={({ field }) => (
-                                                                            <Input type='text' {...field} disableUnderline={true} disabled={true} />
+                                                                            <Input type='text' {...field} disableUnderline={true} disabled={true} sx={{width: 300}}/>
                                                                         )}
                                                                     />
                                                                 </FormControl>
@@ -1234,7 +1223,7 @@ const OnsitePage = () => {
                                                         </TableRow>
                                                         <TableRow>
                                                             <TableCell rowSpan={4} />
-                                                            <TableCell colSpan={3}>Bằng chữ: {writtenNumber(total,{lang: 'vi'})}</TableCell>
+                                                            <TableCell colSpan={3}>Bằng chữ: {total > 0 ? `${writtenNumber(total,{lang: 'vi'})} đô la mỹ` : 'Không đồng' }</TableCell>
                                                         </TableRow>
                                                     </TableBody>
                                                 </Table>
@@ -1344,7 +1333,7 @@ const OnsitePage = () => {
                                 <CardContent>
                                     <Grid item xs={12}>
                                         <Button size='large' type='submit' variant='contained'>
-                                            Submit
+                                            {t('text-sub-onsite-register')}
                                         </Button>
                                     </Grid>
                                 </CardContent>

@@ -68,7 +68,7 @@ const CalendarEmployee = (props: Props) => {
 
             >
                 {event &&
-                    < Calendar
+                    <Calendar
                         events={event}
                         direction={direction}
                         updateEvent={() => updateEvent()}
@@ -78,6 +78,8 @@ const CalendarEmployee = (props: Props) => {
                         handleSelectEvent={handleSelectEvent}
                         handleLeftSidebarToggle={handleLeftSidebarToggle}
                         handleAddEventSidebarToggle={handleAddEventSidebarToggle}
+                        editTable={false}
+                        eventStartEditable={false}
                     />
                 }
             </Box>

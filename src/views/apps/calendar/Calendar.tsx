@@ -41,7 +41,9 @@ const Calendar = (props: CalendarType) => {
     setCalendarApi,
     handleSelectEvent,
     handleLeftSidebarToggle,
-    handleAddEventSidebarToggle
+    handleAddEventSidebarToggle,
+    editTable,
+    eventStartEditable
   } = props
 
   // ** Refs
@@ -74,7 +76,7 @@ const Calendar = (props: CalendarType) => {
       Enable dragging and resizing event
       ? Docs: https://fullcalendar.io/docs/editable
     */
-      editable: true,
+      editable: editTable,
 
       /*
       Enable resizing event from start
@@ -182,7 +184,8 @@ const Calendar = (props: CalendarType) => {
       ref: calendarRef,
 
       // Get direction from app state (store)
-      direction
+      direction,
+      eventStartEditable: eventStartEditable
     }
 
     // @ts-ignore
