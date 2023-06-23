@@ -32,5 +32,6 @@ export const API_ENDPOINTS = {
   GET_EMPLOYEE_LISTFL: '/employee/getlistafl',
   UPDATE_EMPLOYEE_INFO: '/employee/updateemployeeinfor',
   DEVICE_GETALL: '/employee/getalldevice',
+  SUBMIT_ONSIE: '/employee/registeronsite',
   GET_NOTIFICATION: '/employee/getnotify'
 }

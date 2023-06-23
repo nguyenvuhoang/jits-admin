@@ -473,6 +473,9 @@ export interface UpadateInfoField {
 
 export interface GetListDeviceResponse extends ResponseArray<DeviceInfo> { }
 
+
+export interface SubmitOnsiteResponse extends ResponseObject<{}> { }
+
 export interface Notification {
   id: number
   refid: string
@@ -489,4 +492,5 @@ export interface Notification {
 } 
 
 export interface NotificationResponse extends ResponseArray<Notification> { }
+
 
