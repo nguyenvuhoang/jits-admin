@@ -29,33 +29,12 @@ import CustomAvatar from '@/@core/components/mui/avatar'
 
 // ** Util Import
 import { getInitials } from '@/@core/utils/get-initials'
-import { Notification } from '@/context/types'
+import { Notification, NotificationsType } from '@/context/types'
 import { useRouter } from 'next/router'
 
-export type NotificationsType = {
-  meta: string
-  title: string
-  subtitle: string
-} & (
-    | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
-    | {
-      avatarAlt?: never
-      avatarImg?: never
-      avatarText: string
-      avatarIcon?: never
-      avatarColor?: ThemeColor
-    }
-    | {
-      avatarAlt?: never
-      avatarImg?: never
-      avatarText?: never
-      avatarIcon: ReactNode
-      avatarColor?: ThemeColor
-    }
-  )
 interface Props {
   settings: Settings
-  notifications: Notification[] | undefined
+  notifications: NotificationsType | undefined
 }
 
 // ** Styled Menu component
@@ -124,7 +103,7 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
 const NotificationDropdown = (props: Props) => {
   // ** Props
   const { settings, notifications } = props
-
+  
   // ** States
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null)
 
@@ -139,8 +118,9 @@ const NotificationDropdown = (props: Props) => {
     setAnchorEl(event.currentTarget)
 
   }
-  const handleNotification = (id: string) => {
-    router.push(`/apps/form/view/${id}`)
+  const handleNotification = (url: string) => {
+    router.push(url)
+    setAnchorEl(null)
   }
 
   const handleDropdownClose = () => {
@@ -162,13 +142,14 @@ const NotificationDropdown = (props: Props) => {
     }
   }
 
+
   return (
     <Fragment>
       <IconButton color='inherit' aria-haspopup='true' onClick={handleDropdownOpen} aria-controls='customized-menu'>
         <Badge
           color='error'
           variant='dot'
-          invisible={!notifications?.length}
+          invisible={!notifications?.totalnew}
           sx={{
             '& .MuiBadge-badge':
             {
@@ -198,16 +179,16 @@ const NotificationDropdown = (props: Props) => {
               skin='light'
               size='small'
               color='primary'
-              label={`${notifications?.length} New`}
+              label={`${notifications?.totalnew} New`}
               sx={{ height: 20, fontSize: '0.75rem', fontWeight: 500, borderRadius: '10px' }}
             />
           </Box>
         </MenuItem>
         <ScrollWrapper hidden={hidden}>
-          {notifications?.map((notification: Notification, index: number) => (
+          {notifications?.list_noti?.map((notification: Notification, index: number) => (
             <MenuItem
               key={index}
-              onClick={() => handleNotification(notification.refid)}
+              onClick={() => handleNotification(notification.slug)}
               sx={{ backgroundColor: `${notification.isread ? 'transparent' : '#666CFF'} ` }}
             >
               <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>

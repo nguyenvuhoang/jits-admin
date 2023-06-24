@@ -7,9 +7,7 @@ import { Settings } from '@/@core/context/settingsContext'
 // ** Components
 import LanguageDropdown from '@/@core/layouts/components/shared-components/LanguageDropdown'
 import ModeToggler from '@/@core/layouts/components/shared-components/ModeToggler'
-import NotificationDropdown, {
-  NotificationsType
-} from '@/@core/layouts/components/shared-components/NotificationDropdown'
+import NotificationDropdown from '@/@core/layouts/components/shared-components/NotificationDropdown'
 import { ShortcutsType } from '@/@core/layouts/components/shared-components/ShortcutsDropdown'
 import UserDropdown from '@/@core/layouts/components/shared-components/UserDropdown'
 
@@ -22,51 +20,6 @@ interface Props {
   settings: Settings
   saveSettings: (values: Settings) => void
 }
-
-const notifications: NotificationsType[] = [
-  {
-    meta: 'Today',
-    avatarAlt: 'Flora',
-    title: 'Xin nghỉ phép🎉',
-    avatarImg: '/images/avatars/4.png',
-    subtitle: 'Ngô Văn Đang Xin nghỉ phép từ ngày 6/23/2023 12:00:00 AMđến ngày 6/23/2023 12:00:00 AM'
-  },
-  {
-    meta: 'Yesterday',
-    avatarColor: 'primary',
-    subtitle: '5 hours ago',
-    avatarText: 'Robert Austin',
-    title: 'New user registered.'
-  },
-  {
-    meta: '11 Aug',
-    avatarAlt: 'message',
-    title: 'New message received 👋🏻',
-    avatarImg: '/images/avatars/5.png',
-    subtitle: 'You have 10 unread messages'
-  },
-  {
-    meta: '25 May',
-    title: 'Paypal',
-    avatarAlt: 'paypal',
-    subtitle: 'Received Payment',
-    avatarImg: '/images/misc/paypal.png'
-  },
-  {
-    meta: '19 Mar',
-    avatarAlt: 'order',
-    title: 'Received Order 📦',
-    avatarImg: '/images/avatars/3.png',
-    subtitle: 'New order received from John'
-  },
-  {
-    meta: '27 Dec',
-    avatarAlt: 'chart',
-    subtitle: '25 hrs ago',
-    avatarImg: '/images/misc/chart.png',
-    title: 'Finance report has been generated'
-  }
-]
 
 const shortcuts: ShortcutsType[] = [
   {

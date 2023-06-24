@@ -489,8 +489,11 @@ export interface Notification {
   isread: boolean
   language: string
   image: any
-} 
+}export interface NotificationsType {
+  totalnew: number
+  list_noti: Notification[]
+}
 
-export interface NotificationResponse extends ResponseArray<Notification> { }
+export interface NotificationResponse extends ResponseObject<NotificationsType> { }
 
 
