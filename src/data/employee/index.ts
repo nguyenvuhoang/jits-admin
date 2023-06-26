@@ -1,12 +1,11 @@
-import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, GetListApplicationForLeaveResponse, ListOfApplicationForLeaveResponse, NotificationResponse, UpadateInfoField, UpdateEmployeeResponse } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterDataOnsite, FilterEmployee, GetListApplicationForLeaveResponse, GetOnsiteResponse, ListOfApplicationForLeaveResponse, NotificationResponse, UpdateEmployeeResponse } from "@/context/types";
+import { useAuth } from "@/hooks/useAuth";
 import { ListOfApplicationSearchInputs } from "@/types/form/applicationForLetterType";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import client from "../client";
-import { AxiosError } from "axios";
-import { QueryClient } from '@tanstack/react-query'
-import { useAuth } from "@/hooks/useAuth";
 
 export const FetchEmployee = (filter: FilterEmployee) => {
     const { data, isLoading, refetch } = useQuery<EmployeeResponsePaginator, Error>(
@@ -318,6 +317,18 @@ export const FetchNotification = () => {
     )
     return {
         notification: data?.result.data,
+        isLoading,
+        refetch
+    }
+}
+
+export const FetchOnsiteList = (dataFilter: FilterDataOnsite) => {
+    const { data, isLoading, refetch } = useQuery<GetOnsiteResponse, Error>(
+        ['list-onsite'],
+        () => client.employee.getonsite(dataFilter)
+    )
+    return {
+        listonsite: data?.result.data,
         isLoading,
         refetch
     }

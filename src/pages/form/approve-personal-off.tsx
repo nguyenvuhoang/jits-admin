@@ -220,7 +220,7 @@ const ApproveForApplicationForLeave = () => {
                             <Grid item xs={12} sm={12}>
                                 <CardHeader
                                     title={t('text-approve-application-for-leave')}
-                                    subheader={`Ongoing Projects`}
+                                    subheader={t('text-list-approve-application-for-leave')}
                                     subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
                                     titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
                                 />

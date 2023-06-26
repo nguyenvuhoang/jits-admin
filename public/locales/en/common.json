@@ -161,6 +161,7 @@
   "text-phone": "Phone",
   "text-birthday": "Birthday",
   "text-approve-application-for-leave": "Approve application for leave",
+  "text-list-approve-application-for-leave": "List of approve application for leave",
   "text-fullname": "Full name",
   "text-reason": "Reason",
   "text-totaldayoff": "Total day off",
@@ -213,5 +214,12 @@
   "text-office": "Office",
   "text-device-management": "Device management",
   "text-historyfix": "History fix",
-  "text-sub-onsite-register": "Submit"
+  "text-sub-onsite-register": "Submit",
+  "text-approve-onsite": "Approve for onsite registration",
+  "text-list-of-approve-onsite": "List of onsite registrations",
+  "text-onsite-place": "Place of onsite",
+  "text-fromdt": "From date",
+  "text-todt":"To date",
+  "text-purpose":"Purpose",
+  "text-amount-onsite": "Total onsite amount"
 }

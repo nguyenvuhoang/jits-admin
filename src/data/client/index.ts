@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "@/configs/auth";
-import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse, GetOnsiteResponse, FilterDataOnsite } from "@/context/types";
 import { CandidateInput } from "@/types/dashboards/candidateTyps";
 import { ListOfApplicationSearchInputs, SubmitApplicationLeaveInputs } from "@/types/form/applicationForLetterType";
 import { HttpClient } from "./http-client";
@@ -29,6 +29,7 @@ class Client {
         getlistfl: () => HttpClient.get<GetListApplicationForLeaveResponse>(API_ENDPOINTS.GET_EMPLOYEE_LISTFL),
         updateinfo: (info: UpadateInfoField) => HttpClient.put<UpdateEmployeeResponse>(API_ENDPOINTS.UPDATE_EMPLOYEE_INFO, info),
         submitonsite: (info: OnsiteInputs) => HttpClient.post<SubmitOnsiteResponse>(API_ENDPOINTS.SUBMIT_ONSIE, info),
+        getonsite: (info: FilterDataOnsite) => HttpClient.get<GetOnsiteResponse>(API_ENDPOINTS.EMPLOYEE_LIST_APPROVE_ON_SITE, info),
         getnotification: () => HttpClient.get<NotificationResponse>(API_ENDPOINTS.GET_NOTIFICATION)
 
     }

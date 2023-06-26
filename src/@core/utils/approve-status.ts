@@ -3,7 +3,7 @@ export const ApproveStatus = (status:string) =>{
         case "A": return 'Approve'
         case "P": return 'Pending'
         case "R": return 'Rejected'
-        case "C": return 'Confimred'
+        case "C": return 'Confirmed'
         default: return 'Approve'
     }
 }

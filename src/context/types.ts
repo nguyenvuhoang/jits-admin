@@ -1,5 +1,6 @@
 import { HorizontalNavItemsType } from "@/@core/layouts/types"
 import { EventType } from "@/types/apps/calendarTypes"
+import { OnsiteInputs } from "@/types/form/onsiteType"
 
 export type ErrCallbackType = (err: { [key: string]: string }) => void
 
@@ -496,4 +497,12 @@ export interface Notification {
 
 export interface NotificationResponse extends ResponseObject<NotificationsType> { }
 
+export interface GetOnsiteResponse extends ResponseArray<OnsiteInputs> { }
 
+
+export interface FilterDataOnsite {
+  fullname?: string
+  status?: string
+  month?: string
+  employeecd?: string
+}

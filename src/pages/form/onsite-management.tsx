@@ -1,12 +1,282 @@
-import { GetStaticProps } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React from 'react'
+import Icon from '@/@core/components/icon'
+import CustomChip from '@/@core/components/mui/chip'
+import { ThemeColor } from '@/@core/layouts/types'
+import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
+import { ApproveStatus } from '@/@core/utils/approve-status'
+import { ApplicationForLeave } from '@/context/types'
+import { FetchListOfApplicationForLeave, FetchOnsiteList } from '@/data/employee'
+import { OnsiteInputs } from '@/types/form/onsiteType'
+import ExportApplicationForLeave from '@/views/table/data-grid/ExportApplicationForLeave'
+import { Box, Card, CardContent, CardHeader, Grid, IconButton, Menu, MenuItem, Typography, useTheme } from '@mui/material'
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Link from 'next/link'
+import { ChangeEvent, MouseEvent, useState } from 'react'
 
-type Props = {}
+interface CellType {
+    row: ApplicationForLeave
+}
 
-const OnsiteManagement = (props: Props) => {
+interface ApplicationForLeaveStatusType {
+    [key: string]: ThemeColor
+}
+const personalStatusObj: ApplicationForLeaveStatusType = {
+    A: 'success',
+    P: 'warning',
+    R: 'error',
+    C: 'info'
+}
+
+
+const OnsiteManagement = () => {
+
+    const theme = useTheme()
+
+    const { listonsite } = FetchOnsiteList({
+        fullname: '',
+        status: '',
+        month: '',
+        employeecd: ''
+    })
+
+    const { t } = useTranslation('common')
+
+    const RowOptions = ({ id }: { id: string }) => {
+        const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+        const rowOptionsOpen = Boolean(anchorEl)
+
+        const handleRowOptionsClick = (event: MouseEvent<HTMLElement>) => {
+            setAnchorEl(event.currentTarget)
+        }
+        const handleRowOptionsClose = () => {
+            setAnchorEl(null)
+        }
+
+        return (
+            <>
+                <IconButton size='small' onClick={handleRowOptionsClick}>
+                    <Icon icon='mdi:dots-vertical' />
+                </IconButton>
+                <Menu
+                    keepMounted
+                    anchorEl={anchorEl}
+                    open={rowOptionsOpen}
+                    onClose={handleRowOptionsClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right'
+                    }}
+                    PaperProps={{ style: { minWidth: '8rem' } }}
+                >
+                    <MenuItem
+                        component={Link}
+                        sx={{ '& svg': { mr: 2 } }}
+                        onClick={handleRowOptionsClose}
+                        href={`/apps/form/view/${id}`}
+                    >
+                        <Icon icon='mdi:eye-outline' fontSize={20} />
+                        View
+                    </MenuItem>
+                </Menu>
+            </>
+        )
+    }
+
+    const renderClient = (params: any) => {
+        const data = JSON.parse(params)
+        return (
+            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+                                USD {data.amount}
+                            </Typography>
+        )
+    }
+
+
+    const columns: GridColDef[] = [
+        {
+            flex: 0.275,
+            minWidth: 290,
+            field: 'fullname',
+            headerName: `${t('text-fullname')}`,
+            renderCell: (params: GridRenderCellParams) => {
+                const { row } = params
+                return (
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+                                {row.fullname}
+                            </Typography>
+                        </Box>
+                    </Box>
+                )
+            }
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'leader',
+            headerName: 'Leader',
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.leader}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'onsiteplace',
+            headerName: `${t('text-onsite-place')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {t(params.row.onsiteplace)}
+                </Typography>
+            )
+        },
+
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'fromdt',
+            headerName: `${t('text-fromdt')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.fromdt}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'todt',
+            headerName: `${t('text-todt')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.todt}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'purpose',
+            headerName: `${t('text-purpose')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.purpose}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'advance',
+            headerName: `${t('text-amount-onsite')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {renderClient(params.row.advance)}
+                </Box>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'status',
+            headerName: `${t('text-status')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <CustomChip
+                    skin='light'
+                    size='small'
+                    label={ApproveStatus(params.row.status)}
+                    color={personalStatusObj[params.row.status]}
+                    sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
+                />
+            )
+        },
+        {
+            flex: 0.1,
+            minWidth: 90,
+            sortable: false,
+            field: 'actions',
+            headerName: 'Actions',
+            renderCell: ({ row }: CellType) => <RowOptions id={row.id} />
+        }
+
+    ]
+
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+    const [filteredData, setFilteredData] = useState<OnsiteInputs[]>()
+    const [searchText, setSearchText] = useState<string>('')
+
+
+    const escapeRegExp = (value: string) => {
+        return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+    }
+    const handleSearch = (searchValue: string) => {
+        setSearchText(searchValue)
+        const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
+
+        const filteredRows = listonsite?.filter(row => {
+
+            return Object.keys(row).some(field => {
+                // @ts-ignore
+                return searchRegex.test(row[field]?.toString())
+            })
+        })
+
+        if (searchValue.length) {
+            setFilteredData(filteredRows!)
+        } else {
+            setFilteredData(listonsite!)
+        }
+    }
+
     return (
-        <div>OnsiteManagement</div>
+        <ApexChartWrapper>
+            <Grid container spacing={6}>
+                <Grid item xs={12} md={12}>
+                    <Card>
+                        <Grid container>
+                            <Grid item xs={12} sm={12}>
+                                <CardHeader
+                                    title={t('text-approve-onsite')}
+                                    subheader={t('text-list-of-approve-onsite')}
+                                    subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
+                                    titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
+                                />
+                                <CardContent sx={{ pt: `${theme.spacing(5)} !important` }}>
+                                    <DataGrid
+                                        autoHeight
+                                        pagination
+                                        columns={columns}
+                                        pageSizeOptions={[10, 25, 50]}
+                                        paginationModel={paginationModel}
+                                        onPaginationModelChange={setPaginationModel}
+                                        rows={filteredData ? filteredData : (listonsite ? listonsite : [])}
+                                        slotProps={{
+                                            baseButton: {
+                                                variant: 'outlined'
+                                            },
+                                            toolbar: {
+                                                value: searchText,
+                                                clearSearch: () => handleSearch(''),
+                                                onChange: (event: ChangeEvent<HTMLInputElement>) => handleSearch(event.target.value)
+                                            }
+                                        }}
+                                    />
+                                </CardContent>
+                            </Grid>
+                        </Grid>
+                    </Card>
+                </Grid>
+            </Grid>
+        </ApexChartWrapper>
     )
 }
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -26,3 +296,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
 };
 export default OnsiteManagement
+

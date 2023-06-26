@@ -161,6 +161,7 @@
   "text-phone": "Số điện thoại",
   "text-birthday": "Ngày sinh",
   "text-approve-application-for-leave": "Duyệt đơn xin nghỉ phép",
+  "text-list-approve-application-for-leave": "Danh sách duyệt đơn xin nghỉ phép",
   "text-fullname": "Họ và tên",
   "text-reason": "Lý do",
   "text-totaldayoff": "Tổng ngày nghỉ",
@@ -211,7 +212,14 @@
   "text-owner": "Đối tượng đang sử dụng",
   "text-search-device": "Tìm kiếm thiết bị",
   "text-office": "Văn phòng",
-  "text-device-management":"Quản lý thông tin thiết bị",
-  "text-historyfix":"Lịch sử sửa chửa",
-  "text-sub-onsite-register": "Gửi đăng ký công tác"
+  "text-device-management": "Quản lý thông tin thiết bị",
+  "text-historyfix": "Lịch sử sửa chửa",
+  "text-sub-onsite-register": "Gửi đăng ký công tác",
+  "text-approve-onsite": "Duyệt đơn đăng ký công tác",
+  "text-list-of-approve-onsite": "Danh sách đăng ký công tác",
+  "text-onsite-place": "Địa điểm công tác",
+  "text-fromdt": "Ngày bắt đầu",
+  "text-todt":"Ngày kết thúc",
+  "text-purpose":"Mục đích",
+  "text-amount-onsite": "Tổng tiền ứng công tác"
 }
