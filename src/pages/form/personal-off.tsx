@@ -163,7 +163,13 @@ const PersionalOff = () => {
                             Đơn xin nghỉ phép
                         </Typography>
                     }
-                    subtitle={<Typography variant='body2'>Vui lòng điền đầy đủ thông tin bên dưới</Typography>}
+                    subtitle={
+                        <>
+                            <Typography variant='body2'>Vui lòng điền đầy đủ thông tin bên dưới.</Typography>
+                            <Typography variant='body2' sx={{color: '#3de13d'}}>Lưu ý: Mỗi bạn sẽ chỉ được ứng phép tối đa là 3 ngày và hết quý 3 (hết tháng 9)</Typography>
+                        </>
+                    }
+
                 />
                 <Grid item xs={12}>
                     <form onSubmit={handleSubmit(onSubmit)}>

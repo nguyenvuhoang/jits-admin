@@ -69,6 +69,7 @@ export interface Employeeinfo {
   team_description: string
   totaltask: string
   description: string
+  daysofleaveavailable: number
 }
 
 
@@ -401,6 +402,7 @@ export interface ApplicationForLeave {
   btnApprove?: boolean
   btnConfirm?: boolean
   btnReject?: boolean
+  applicationforleave: number
 }
 
 export interface SubMenu {

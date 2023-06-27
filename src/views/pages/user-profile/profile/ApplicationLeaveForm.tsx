@@ -57,7 +57,7 @@ interface CellType {
   row: ApplicationForLeave
 }
 
-const ApplicationLeaveForm = ({ employeecd }: { employeecd: string }) => {
+const ApplicationLeaveForm = ({ employeecd, totalisleave }: { employeecd: string, totalisleave: number }) => {
   const theme = useTheme()
   const { t } = useTranslation('common')
 
@@ -79,7 +79,7 @@ const ApplicationLeaveForm = ({ employeecd }: { employeecd: string }) => {
         color: 'gold',
         title: 'Hold on!',
         text: 'This feature is not available. Please come back later'
-    })
+      })
       setAnchorEl(null)
     }
 
@@ -200,9 +200,7 @@ const ApplicationLeaveForm = ({ employeecd }: { employeecd: string }) => {
 
   ]
 
-
-
-  return applicationforleave ? (
+  return applicationforleave && applicationforleave.length > 0 ? (
     <Card>
       <CardHeader
         title='Thông tin nghỉ phép'
@@ -219,29 +217,33 @@ const ApplicationLeaveForm = ({ employeecd }: { employeecd: string }) => {
           onPaginationModelChange={setPaginationModel}
         />
       }
+      <Typography variant='caption' sx={{ lineHeight: 3, padding: 5, fontSize: 16, color: totalisleave > 0 ? '#51e551' : 'red' }}>
+        Sô ngày nghỉ còn lại của bạn là: {totalisleave}
+      </Typography>
     </Card>
-  ) : <Card sx={{ position: 'relative' }}>
-    <CardContent sx={{ p: theme => `${theme.spacing(6.75, 7.5)} !important` }}>
-      <Grid container spacing={6}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='h5' sx={{ mb: 4.5 }}>
-            Thông tin nghỉ phép{' '}
-            ! 🎉
-          </Typography>
-          <Typography variant='body2'>
-            Trong năm nay bạn chưa gửi phép nào{' '}
-          </Typography>
-          <Typography sx={{ mb: 4.5 }} variant='body2'>
-            Bạn muốn nghỉ phép vui lòng nhấn vào nút gửi đơn xin phép bên dưới
-          </Typography>
-          <Button href="/form/personal-off/" target="_blank" component={Link} variant='contained'>Gửi đơn xin nghỉ phép</Button>
+  ) :
+    <Card sx={{ position: 'relative' }}>
+      <CardContent sx={{ p: theme => `${theme.spacing(6.75, 7.5)} !important` }}>
+        <Grid container spacing={6}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='h5' sx={{ mb: 4.5 }}>
+              Thông tin nghỉ phép{' '}
+              ! 🎉
+            </Typography>
+            <Typography variant='body2'>
+              Trong năm nay bạn chưa gửi phép nào{' '}
+            </Typography>
+            <Typography sx={{ mb: 4.5 }} variant='body2'>
+              Bạn muốn nghỉ phép vui lòng nhấn vào nút gửi đơn xin phép bên dưới
+            </Typography>
+            <Button href="/form/personal-off/" target="_blank" component={Link} variant='contained'>Gửi đơn xin nghỉ phép</Button>
+          </Grid>
+          <StyledGrid item xs={12} sm={6}>
+            <Img alt='Congratulations John' src={`/images/cards/illustration-john-${theme.palette.mode}.png`} />
+          </StyledGrid>
         </Grid>
-        <StyledGrid item xs={12} sm={6}>
-          <Img alt='Congratulations John' src={`/images/cards/illustration-john-${theme.palette.mode}.png`} />
-        </StyledGrid>
-      </Grid>
-    </CardContent>
-  </Card>
+      </CardContent>
+    </Card>
 }
 
 export default ApplicationLeaveForm

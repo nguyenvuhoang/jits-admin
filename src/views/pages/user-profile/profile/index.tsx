@@ -36,7 +36,7 @@ const ProfileTab = ({ data }: { data: Employeeinfo | null }) => {
       <Grid item lg={8} md={7} xs={12}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <ApplicationLeaveForm employeecd={data?.employeecd} />
+            <ApplicationLeaveForm employeecd={data?.employeecd} totalisleave ={data.daysofleaveavailable} />
           </Grid>
         </Grid>
       </Grid>
