@@ -10,6 +10,7 @@ import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
 import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { ChangeEvent, useState } from 'react'
 
 const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -125,8 +126,8 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
         }
     }
 
-    if (isLoading)  return <Spinner />
-    
+    if (isLoading) return <Spinner />
+
     return (
         <ApexChartWrapper>
             <Grid container spacing={6}>
@@ -176,11 +177,12 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
     )
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }: GetStaticPropsContext) => {
+export const getStaticProps: GetStaticProps = async ({ locale, params }: GetStaticPropsContext) => {
     const { slug } = params!
     return {
         props: {
-            slug
+            slug,
+            ...(await serverSideTranslations(locale!, ['common'])),
         }
     }
 }
