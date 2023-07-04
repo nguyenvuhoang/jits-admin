@@ -4,15 +4,14 @@ import { ThemeColor } from '@/@core/layouts/types';
 import themeConfig from '@/configs/themeConfig';
 import { DeviceInfo } from '@/context/types';
 import { FetchDevice } from '@/data/device';
-import TableHeader from '@/views/apps/it/device/TableHeader';
 import { Icon } from '@iconify/react';
-import { Box, Card, CardContent, CardHeader, Divider, FormControl, Grid, InputLabel, Link, MenuItem, Select, SelectChangeEvent, Typography, styled } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Divider, FormControl, Grid, IconButton, InputLabel, Link, Menu, MenuItem, Select, SelectChangeEvent, Typography, styled } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { GetStaticProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, MouseEvent, useCallback, useEffect, useState } from 'react';
 import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
 
 interface CellType {
@@ -26,21 +25,9 @@ interface TypeStatusObj {
     }
 }
 
-const LinkStyled = styled(Link)(({ theme }) => ({
-    fontWeight: 600,
-    fontSize: '1rem',
-    cursor: 'pointer',
-    textDecoration: 'none',
-    color: theme.palette.text.secondary,
-    '&:hover': {
-        color: theme.palette.primary.main
-    }
-}))
-
 const DevicePage = () => {
     // HooKs
     const { t } = useTranslation('common')
-    const [value, setValue] = useState<string>('')
     const [refresh, setRefresh] = useState(false)
     const [searchText, setSearchText] = useState<string>('')
     const [type, setType] = useState<string>('')
@@ -67,8 +54,6 @@ const DevicePage = () => {
     // API
     const { device, isLoading, refetch } = FetchDevice()
 
-    const toggleAddUEmployeeDrawer = () => { }
-
     const filter = {
         departmentcd: department,
         officecd: office,
@@ -79,10 +64,6 @@ const DevicePage = () => {
         refetch()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter, refresh])
-
-    const handleFilter = useCallback((val: string) => {
-        setValue(val)
-    }, [])
 
 
     const typeStatusObj: TypeStatusObj = {
@@ -117,6 +98,52 @@ const DevicePage = () => {
             case 'office0102': return `Văn Phòng Bình Thạnh`
             default: return officecd
         }
+    }
+
+
+    const RowOptions = ({ id }: { id: string }) => {
+        const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+        const rowOptionsOpen = Boolean(anchorEl)
+
+        const handleRowOptionsClick = (event: MouseEvent<HTMLElement>) => {
+            setAnchorEl(event.currentTarget)
+        }
+        const handleRowOptionsClose = () => {
+            setAnchorEl(null)
+        }
+
+        return (
+            <>
+                <IconButton size='small' onClick={handleRowOptionsClick}>
+                    <Icon icon='mdi:dots-vertical' />
+                </IconButton>
+                <Menu
+                    keepMounted
+                    anchorEl={anchorEl}
+                    open={rowOptionsOpen}
+                    onClose={handleRowOptionsClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right'
+                    }}
+                    PaperProps={{ style: { minWidth: '8rem' } }}
+                >
+                    <MenuItem
+                        component={Link}
+                        sx={{ '& svg': { mr: 2 } }}
+                        onClick={handleRowOptionsClose}
+                        href={`/it/device/modify/${id}`}
+                    >
+                        <Icon icon='akar-icons:edit' fontSize={20} />
+                        Edit
+                    </MenuItem>
+                </Menu>
+            </>
+        )
     }
 
     const columns: GridColDef[] = [
@@ -241,6 +268,14 @@ const DevicePage = () => {
                     </Box>
                 )
             }
+        },
+        {
+            flex: 0.1,
+            minWidth: 90,
+            sortable: false,
+            field: 'actions',
+            headerName: 'Actions',
+            renderCell: ({ row }: CellType) => <RowOptions id={row.deviceid} />
         }
     ]
 
