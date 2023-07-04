@@ -1,5 +1,6 @@
 import PageHeader from '@/@core/components/page-header'
 import { Employeeinfo } from '@/context/types'
+import { FetchDeviceById } from '@/data/employee'
 import { useAuth } from '@/hooks/useAuth'
 import DeviceInfoPage from '@/views/pages/device/DeviceInfoPage'
 import { Card, CardContent, CardHeader, FormControl, Grid, MenuItem, Select, TextField, Typography } from '@mui/material'
@@ -7,6 +8,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import Spinner from '@/@core/components/spinner'
 
 
 const DeviceModifyPage = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -42,7 +44,9 @@ const DeviceModifyPage = ({ id }: InferGetStaticPropsType<typeof getStaticProps>
     }, [employee]);
 
 
-    // if (isLoading) return <Spinner />
+    const { device, isLoading } = FetchDeviceById(id)
+
+    if (isLoading) return <Spinner />
 
     return (
         <>
@@ -168,8 +172,8 @@ const DeviceModifyPage = ({ id }: InferGetStaticPropsType<typeof getStaticProps>
                             </CardContent>
                         </Card>
                     </form>
-                    
-                    <DeviceInfoPage />
+
+                    <DeviceInfoPage device={device} />
 
 
                 </Grid>

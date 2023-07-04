@@ -1,22 +1,25 @@
-import { Button, Card, CardContent, CardHeader, FormControl, Grid, TextField } from '@mui/material'
+import { DeviceInfo } from '@/context/types'
+import { FetchEmployee } from '@/data/employee'
+import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
 
-type Props = {}
+type Props = {
+    device: DeviceInfo | undefined
+}
 
-const DeviceInfoPage = (props: Props) => {
-
+const DeviceInfoPage = ({ device }: Props) => {
 
     const defaultValues = {
-        deviceid: '',
-        name: '',
-        buydate: '',
-        price: '',
-        chip: '',
-        ram: '',
-        disk: '',
-        owner: '',
+        deviceid: device?.deviceid,
+        name: device?.name,
+        buydate: device?.buydate,
+        price: device?.price,
+        chip: device?.chip,
+        ram: device?.ram,
+        disk: device?.disk,
+        owner: device?.owner,
         whoreceived: '',
         historyfix: ''
     }
@@ -39,6 +42,13 @@ const DeviceInfoPage = (props: Props) => {
         })
     }
 
+    const { employees } = FetchEmployee({
+        teamcd: undefined,
+        status: undefined
+    })
+
+    console.log(employees)
+
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,6 +61,7 @@ const DeviceInfoPage = (props: Props) => {
                                     <Controller
                                         name='deviceid'
                                         control={control}
+                                        defaultValue={device?.deviceid || ''}
                                         rules={{ required: true }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
@@ -59,6 +70,9 @@ const DeviceInfoPage = (props: Props) => {
                                                 label='Mã thiết bị'
                                                 onChange={onChange}
                                                 aria-describedby='validation-deviceid'
+                                                InputProps={{
+                                                    readOnly: true
+                                                }}
                                             />
                                         )}
                                     />
@@ -70,6 +84,7 @@ const DeviceInfoPage = (props: Props) => {
                                     <Controller
                                         name='name'
                                         control={control}
+                                        defaultValue={device?.name || ''}
                                         rules={{ required: true }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
@@ -78,6 +93,9 @@ const DeviceInfoPage = (props: Props) => {
                                                 label='Tên thiết bị'
                                                 onChange={onChange}
                                                 aria-describedby='validation-name'
+                                                InputProps={{
+                                                    readOnly: true
+                                                }}
                                             />
                                         )}
                                     />
@@ -89,6 +107,7 @@ const DeviceInfoPage = (props: Props) => {
                                     <Controller
                                         name='buydate'
                                         control={control}
+                                        defaultValue={device?.buydate || ''}
                                         rules={{ required: true }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
@@ -97,6 +116,9 @@ const DeviceInfoPage = (props: Props) => {
                                                 label='Ngày mua'
                                                 onChange={onChange}
                                                 aria-describedby='validation-buydate'
+                                                InputProps={{
+                                                    readOnly: true
+                                                }}
                                             />
                                         )}
                                     />
@@ -137,6 +159,7 @@ const DeviceInfoPage = (props: Props) => {
                                         name='chip'
                                         control={control}
                                         rules={{ required: true }}
+                                        defaultValue={device?.chip || ''}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
                                                 type='text'
@@ -144,6 +167,9 @@ const DeviceInfoPage = (props: Props) => {
                                                 label='Bộ vi xử lý'
                                                 onChange={onChange}
                                                 aria-describedby='validation-chip'
+                                                InputProps={{
+                                                    readOnly: true
+                                                }}
                                             />
                                         )}
                                     />
@@ -154,6 +180,7 @@ const DeviceInfoPage = (props: Props) => {
                                     <Controller
                                         name='ram'
                                         control={control}
+                                        defaultValue={device?.ram || ''}
                                         rules={{ required: true }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
@@ -172,6 +199,7 @@ const DeviceInfoPage = (props: Props) => {
                                     <Controller
                                         name='disk'
                                         control={control}
+                                        defaultValue={device?.disk || ''}
                                         rules={{ required: true }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
@@ -191,13 +219,17 @@ const DeviceInfoPage = (props: Props) => {
                                         name='owner'
                                         control={control}
                                         rules={{ required: true }}
+                                        defaultValue={device?.owner || ''}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
                                                 type='text'
                                                 value={value}
                                                 label='Đối tượng đang sử dụng'
                                                 onChange={onChange}
-                                                aria-describedby='validation-disk'
+                                                aria-describedby='validation-owner'
+                                                InputProps={{
+                                                    readOnly: true
+                                                }}
                                             />
                                         )}
                                     />
@@ -213,18 +245,30 @@ const DeviceInfoPage = (props: Props) => {
                         <Grid container spacing={5}>
                             <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth>
+                                    <InputLabel id='select-whoreceived'>Chọn người cần bàn giao</InputLabel>
                                     <Controller
                                         name='whoreceived'
                                         control={control}
                                         rules={{ required: true }}
-                                        render={({ field: { value, onChange } }) => (
-                                            <TextField
-                                                type='text'
-                                                value={value}
-                                                label='Người nhận bàn giao'
-                                                onChange={onChange}
-                                                aria-describedby='validation-whoreceived'
-                                            />
+                                        render={({ field }) => (
+
+                                            <Select
+                                                {...field}
+                                                fullWidth
+                                                id='select-whoreceived'
+                                                label='Chọn người bàn giao'
+                                                labelId='whoreceived-select'
+                                                inputProps={{
+                                                    placeholder: 'Chọn người cần bàn giao',
+                                                }}
+                                            >
+                                                <MenuItem value=''>Chọn người bàn giao</MenuItem>
+                                                {employees?.map((employee) => (
+                                                    <MenuItem key={employee.employeecd} value={employee.employeecd}>
+                                                        {employee.fullname}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
                                         )}
                                     />
                                 </FormControl>

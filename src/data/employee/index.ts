@@ -1,4 +1,4 @@
-import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterDataOnsite, FilterEmployee, GetListApplicationForLeaveResponse, GetOnsiteResponse, ListOfApplicationForLeaveResponse, NotificationResponse, UpdateEmployeeResponse } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterDataOnsite, FilterEmployee, GetDeviceResponse, GetListApplicationForLeaveResponse, GetOnsiteResponse, ListOfApplicationForLeaveResponse, NotificationResponse, UpdateEmployeeResponse } from "@/context/types";
 import { useAuth } from "@/hooks/useAuth";
 import { ListOfApplicationSearchInputs } from "@/types/form/applicationForLetterType";
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
@@ -329,6 +329,18 @@ export const FetchOnsiteList = (dataFilter: FilterDataOnsite) => {
     )
     return {
         listonsite: data?.result.data,
+        isLoading,
+        refetch
+    }
+}
+
+export const FetchDeviceById = (deviceid: string) => {
+    const { data, isLoading, refetch } = useQuery<GetDeviceResponse, Error>(
+        ['device-id'],
+        () => client.device.getdevicebyid({ deviceid: deviceid }),
+    )
+    return {
+        device: data?.result.data,
         isLoading,
         refetch
     }

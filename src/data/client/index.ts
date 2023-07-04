@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "@/configs/auth";
-import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse, GetOnsiteResponse, FilterDataOnsite } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse, GetOnsiteResponse, FilterDataOnsite, GetDeviceResponse } from "@/context/types";
 import { CandidateInput } from "@/types/dashboards/candidateTyps";
 import { ListOfApplicationSearchInputs, SubmitApplicationLeaveInputs } from "@/types/form/applicationForLetterType";
 import { HttpClient } from "./http-client";
@@ -49,7 +49,9 @@ class Client {
         getall: () => HttpClient.get<BlogDataResponsePaginator>(API_ENDPOINTS.BLOG_GETALL)
     }
     device = {
-        getall: () => HttpClient.get<GetListDeviceResponse>(API_ENDPOINTS.DEVICE_GETALL)
+        getall: () => HttpClient.get<GetListDeviceResponse>(API_ENDPOINTS.DEVICE_GETALL),
+        getdevicebyid: ({ deviceid }: { deviceid: string }) => HttpClient.get<GetDeviceResponse>(API_ENDPOINTS.DEVICE_GETBYID, { deviceid })
+
     }
 }
 
