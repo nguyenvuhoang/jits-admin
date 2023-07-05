@@ -47,8 +47,6 @@ const DeviceInfoPage = ({ device }: Props) => {
         status: undefined
     })
 
-    console.log(employees)
-
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>

@@ -16,6 +16,8 @@ import { Box, Card, CardContent, CardHeader, Divider, FormControl, Grid, IconBut
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Link from 'next/link'
 import { MouseEvent, useCallback, useEffect, useState } from 'react'
@@ -395,5 +397,21 @@ const EmployeeList = () => {
         </>
     )
 }
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+    try {
+        return {
+            props: {
+                ...(await serverSideTranslations(locale!, ['common'])),
+            },
+            revalidate: 60, // In seconds
+        };
+    } catch (error) {
+        console.log(error)
+        //* if we get here, the product doesn't exist or something else went wrong
+        return {
+            notFound: true,
+        };
+    }
+};
 
 export default EmployeeList
