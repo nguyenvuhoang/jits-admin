@@ -345,3 +345,45 @@ export const FetchDeviceById = (deviceid: string) => {
         refetch
     }
 }
+
+
+
+export const useSubmitModifyDevice = () => {
+    const router = useRouter()
+    return useMutation(client.employee.submitapplicationforleave, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Nộp phép thành công!',
+                    text: 'ĐƠn xin nghỉ phép của bạn đã nộp. Vui lòng đợi cấp trên của bạn duyệt phép. Quay trở về trang chủ'
+                }).then((response: any) => {
+                    if (response.isConfirmed) {
+                        router.push('/')
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: `${data.messagedetail}`
+                })
+            }
+        },
+        onError: (errorAsUnknown) => {
+            const error = errorAsUnknown as AxiosError<ApproveApplicationForLeaveResponse>;
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                color: 'red',
+                title: 'Oops...',
+                text: `${error?.response?.status === 400 ? error.response.data.messagedetail : 'Error'}`,
+            })
+        }
+
+    });
+};

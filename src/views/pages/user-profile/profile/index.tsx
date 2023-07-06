@@ -38,7 +38,7 @@ const ProfileTab = ({ data }: { data: Employeeinfo | null }) => {
           <Grid item xs={12}>
             <ApplicationLeaveForm
               employeecd={data?.employeecd}
-              totalisleave={data.daysofleaveavailable}
+              currentyear={data.currentyear}
               daysofleaveavailable={data.daysofleaveavailable}
               daysleaveused={data.daysleaveused}
               lastyear={data.lastyear}
