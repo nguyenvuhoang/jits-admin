@@ -16,7 +16,7 @@ import { ThemeColor } from '@/@core/layouts/types'
 
 // ** Utils Import
 import { FetchListOfApplicationForLeave } from '@/data/employee'
-import { Button, CardContent, Grid, GridProps, IconButton, Menu, MenuItem } from '@mui/material'
+import { Button, CardContent, Grid, GridProps, IconButton, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 
 import Icon from '@/@core/components/icon'
 import { ApplicationForLeave } from '@/context/types'
@@ -57,7 +57,15 @@ interface CellType {
   row: ApplicationForLeave
 }
 
-const ApplicationLeaveForm = ({ employeecd, totalisleave }: { employeecd: string, totalisleave: number }) => {
+type PageProps = {
+  employeecd: string
+  currentyear: number
+  daysofleaveavailable: number
+  daysleaveused: number
+  lastyear: number | undefined
+}
+
+const ApplicationLeaveForm = ({ employeecd, currentyear, daysofleaveavailable, daysleaveused, lastyear }: PageProps) => {
   const theme = useTheme()
   const { t } = useTranslation('common')
 
@@ -203,7 +211,7 @@ const ApplicationLeaveForm = ({ employeecd, totalisleave }: { employeecd: string
   return applicationforleave && applicationforleave.length > 0 ? (
     <Card>
       <CardHeader
-        title='Thông tin nghỉ phép'
+        title={`Thông tin nghỉ phép ${new Date().getFullYear()}`}
       />
       {applicationforleave &&
         <DataGrid
@@ -217,9 +225,35 @@ const ApplicationLeaveForm = ({ employeecd, totalisleave }: { employeecd: string
           onPaginationModelChange={setPaginationModel}
         />
       }
-      <Typography variant='caption' sx={{ lineHeight: 3, padding: 5, fontSize: 16, color: totalisleave > 0 ? '#51e551' : 'red' }}>
-        Sô ngày nghỉ còn lại của bạn là: {totalisleave}
-      </Typography>
+      <CardHeader title={`Thông tin số phép năm ${new Date().getFullYear()}`} />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <TableHead>
+            <TableRow>
+              <TableCell>Số phép năm trước chưa sử dụng</TableCell>
+              <TableCell align='left'>Số ngày phép năm</TableCell>
+              <TableCell align='left'>Số phép đã sử dụng</TableCell>
+              <TableCell align='left'>Ngày phép còn lại</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow
+              sx={{
+                '&:last-of-type td, &:last-of-type th': {
+                  border: 0
+                }
+              }}
+            >
+              <TableCell component='th' scope='row'>
+                {lastyear}
+              </TableCell>
+              <TableCell align='left'>{currentyear}</TableCell>
+              <TableCell align='left'>{daysleaveused}</TableCell>
+              <TableCell align='left'>{daysofleaveavailable}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Card>
   ) :
     <Card sx={{ position: 'relative' }}>

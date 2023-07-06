@@ -70,6 +70,10 @@ export interface Employeeinfo {
   totaltask: string
   description: string
   daysofleaveavailable: number
+  totaldays: number
+  daysleaveused: number
+  currentyear: number
+  lastyear?: number
 }
 
 
