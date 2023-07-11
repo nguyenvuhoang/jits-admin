@@ -13,6 +13,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { ChangeEvent, MouseEvent, useCallback, useEffect, useState } from 'react';
 import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
+import TableHeader from './TableHeader';
+import { useRouter } from 'next/router';
 
 interface CellType {
     row: DeviceInfo
@@ -28,6 +30,7 @@ interface TypeStatusObj {
 const DevicePage = () => {
     // HooKs
     const { t } = useTranslation('common')
+    const router = useRouter()
     const [refresh, setRefresh] = useState(false)
     const [searchText, setSearchText] = useState<string>('')
     const [type, setType] = useState<string>('')
@@ -59,6 +62,8 @@ const DevicePage = () => {
         officecd: office,
         type: type
     }
+
+
 
     useEffect(() => {
         refetch()
@@ -96,6 +101,7 @@ const DevicePage = () => {
         switch (officecd) {
             case 'office0101': return `Văn Phòng Quận 7`
             case 'office0102': return `Văn Phòng Bình Thạnh`
+            case 'office02': return `Văn Phòng Hà Nội`
             default: return officecd
         }
     }
@@ -149,8 +155,8 @@ const DevicePage = () => {
     const columns: GridColDef[] = [
 
         {
-            flex: 0.2,
-            minWidth: 230,
+            flex: 0.1,
+            minWidth: 100,
             field: 'deviceid',
             headerName: `${t('text-code')} `,
             renderCell: ({ row }: CellType) => {
@@ -182,8 +188,8 @@ const DevicePage = () => {
             }
         },
         {
-            flex: 0.2,
-            minWidth: 250,
+            flex: 0.1,
+            minWidth: 100,
             field: 'buydate',
             headerName: `${t('text-buydate')} `,
             renderCell: ({ row }: CellType) => {
@@ -197,7 +203,7 @@ const DevicePage = () => {
         {
             flex: 0.15,
             field: 'price',
-            minWidth: 150,
+            minWidth: 100,
             headerName: `${t('text-price')} `,
             renderCell: ({ row }: CellType) => {
                 return (
@@ -300,6 +306,10 @@ const DevicePage = () => {
     }
 
 
+    const handleNewDevice = () => {
+        router.push('/it/device/add')
+    }
+
     if (isLoading) return <Spinner />
 
     return (
@@ -328,6 +338,7 @@ const DevicePage = () => {
                                             <MenuItem value=''>{t('text-select-office')}</MenuItem>
                                             <MenuItem value='office0101'>Hồ Chí Minh - Nguyễn Hữu Thọ</MenuItem>
                                             <MenuItem value='office0102'>Hồ Chí Minh - Nguyễn Hữu Cảnh</MenuItem>
+                                            <MenuItem value='office02'>Hà Nội</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
@@ -378,6 +389,7 @@ const DevicePage = () => {
                             </Grid>
                         </CardContent>
                         <Divider />
+                        <TableHeader toggle={() => handleNewDevice()} />
                         {device &&
                             <DataGrid
                                 autoHeight

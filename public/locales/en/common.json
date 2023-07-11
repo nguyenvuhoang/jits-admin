@@ -219,7 +219,8 @@
   "text-list-of-approve-onsite": "List of onsite registrations",
   "text-onsite-place": "Place of onsite",
   "text-fromdt": "From date",
-  "text-todt":"To date",
-  "text-purpose":"Purpose",
-  "text-amount-onsite": "Total onsite amount"
+  "text-todt": "To date",
+  "text-purpose": "Purpose",
+  "text-amount-onsite": "Total onsite amount",
+  "text-add-device": "Add device"
 }

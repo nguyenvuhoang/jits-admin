@@ -453,6 +453,22 @@ export interface DeviceInfo {
 }
 
 
+export interface DeviceInputData {
+  deviceid: string
+  buydate: Date | undefined
+  price: any
+  name: string
+  chip: string
+  ram: string
+  disk: string
+  owner: string
+  type: string
+  size: string
+  resolution: string
+
+}
+
+
 
 export interface EmployeeTeamCodeResponse extends ResponseObject<EmployeeTeamCode> { }
 export interface ApplicationForLeaveResponse extends ResponseObject<{}> { }
