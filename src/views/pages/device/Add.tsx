@@ -64,11 +64,19 @@ const AddDeviceInfoPage = () => {
         console.log(e.target.value)
         if (e.target.value === 'Laptop') {
             setLapTopInfo(false)
+            setScreenInfo(true)
         }
         if (e.target.value === 'Screen') {
             setScreenInfo(false)
+            setLapTopInfo(true)
         }
+        if (e.target.value === 'Phone & Ipad') {
+            setScreenInfo(true)
+            setLapTopInfo(true)
+        }
+        setValue('type', e.target.value)
         
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -210,7 +218,7 @@ const AddDeviceInfoPage = () => {
                                                 onChange={onChange}
                                                 aria-describedby='validation-chip'
                                                 inputProps={{
-                                                    readOnly: { laptopInfo }
+                                                    readOnly: laptopInfo
                                                 }}
                                             />
                                         )}
@@ -231,7 +239,7 @@ const AddDeviceInfoPage = () => {
                                                 onChange={onChange}
                                                 aria-describedby='validation-ram'
                                                 inputProps={{
-                                                    readOnly: { laptopInfo }
+                                                    readOnly: laptopInfo
                                                 }}
                                             />
                                         )}
@@ -252,7 +260,7 @@ const AddDeviceInfoPage = () => {
                                                 onChange={onChange}
                                                 aria-describedby='validation-disk'
                                                 inputProps={{
-                                                    readOnly: { laptopInfo }
+                                                    readOnly: laptopInfo
                                                 }}
                                             />
                                         )}
@@ -274,7 +282,7 @@ const AddDeviceInfoPage = () => {
                                                 onChange={onChange}
                                                 aria-describedby='validation-size'
                                                 inputProps={{
-                                                    readOnly: { screenInfo }
+                                                    readOnly: screenInfo
                                                 }}
                                             />
                                         )}
@@ -296,7 +304,7 @@ const AddDeviceInfoPage = () => {
                                                 onChange={onChange}
                                                 aria-describedby='validation-resolution'
                                                 inputProps={{
-                                                    readOnly: { screenInfo }
+                                                    readOnly: screenInfo
                                                 }}
                                             />
                                         )}
