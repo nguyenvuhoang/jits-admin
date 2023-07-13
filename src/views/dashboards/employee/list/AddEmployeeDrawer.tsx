@@ -295,8 +295,7 @@ const SidebarAddEmployee = (props: SidebarAddUserType) => {
                   <MenuItem value='RND-HCM'>R&D Dept in HCM</MenuItem>
                   <MenuItem value='RND-HN'>R&D Dept in Ha Noi</MenuItem>
                   <MenuItem value='BUZ'>Business & Maketing</MenuItem>
-                  <MenuItem value='HR'>Human Resource</MenuItem>
-                  <MenuItem value='ACC'>Human Resources - Accounting</MenuItem>
+                  <MenuItem value='HR-ACC'>Human Resource - Accounting</MenuItem>
                 </Select>
               )}
             />

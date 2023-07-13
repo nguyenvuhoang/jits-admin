@@ -1,4 +1,4 @@
-import { ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterDataOnsite, FilterEmployee, GetDeviceResponse, GetListApplicationForLeaveResponse, GetOnsiteResponse, ListOfApplicationForLeaveResponse, NotificationResponse, UpdateEmployeeResponse } from "@/context/types";
+import { AddDeviceResponse, ApplicationForLeaveByIdResponse, ApproveApplicationForLeaveResponse, EmployeeDetailResponsePaginator, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterDataOnsite, FilterEmployee, GetDeviceResponse, GetListApplicationForLeaveResponse, GetOnsiteResponse, ListOfApplicationForLeaveResponse, NotificationResponse, UpdateEmployeeResponse } from "@/context/types";
 import { useAuth } from "@/hooks/useAuth";
 import { ListOfApplicationSearchInputs } from "@/types/form/applicationForLetterType";
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
@@ -376,6 +376,46 @@ export const useSubmitModifyDevice = () => {
         },
         onError: (errorAsUnknown) => {
             const error = errorAsUnknown as AxiosError<ApproveApplicationForLeaveResponse>;
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                color: 'red',
+                title: 'Oops...',
+                text: `${error?.response?.status === 400 ? error.response.data.messagedetail : 'Error'}`,
+            })
+        }
+
+    });
+};
+
+export const useSubmitAddDevice = () => {
+    const router = useRouter()
+    return useMutation(client.device.addnew, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Thêm mới trang thiết bị thành công!',
+                    text: 'Trang thiết bị đã được cập nhật vào trong kho lưu trữ'
+                }).then((response: any) => {
+                    if (response.isConfirmed) {
+                        router.push('/')
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: `${data.messagedetail}`
+                })
+            }
+        },
+        onError: (errorAsUnknown) => {
+            const error = errorAsUnknown as AxiosError<AddDeviceResponse>;
             Swal.fire({
                 position: 'center',
                 icon: 'error',

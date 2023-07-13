@@ -1,9 +1,10 @@
 import { API_ENDPOINTS } from "@/configs/auth";
-import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse, GetOnsiteResponse, FilterDataOnsite, GetDeviceResponse } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse, GetOnsiteResponse, FilterDataOnsite, GetDeviceResponse, AddDeviceResponse } from "@/context/types";
 import { CandidateInput } from "@/types/dashboards/candidateTyps";
 import { ListOfApplicationSearchInputs, SubmitApplicationLeaveInputs } from "@/types/form/applicationForLetterType";
 import { HttpClient } from "./http-client";
 import { OnsiteInputs } from "@/types/form/onsiteType";
+import { DeviceInputData } from '../../context/types';
 class Client {
     system = {
         getmenu: ({ language }: SystemInput) => HttpClient.get<MenuResponse>(API_ENDPOINTS.GET_MENU, { language })
@@ -50,7 +51,8 @@ class Client {
     }
     device = {
         getall: () => HttpClient.get<GetListDeviceResponse>(API_ENDPOINTS.DEVICE_GETALL),
-        getdevicebyid: ({ deviceid }: { deviceid: string }) => HttpClient.get<GetDeviceResponse>(API_ENDPOINTS.DEVICE_GETBYID, { deviceid })
+        getdevicebyid: ({ deviceid }: { deviceid: string }) => HttpClient.get<GetDeviceResponse>(API_ENDPOINTS.DEVICE_GETBYID, { deviceid }),
+        addnew:(device: DeviceInputData) => HttpClient.post<AddDeviceResponse>(API_ENDPOINTS.ADD_DEVICE, device)
 
     }
 }

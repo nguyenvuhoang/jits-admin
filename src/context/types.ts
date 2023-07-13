@@ -465,6 +465,8 @@ export interface DeviceInputData {
   type: string
   size: string
   resolution: string
+  officecd: string
+
 
 }
 
@@ -529,3 +531,5 @@ export interface FilterDataOnsite {
   month?: string
   employeecd?: string
 }
+
+export interface AddDeviceResponse extends ResponseObject<{}> { }

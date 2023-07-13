@@ -1,5 +1,5 @@
 import { DeviceInputData } from '@/context/types'
-import { FetchEmployee } from '@/data/employee'
+import { FetchEmployee, useSubmitAddDevice } from '@/data/employee'
 import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select, TextField, SelectChangeEvent } from '@mui/material'
 import React, { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -25,12 +25,14 @@ const AddDeviceInfoPage = () => {
         owner: '',
         type: '',
         size: '',
-        resolution: ''
+        resolution: '',
+        officecd: ''
     }
     const {
         control,
         setValue,
-        handleSubmit
+        handleSubmit,
+        formState: { errors }
     } = useForm({
         defaultValues,
         mode: 'onChange'
@@ -40,16 +42,9 @@ const AddDeviceInfoPage = () => {
     const { direction } = theme
     const popperPlacement: ReactDatePickerProps['popperPlacement'] = direction === 'ltr' ? 'bottom-start' : 'bottom-end'
 
-
+    const {mutate: SubmitAddDevice} = useSubmitAddDevice()
     const onSubmit = (data: DeviceInputData) => {
-        console.log(data)
-        Swal.fire({
-            position: 'center',
-            icon: 'warning',
-            color: 'gold',
-            title: 'Hold on!',
-            text: 'This feature is not available. Please come back later'
-        })
+        SubmitAddDevice(data)
     }
 
     const { employees } = FetchEmployee({
@@ -75,9 +70,12 @@ const AddDeviceInfoPage = () => {
             setLapTopInfo(true)
         }
         setValue('type', e.target.value)
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    
+
+    console.log(errors)
 
     return (
         <>
@@ -137,6 +135,8 @@ const AddDeviceInfoPage = () => {
                                                 dateFormat='dd/MMM/yyyy'
                                                 popperPlacement={popperPlacement}
                                                 onChange={(e: any) => onChange(e)}
+                                                showYearDropdown
+                                                scrollableMonthYearDropdown
                                                 customInput={
                                                     <CustomInput
                                                         label='Ngày mua'
@@ -209,7 +209,7 @@ const AddDeviceInfoPage = () => {
                                     <Controller
                                         name='chip'
                                         control={control}
-                                        rules={{ required: true }}
+                                        rules={{ required: false }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
                                                 type='text'
@@ -230,7 +230,7 @@ const AddDeviceInfoPage = () => {
                                     <Controller
                                         name='ram'
                                         control={control}
-                                        rules={{ required: true }}
+                                        rules={{ required: false }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
                                                 type='text'
@@ -251,7 +251,7 @@ const AddDeviceInfoPage = () => {
                                     <Controller
                                         name='disk'
                                         control={control}
-                                        rules={{ required: true }}
+                                        rules={{ required: false }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
                                                 type='text'
@@ -267,13 +267,13 @@ const AddDeviceInfoPage = () => {
                                     />
                                 </FormControl>
                             </Grid>
-                            
+
                             <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth>
                                     <Controller
                                         name='size'
                                         control={control}
-                                        rules={{ required: true }}
+                                        rules={{ required: false }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
                                                 type='text'
@@ -295,7 +295,7 @@ const AddDeviceInfoPage = () => {
                                     <Controller
                                         name='resolution'
                                         control={control}
-                                        rules={{ required: true }}
+                                        rules={{ required: false }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
                                                 type='text'
@@ -345,7 +345,7 @@ const AddDeviceInfoPage = () => {
                                 <FormControl fullWidth>
                                     <InputLabel id='select-office'>Văn phòng</InputLabel>
                                     <Controller
-                                        name='type'
+                                        name='officecd'
                                         control={control}
                                         defaultValue=''
                                         rules={{ required: true }}
