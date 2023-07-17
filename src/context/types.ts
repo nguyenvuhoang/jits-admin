@@ -533,3 +533,9 @@ export interface FilterDataOnsite {
 }
 
 export interface AddDeviceResponse extends ResponseObject<{}> { }
+
+export interface FilterDevice {
+  departmentcd?: string
+  officecd?: string
+  type?: string
+}

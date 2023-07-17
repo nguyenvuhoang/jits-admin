@@ -55,7 +55,6 @@ const DevicePage = () => {
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
     // API
-    const { device, isLoading, refetch } = FetchDevice()
 
     const filter = {
         departmentcd: department,
@@ -63,7 +62,7 @@ const DevicePage = () => {
         type: type
     }
 
-
+    const { device, isLoading, refetch } = FetchDevice(filter)
 
     useEffect(() => {
         refetch()
