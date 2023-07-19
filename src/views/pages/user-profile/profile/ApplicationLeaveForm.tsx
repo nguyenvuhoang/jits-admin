@@ -249,7 +249,7 @@ const ApplicationLeaveForm = ({ employeecd, currentyear, daysofleaveavailable, d
               </TableCell>
               <TableCell align='left'>{currentyear}</TableCell>
               <TableCell align='left'>{daysleaveused}</TableCell>
-              <TableCell align='left'>{daysofleaveavailable}</TableCell>
+              <TableCell align='left' sx={{color: daysofleaveavailable >  0 ? '#69C530' : '#FF4154'}}>{daysofleaveavailable}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
