@@ -11,7 +11,7 @@ import { SettingsConsumer, SettingsProvider } from '@/@core/context/settingsCont
 import ThemeComponent from '@/@core/theme/ThemeComponent'
 import { defaultACLObj } from '@/configs/acl'
 import themeConfig from '@/configs/themeConfig'
-import { Router } from 'next/router'
+import { Router, useRouter } from 'next/router'
 // ** Loader Import
 import GuestGuard from '@/@core/components/GuestGuard'
 import { appWithTranslation } from 'next-i18next'
@@ -82,7 +82,7 @@ const Guard = ({ children, authGuard, guestGuard }: GuardProps) => {
   }
 }
 
-const App=({ Component, emotionCache = clientSideEmotionCache, pageProps }: ExtendedAppProps)=> {
+const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: ExtendedAppProps) => {
 
   const setConfig = Component.setConfig ?? undefined
   const authGuard = Component.authGuard ?? true

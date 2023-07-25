@@ -7,11 +7,13 @@ import { getInitials } from '@/@core/utils/get-initials'
 import { ProjectGitLab } from '@/context/types'
 import { FetchProject } from '@/data/project'
 import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
-import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from '@mui/material'
+import { Box, Card, CardContent, CardHeader, Grid, IconButton, Menu, MenuItem, Typography, useTheme } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, MouseEvent, useState } from 'react'
+import { Icon } from '@iconify/react';
+import Link from 'next/link'
 
 const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) => {
     const theme = useTheme()
@@ -38,10 +40,54 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
     }
 
 
+    const RowOptions = ({ id }: { id: string }) => {
+        const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+        const rowOptionsOpen = Boolean(anchorEl)
+
+        const handleRowOptionsClick = (event: MouseEvent<HTMLElement>) => {
+            setAnchorEl(event.currentTarget)
+        }
+        const handleRowOptionsClose = () => {
+            setAnchorEl(null)
+        }
+
+        return (
+            <>
+                <IconButton size='small' onClick={handleRowOptionsClick}>
+                    <Icon icon='mdi:dots-vertical' />
+                </IconButton>
+                <Menu
+                    keepMounted
+                    anchorEl={anchorEl}
+                    open={rowOptionsOpen}
+                    onClose={handleRowOptionsClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right'
+                    }}
+                    PaperProps={{ style: { minWidth: '8rem' } }}
+                >
+                    <MenuItem
+                        component={Link}
+                        sx={{ '& svg': { mr: 2 } }}
+                        onClick={handleRowOptionsClose}
+                        href={`/project/projectdetail/${id}`}
+                    >
+                        <Icon icon='akar-icons:edit' fontSize={20} />
+                        View
+                    </MenuItem>
+                </Menu>
+            </>
+        )
+    }
 
     const columns: GridColDef[] = [
         {
-            flex: 0.275,
+            flex: 0.15,
             minWidth: 290,
             field: 'name',
             headerName: 'Name',
@@ -60,8 +106,8 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
             }
         },
         {
-            flex: 0.2,
-            minWidth: 120,
+            flex: 0.1,
+            minWidth: 50,
             headerName: 'Group',
             field: 'group_name',
             valueGetter: params => new Date(params.value),
@@ -72,7 +118,18 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
             )
         },
         {
-            flex: 0.2,
+            flex: 0.1,
+            minWidth: 110,
+            field: 'total_issue',
+            headerName: 'Total issue',
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.total_issue}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.1,
             minWidth: 110,
             field: 'total_issue_open',
             headerName: 'Total issue open',
@@ -83,7 +140,18 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
             )
         },
         {
-            flex: 0.125,
+            flex: 0.1,
+            minWidth: 110,
+            field: 'total_issue_close',
+            headerName: 'Total issue close',
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.total_issue_close}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.1,
             field: 'create_at',
             minWidth: 80,
             headerName: 'Create date',
@@ -92,7 +160,39 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
                     {params.row.create_at}
                 </Typography>
             )
+        },
+        {
+            flex: 0.1,
+            field: 'lastupdate',
+            minWidth: 80,
+            headerName: 'Last update',
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.lastupdate}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.3,
+            field: 'lastcomment',
+            minWidth: 80,
+            headerName: 'Last comment',
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.lastcomment}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.1,
+            minWidth: 90,
+            sortable: false,
+            field: 'actions',
+            headerName: 'Actions',
+            renderCell: ({ row }: GridRenderCellParams) => <RowOptions id={row.fullPath} />
         }
+
+
 
     ]
 

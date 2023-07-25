@@ -11,7 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 const UserProfileTab = ({ tab }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   const { employee, loading } = useAuth()
-
+  
   return (
     <>
       {!loading &&
