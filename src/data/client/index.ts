@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "@/configs/auth";
-import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse, GetOnsiteResponse, FilterDataOnsite, GetDeviceResponse, AddDeviceResponse, FilterDevice } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse, GetOnsiteResponse, FilterDataOnsite, GetDeviceResponse, AddDeviceResponse, FilterDevice, ProjectDetailResponse, ProjectDetailFilter } from "@/context/types";
 import { CandidateInput } from "@/types/dashboards/candidateTyps";
 import { ListOfApplicationSearchInputs, SubmitApplicationLeaveInputs } from "@/types/form/applicationForLetterType";
 import { HttpClient } from "./http-client";
@@ -35,7 +35,8 @@ class Client {
 
     }
     project = {
-        getall: (filter: FilterProject) => HttpClient.get<ProjectReponse>(API_ENDPOINTS.GITLAB_ALLPROJECT, filter)
+        getall: (filter: FilterProject) => HttpClient.get<ProjectReponse>(API_ENDPOINTS.GITLAB_ALLPROJECT, filter),
+        getdetail: ({fullpath}: ProjectDetailFilter) => HttpClient.get<ProjectDetailResponse>(API_ENDPOINTS.GITLAB_PROJECT_DETAIL, {fullpath}),
     }
     candidate = {
         getall: () => HttpClient.get<CandidatePaginator>(API_ENDPOINTS.CANDIDATE),
@@ -43,7 +44,8 @@ class Client {
         create: (data: CandidateInput) => HttpClient.post<CreateCandidateResponse>(API_ENDPOINTS.CANDIDATPOST, data),
         access: (input: CandidateAccessParams) => HttpClient.post<AuthResponse>(API_ENDPOINTS.CANDIDATEACCESS, input),
         getquestions: () => HttpClient.get<CandidateQuestion>(API_ENDPOINTS.CANDIDATEQUESTION),
-        submit: (data: { careerdata: { qstcd: string; answer: string; }[] }) => HttpClient.post<CreateCandidateResponse>(API_ENDPOINTS.CANDIDATESUBMIT, data)
+        submit: (data: { careerdata: { qstcd: string; answer: string; }[] }) => HttpClient.post<CreateCandidateResponse>(API_ENDPOINTS.CANDIDATESUBMIT, data),
+        onjob: (onjob: OnJobInput)=> HttpClient.post<>
 
     }
     blog = {

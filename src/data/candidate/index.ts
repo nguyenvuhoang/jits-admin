@@ -107,3 +107,25 @@ export const useSubmitDoTestCandidate = () => {
         }
     });
 };
+
+
+export const useCandidateOnJob = () => {
+    const auth = useAuth()
+    return useMutation(client.candidate.submit, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Succeed!',
+                    text: 'Your test has been submitted to JITS succesfully. The system will send result to you soon'
+                }).then((response: any) => {
+                    if (response.isConfirmed) {
+                        auth.logout()
+                    }
+                })
+            }
+        }
+    });
+};

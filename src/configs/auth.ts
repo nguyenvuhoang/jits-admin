@@ -36,6 +36,7 @@ export const API_ENDPOINTS = {
   SUBMIT_ONSIE: '/employee/registeronsite',
   GET_NOTIFICATION: '/employee/getnotify',
   EMPLOYEE_LIST_APPROVE_ON_SITE: '/employee/getlisregisteronsite',
-  ADD_DEVICE: '/employee/adddevice'
+  ADD_DEVICE: '/employee/adddevice',
+  GITLAB_PROJECT_DETAIL: '/gitlab/getprojectdetail'
 
 }

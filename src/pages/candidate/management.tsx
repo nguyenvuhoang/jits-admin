@@ -10,6 +10,7 @@ import { Box, Card, CardContent, CardHeader, Grid, IconButton, Menu, MenuItem, T
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import Link from 'next/link'
 import { ChangeEvent, MouseEvent, useState } from 'react'
+import Swal from "sweetalert2";
 
 type Props = {}
 
@@ -17,6 +18,12 @@ interface CellType {
     row: Candidate
 }
 
+interface OnJobStatusObj {
+    [key: string]: {
+        icon: string
+        color: ThemeColor
+    }
+}
 interface CandidateStatusType {
     [key: string]: ThemeColor
 }
@@ -25,13 +32,31 @@ const candidateStatusObj: CandidateStatusType = {
     Rớt: 'error'
 }
 
+// ** Vars
+const onJobStatusObj: OnJobStatusObj = {
+    true: { color: 'success', icon: 'mdi:check' },
+    false: { color: 'error', icon: 'typcn:delete-outline' }
+}
+
 const CandidateManagement = (props: Props) => {
 
     const theme = useTheme()
 
     const { candidate } = FetchCandidate()
 
-
+    const handleOnJob = () => {
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            color: 'green',
+            title: 'Bắt đầu thử việc',
+            text: 'Bạn có chắc chắn chọn bạn này vào thử việc?'
+        }).then((response: any) => {
+            if (response.isConfirmed) {
+                
+            }
+        })
+    }
 
     const RowOptions = ({ id }: { id: string }) => {
         const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -77,6 +102,15 @@ const CandidateManagement = (props: Props) => {
                         <Icon icon='mdi:eye-outline' fontSize={20} />
                         View
                     </MenuItem>
+                    <MenuItem
+                        component={Link}
+                        sx={{ '& svg': { mr: 2 } }}
+                        onClick={()=> handleOnJob()}
+                        href="#"
+                    >
+                        <Icon icon='carbon:batch-job' fontSize={20} />
+                        On Job
+                    </MenuItem>
                 </Menu>
             </>
         )
@@ -104,7 +138,7 @@ const CandidateManagement = (props: Props) => {
             }
         },
         {
-            flex: 0.2,
+            flex: 0.1,
             minWidth: 120,
             headerName: 'Phone',
             field: 'phone',
@@ -126,7 +160,7 @@ const CandidateManagement = (props: Props) => {
             )
         },
         {
-            flex: 0.2,
+            flex: 0.1,
             minWidth: 110,
             field: 'result',
             headerName: 'Result',
@@ -143,7 +177,7 @@ const CandidateManagement = (props: Props) => {
             )
         },
         {
-            flex: 0.125,
+            flex: 0.1,
             field: 'datejob',
             minWidth: 80,
             headerName: 'Date job',
@@ -152,6 +186,20 @@ const CandidateManagement = (props: Props) => {
                     {params.row.datejob}
                 </Typography>
             )
+        },
+        {
+            flex: 0.125,
+            field: 'isTryJob',
+            minWidth: 100,
+            headerName: 'On Job',
+            renderCell: (params: GridRenderCellParams) => {
+                const color = onJobStatusObj[params.row.isTryJob] ? onJobStatusObj[params.row.isTryJob].color : 'primary'
+                return (
+                    <CustomAvatar skin='light' color={color} sx={{ width: 34, height: 34 }}>
+                        <Icon icon={onJobStatusObj[params.row.isTryJob]?.icon} fontSize='1.25rem' />
+                    </CustomAvatar>
+                )
+            }
         },
         {
             flex: 0.1,
@@ -200,7 +248,7 @@ const CandidateManagement = (props: Props) => {
                                     subheader={`Ongoing Projects`}
                                     subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
                                     titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
-                                    
+
                                 />
                                 <CardContent sx={{ pt: `${theme.spacing(5)} !important` }}>
                                     <DataGrid

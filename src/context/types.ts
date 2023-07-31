@@ -279,6 +279,7 @@ export interface Candidate {
   email: string
   result: string
   datejob: string
+  isTryJob: boolean
 }
 
 export interface CandidatePaginator extends ResponseArray<Candidate> { }
@@ -538,4 +539,99 @@ export interface FilterDevice {
   departmentcd?: string
   officecd?: string
   type?: string
+}
+
+
+export interface Timelog {
+  summary: string
+  timeSpent: number
+  spentAt: string
+  user: User
+}
+
+export interface User {
+  avatarUrl: string
+  username: string
+  name: string
+}
+
+export interface Assignees {
+  avatarUrl: string
+  username: string
+  name: string
+}
+
+export interface Author {
+  avatarUrl: string
+  username: string
+  name: string
+}
+
+export interface Milestone {
+  title: string
+  description: string
+}
+
+export interface Opened {
+  id: string
+  title: string
+  description: string
+  totalTimeSpent: number
+  state: string
+  webUrl: string
+  type: string
+  timelogs: Timelog[]
+  assignees: Assignees
+  author: Author
+  milestone?: Milestone
+  create_at: string
+  close_at: string
+}
+
+export interface Closed {
+  id: string
+  title: string
+  description: string
+  totalTimeSpent: number
+  state: string
+  webUrl: string
+  type: string
+  timelogs: Timelog[]
+  assignees: Assignees
+  author: Author
+  milestone?: Milestone
+  create_at: string
+  close_at: any
+}
+export interface Issue {
+  opened: Opened[]
+  closed: Closed[]
+}
+
+export interface ProjectDetail {
+  id: string
+  web_url: string
+  name: string
+  description: string
+  descriptionHtml: string
+  avatar_url: string
+  group_id: string
+  group_name: string
+  group_avatar_url: string
+  total_issue_open: number
+  total_issue_close: number
+  total_issue: number
+  create_at: string
+  issue: Issue
+}
+
+export interface ProjectDetailResponse extends ResponseObject<ProjectDetail>{}
+
+
+export interface ProjectDetailFilter {
+  fullpath: string | undefined
+}
+
+export interface OnJobInput {
+  
 }
