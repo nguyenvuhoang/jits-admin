@@ -4,13 +4,14 @@ import CustomChip from '@/@core/components/mui/chip'
 import { ThemeColor } from '@/@core/layouts/types'
 import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
 import { Candidate } from '@/context/types'
-import { FetchCandidate } from '@/data/candidate'
+import { FetchCandidate, useCandidateOnJob } from '@/data/candidate'
 import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
 import { Box, Card, CardContent, CardHeader, Grid, IconButton, Menu, MenuItem, Typography, useTheme } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import Link from 'next/link'
 import { ChangeEvent, MouseEvent, useState } from 'react'
 import Swal from "sweetalert2";
+import Spinner from '@/@core/components/spinner';
 
 type Props = {}
 
@@ -38,26 +39,13 @@ const onJobStatusObj: OnJobStatusObj = {
     false: { color: 'error', icon: 'typcn:delete-outline' }
 }
 
-const CandidateManagement = (props: Props) => {
+const CandidateManagement = () => {
 
     const theme = useTheme()
 
-    const { candidate } = FetchCandidate()
+    const { candidate, isLoading } = FetchCandidate()
 
-    const handleOnJob = () => {
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            color: 'green',
-            title: 'Bắt đầu thử việc',
-            text: 'Bạn có chắc chắn chọn bạn này vào thử việc?'
-        }).then((response: any) => {
-            if (response.isConfirmed) {
-                
-            }
-        })
-    }
-
+    const { mutate: SubmitCandidateOnJob } = useCandidateOnJob()
     const RowOptions = ({ id }: { id: string }) => {
         const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
         const rowOptionsOpen = Boolean(anchorEl)
@@ -72,6 +60,30 @@ const CandidateManagement = (props: Props) => {
         const handleDelete = () => {
             handleRowOptionsClose()
         }
+
+        const handleOnJob = () => {
+            handleRowOptionsClose()
+            Swal.fire({
+                position: 'center',
+                icon: 'question',
+                color: 'primary',
+                title: 'Bắt đầu thử việc',
+                text: 'Bạn có chắc chắn chọn bạn này vào thử việc?',
+                showCancelButton: true,
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((response: any) => {
+                if (response.isConfirmed) {
+                    SubmitCandidateOnJob({
+                        candidateid: id,
+                        isTryJob: true
+                    })
+                }
+            })
+        }
+
+        if (isLoading) return <Spinner />
 
         return (
             <>
@@ -103,10 +115,8 @@ const CandidateManagement = (props: Props) => {
                         View
                     </MenuItem>
                     <MenuItem
-                        component={Link}
                         sx={{ '& svg': { mr: 2 } }}
-                        onClick={()=> handleOnJob()}
-                        href="#"
+                        onClick={handleOnJob}
                     >
                         <Icon icon='carbon:batch-job' fontSize={20} />
                         On Job

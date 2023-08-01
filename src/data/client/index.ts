@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "@/configs/auth";
-import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse, GetOnsiteResponse, FilterDataOnsite, GetDeviceResponse, AddDeviceResponse, FilterDevice, ProjectDetailResponse, ProjectDetailFilter } from "@/context/types";
+import { ApplicationForLeaveByIdResponse, ApplicationForLeaveResponse, ApproveApplicationForLeaveResponse, AuthResponse, BlockEmployeeInput, BlockEmployeeResponse, BlogDataResponsePaginator, CandidateAccessParams, CandidateCodeInput, CandidateDetailResponsePaginator, CandidatePaginator, CandidateQuestion, ConfirmApplicationForLeaveResponse, CreateCandidateResponse, EmployeeCodeInput, EmployeeData, EmployeeDetailResponsePaginator, EmployeeResponse, EmployeeResponsePaginator, EmployeeTeamCodeResponse, FilterEmployee, FilterProject, GetListApplicationForLeaveResponse, GetListDeviceResponse, ListOfApplicationForLeaveResponse, LoginUserInput, MenuResponse, NotificationResponse, ProjectReponse, RejectApplicationForLeaveResponse, SystemInput, TeamCodeInput, UpadateInfoField, UpdateEmployeeResponse, UpdateStatusEmployeeInput, UserResponsePaginator, SubmitOnsiteResponse, GetOnsiteResponse, FilterDataOnsite, GetDeviceResponse, AddDeviceResponse, FilterDevice, ProjectDetailResponse, ProjectDetailFilter, OnJobInput, CandidateOnJobResponse } from "@/context/types";
 import { CandidateInput } from "@/types/dashboards/candidateTyps";
 import { ListOfApplicationSearchInputs, SubmitApplicationLeaveInputs } from "@/types/form/applicationForLetterType";
 import { HttpClient } from "./http-client";
@@ -36,7 +36,7 @@ class Client {
     }
     project = {
         getall: (filter: FilterProject) => HttpClient.get<ProjectReponse>(API_ENDPOINTS.GITLAB_ALLPROJECT, filter),
-        getdetail: ({fullpath}: ProjectDetailFilter) => HttpClient.get<ProjectDetailResponse>(API_ENDPOINTS.GITLAB_PROJECT_DETAIL, {fullpath}),
+        getdetail: ({ fullpath }: ProjectDetailFilter) => HttpClient.get<ProjectDetailResponse>(API_ENDPOINTS.GITLAB_PROJECT_DETAIL, { fullpath }),
     }
     candidate = {
         getall: () => HttpClient.get<CandidatePaginator>(API_ENDPOINTS.CANDIDATE),
@@ -45,16 +45,16 @@ class Client {
         access: (input: CandidateAccessParams) => HttpClient.post<AuthResponse>(API_ENDPOINTS.CANDIDATEACCESS, input),
         getquestions: () => HttpClient.get<CandidateQuestion>(API_ENDPOINTS.CANDIDATEQUESTION),
         submit: (data: { careerdata: { qstcd: string; answer: string; }[] }) => HttpClient.post<CreateCandidateResponse>(API_ENDPOINTS.CANDIDATESUBMIT, data),
-        onjob: (onjob: OnJobInput)=> HttpClient.post<>
+        onjob: (onjob: OnJobInput) => HttpClient.post<CandidateOnJobResponse>(API_ENDPOINTS.EMPLOYEE_TRY_JOB, onjob)
 
     }
     blog = {
         getall: () => HttpClient.get<BlogDataResponsePaginator>(API_ENDPOINTS.BLOG_GETALL)
     }
     device = {
-        getall: (filter: FilterDevice) => HttpClient.get<GetListDeviceResponse>(API_ENDPOINTS.DEVICE_GETALL,filter),
+        getall: (filter: FilterDevice) => HttpClient.get<GetListDeviceResponse>(API_ENDPOINTS.DEVICE_GETALL, filter),
         getdevicebyid: ({ deviceid }: { deviceid: string }) => HttpClient.get<GetDeviceResponse>(API_ENDPOINTS.DEVICE_GETBYID, { deviceid }),
-        addnew:(device: DeviceInputData) => HttpClient.post<AddDeviceResponse>(API_ENDPOINTS.ADD_DEVICE, device)
+        addnew: (device: DeviceInputData) => HttpClient.post<AddDeviceResponse>(API_ENDPOINTS.ADD_DEVICE, device)
 
     }
 }

@@ -633,5 +633,8 @@ export interface ProjectDetailFilter {
 }
 
 export interface OnJobInput {
-  
+  candidateid: string
+  isTryJob: boolean
 }
+
+export interface CandidateOnJobResponse extends ResponseObject<{}> { }

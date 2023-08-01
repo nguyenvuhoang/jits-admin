@@ -6,7 +6,8 @@ import { useRouter } from "next/router"
 import { useAuth } from "@/hooks/useAuth"
 import { AxiosError } from "axios"
 
-export const FetchCandidate = () => {
+export const 
+FetchCandidate = () => {
     const { data, isLoading, refetch } = useQuery<CandidatePaginator, Error>(
         ['candidate-list'],
         () => client.candidate.getall(),
@@ -110,8 +111,8 @@ export const useSubmitDoTestCandidate = () => {
 
 
 export const useCandidateOnJob = () => {
-    const auth = useAuth()
-    return useMutation(client.candidate.submit, {
+    const router = useRouter();
+    return useMutation(client.candidate.onjob, {
         onSuccess: (data) => {
             if (data.errorcode === 0) {
                 Swal.fire({
@@ -119,11 +120,19 @@ export const useCandidateOnJob = () => {
                     icon: 'success',
                     color: 'green',
                     title: 'Succeed!',
-                    text: 'Your test has been submitted to JITS succesfully. The system will send result to you soon'
+                    text: 'Chúc mừng ứng viên này đã được thử việc tại JITS'
                 }).then((response: any) => {
                     if (response.isConfirmed) {
-                        auth.logout()
+                        router.push('/candidate/management')
                     }
+                })
+            }else{
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: data.messagedetail
                 })
             }
         }
