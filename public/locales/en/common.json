@@ -222,5 +222,7 @@
   "text-todt": "To date",
   "text-purpose": "Purpose",
   "text-amount-onsite": "Total onsite amount",
-  "text-add-device": "Add device"
+  "text-add-device": "Add device",
+  "text-project-list": "Project list",
+  "text-on-going-project": "Ongoing Projects"
 }

@@ -1,6 +1,6 @@
 import Icon from '@/@core/components/icon'
-import { Opened, ProjectDetail } from '@/context/types'
-import { Avatar, Box, Card, CardContent, CardHeader, Grid, Tooltip, Typography } from '@mui/material'
+import { NoAction, ProjectDetail } from '@/context/types'
+import { Avatar, Box, Card, CardContent, CardHeader, Tooltip, Typography } from '@mui/material'
 import Link from 'next/link'
 
 
@@ -9,11 +9,11 @@ type Props = {
     projectdetail: ProjectDetail | undefined
 }
 
-const ClosedIssued = ({ projectdetail }: Props) => {
+const NoActionIssued = ({ projectdetail }: Props) => {
     return (
 
         <Card>
-            <CardHeader title='Closed' subheader={`${projectdetail?.total_issue_close} issues`} />
+            <CardHeader title='No Action' subheader={`${projectdetail?.total_issue_noaction} issues`} />
             <CardContent>
                 <Box
                     sx={{
@@ -35,7 +35,7 @@ const ClosedIssued = ({ projectdetail }: Props) => {
                         borderRadius: '10px', // Bo tròn cho nền
                     }
                 }}
-                >                {projectdetail?.issue.closed.map((issuedetail: Opened, index: number) => (
+                >                {projectdetail?.issue.noaction.map((issuedetail: NoAction, index: number) => (
                     <Box
                         key={issuedetail.id}
                         sx={{
@@ -125,4 +125,4 @@ const ClosedIssued = ({ projectdetail }: Props) => {
     )
 }
 
-export default ClosedIssued
+export default NoActionIssued

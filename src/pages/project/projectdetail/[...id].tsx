@@ -4,11 +4,13 @@ import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
 import { FetchProjectDetail } from '@/data/project'
 import OpenIssued from '@/views/apps/project/OpenIssued'
 import ClosedIssued from '@/views/apps/project/ClosedIssued'
+import InprogressIssued from '@/views/apps/project/InprogressIssued'
 import { Box, Card, CardContent, Grid, GridProps, Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Spinner from '@/@core/components/spinner'
+import NoActionIssued from '@/views/apps/project/NoActionIssued'
 
 
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
@@ -33,7 +35,7 @@ const ProjectDetailPage = ({ joinedParam }: InferGetStaticPropsType<typeof getSt
     const { projectdetail, isLoading } = FetchProjectDetail({
         fullpath: joinedParam
     })
-    console.log(joinedParam)
+
     const theme = useTheme()
 
     if (isLoading) return <Spinner />
@@ -42,7 +44,7 @@ const ProjectDetailPage = ({ joinedParam }: InferGetStaticPropsType<typeof getSt
         <>
             <ApexChartWrapper>
                 <Grid container spacing={6} className='match-height'>
-                    <Grid item xs={12} md={8}>
+                    <Grid item xs={12} md={12}>
                         <Card sx={{ position: 'relative' }}>
                             <CardContent sx={{ p: theme => `${theme.spacing(6.75, 7.5)} !important` }}>
                                 <Grid container spacing={6}>
@@ -69,62 +71,19 @@ const ProjectDetailPage = ({ joinedParam }: InferGetStaticPropsType<typeof getSt
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid item xs={6} md={2}>
-                        <Card>
-                            <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ mb: 6, width: '100%', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-                                    <CustomAvatar skin='light' variant='rounded' color="primary">
-                                        <Icon icon='ion:open-outline' />
-                                    </CustomAvatar>
-                                    <Box
-                                        sx={{ display: 'flex', alignItems: 'center', color: 'success.main' }}
-                                    >
-                                        <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
-                                            {projectdetail?.total_issue_open}
-                                        </Typography>
-                                        <Icon icon={'mdi:chevron-up'} fontSize='1.25rem' />
-                                    </Box>
-                                </Box>
-                                <Typography variant='h6' sx={{ mb: 1 }}>
-                                    {projectdetail?.total_issue_open}
-                                </Typography>
-                                <Typography variant='body2' sx={{ mb: 5 }}>
-                                    Tổng issue open
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={6} md={2}>
-                        <Card>
-                            <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ mb: 6, width: '100%', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-                                    <CustomAvatar skin='light' variant='rounded' color="primary">
-                                        <Icon icon='carbon:close-outline' />
-                                    </CustomAvatar>
-                                    <Box
-                                        sx={{ display: 'flex', alignItems: 'center', color: 'error.main' }}
-                                    >
-                                        <Typography variant='subtitle2' sx={{ color: 'error.main' }}>
-                                            {projectdetail?.total_issue_close}
-                                        </Typography>
-                                        <Icon icon={'mdi:chevron-up'} fontSize='1.25rem' />
-                                    </Box>
-                                </Box>
-                                <Typography variant='h6' sx={{ mb: 1 }}>
-                                    {projectdetail?.total_issue_close}
-                                </Typography>
-                                <Typography variant='body2' sx={{ mb: 5 }}>
-                                    Tổng issue close
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
+                    
                 </Grid>
                 <Grid container spacing={6} className='match-height' style={{ marginTop: 5 }}>
-                    <Grid item xs={12} md={6} lg={6} >
+                    <Grid item xs={12} md={6} lg={3} >
                         <OpenIssued projectdetail={projectdetail} />
                     </Grid>
-                    <Grid item xs={12} md={6} lg={6}>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <InprogressIssued projectdetail={projectdetail} />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <NoActionIssued projectdetail={projectdetail} />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
                         <ClosedIssued projectdetail={projectdetail} />
                     </Grid>
                 </Grid>
