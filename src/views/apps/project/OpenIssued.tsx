@@ -33,7 +33,8 @@ const OpenIssued = ({ projectdetail }: Props) => {
                         '&::-webkit-scrollbar-track': {
                             background: '#f1f1f1', // Màu sắc của nền thanh cuộn
                             borderRadius: '10px', // Bo tròn cho nền
-                        }
+                        },
+                        overflowX: 'hidden'
                     }}>
                     {projectdetail?.issue.opened.map((issuedetail: Opened, index: number) => (
                         <Box

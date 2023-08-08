@@ -14,10 +14,11 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { ChangeEvent, MouseEvent, useState } from 'react'
 import { Icon } from '@iconify/react';
 import Link from 'next/link'
+import { useTranslation } from 'next-i18next'
 
 const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) => {
     const theme = useTheme()
-
+    const { t } = useTranslation('common')
     const renderClient = (params: GridRenderCellParams) => {
         const { row } = params!
         const stateNum = Math.floor(Math.random() * 6)
@@ -87,8 +88,8 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
 
     const columns: GridColDef[] = [
         {
-            flex: 0.15,
-            minWidth: 290,
+            flex: 0.1,
+            minWidth: 200,
             field: 'name',
             headerName: 'Name',
             renderCell: (params: GridRenderCellParams) => {
@@ -130,9 +131,9 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
         },
         {
             flex: 0.1,
-            minWidth: 110,
+            minWidth: 50,
             field: 'total_issue_open',
-            headerName: 'Total issue open',
+            headerName: 'Open',
             renderCell: (params: GridRenderCellParams) => (
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
                     {params.row.total_issue_open}
@@ -141,9 +142,20 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
         },
         {
             flex: 0.1,
-            minWidth: 110,
+            minWidth: 50,
+            field: 'total_issue_progress',
+            headerName: 'Progress',
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.total_issue_inprogress}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.1,
+            minWidth: 50,
             field: 'total_issue_close',
-            headerName: 'Total issue close',
+            headerName: 'Close',
             renderCell: (params: GridRenderCellParams) => (
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
                     {params.row.total_issue_close}
@@ -236,8 +248,8 @@ const ProjectPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) =
                         <Grid container>
                             <Grid item xs={12} sm={12}>
                                 <CardHeader
-                                    title='Project List'
-                                    subheader='3 Ongoing Projects'
+                                    title={t('text-project-list')}
+                                    subheader={`${project?.length} ${t('text-on-going-project')}`}
                                     subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
                                     titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
                                     action={

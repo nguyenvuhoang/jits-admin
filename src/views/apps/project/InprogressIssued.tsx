@@ -1,5 +1,5 @@
 import Icon from '@/@core/components/icon'
-import { Opened, ProjectDetail } from '@/context/types'
+import { InProgress, Opened, ProjectDetail } from '@/context/types'
 import { Avatar, Box, Card, CardContent, CardHeader, Grid, Tooltip, Typography } from '@mui/material'
 import Link from 'next/link'
 
@@ -9,33 +9,33 @@ type Props = {
     projectdetail: ProjectDetail | undefined
 }
 
-const ClosedIssued = ({ projectdetail }: Props) => {
+const InprogressIssued = ({ projectdetail }: Props) => {
     return (
 
         <Card>
-            <CardHeader title='Closed' subheader={`${projectdetail?.total_issue_close} issues`} />
+            <CardHeader title='In progress' subheader={`${projectdetail?.total_issue_inprogress} issues`} />
             <CardContent>
                 <Box
                     sx={{
-                    overflowY: 'auto',
-                    maxHeight: 700,
-                    paddingRight: 2,
-                    '&::-webkit-scrollbar': {
-                        width: '10px', // Độ rộng của thanh cuộn
-                    },
-                    '&::-webkit-scrollbar-thumb': {
-                        background: '#888', // Màu sắc của con trỏ thanh cuộn
-                        borderRadius: '10px', // Bo tròn cho con trỏ
-                    },
-                    '&::-webkit-scrollbar-thumb:hover': {
-                        background: '#555', // Màu sắc khi hover con trỏ
-                    },
-                    '&::-webkit-scrollbar-track': {
-                        background: '#f1f1f1', // Màu sắc của nền thanh cuộn
-                        borderRadius: '10px', // Bo tròn cho nền
-                    }
-                }}
-                >                {projectdetail?.issue.closed.map((issuedetail: Opened, index: number) => (
+                        overflowY: 'auto',
+                        maxHeight: 700,
+                        paddingRight: 2,
+                        '&::-webkit-scrollbar': {
+                            width: '10px', // Độ rộng của thanh cuộn
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            background: '#888', // Màu sắc của con trỏ thanh cuộn
+                            borderRadius: '10px', // Bo tròn cho con trỏ
+                        },
+                        '&::-webkit-scrollbar-thumb:hover': {
+                            background: '#555', // Màu sắc khi hover con trỏ
+                        },
+                        '&::-webkit-scrollbar-track': {
+                            background: '#f1f1f1', // Màu sắc của nền thanh cuộn
+                            borderRadius: '10px', // Bo tròn cho nền
+                        }
+                    }}
+                >                {projectdetail?.issue.inprogress.map((issuedetail: InProgress, index: number) => (
                     <Box
                         key={issuedetail.id}
                         sx={{
@@ -125,4 +125,4 @@ const ClosedIssued = ({ projectdetail }: Props) => {
     )
 }
 
-export default ClosedIssued
+export default InprogressIssued

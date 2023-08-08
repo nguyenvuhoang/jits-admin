@@ -603,9 +603,58 @@ export interface Closed {
   create_at: string
   close_at: any
 }
+
+export interface InProgress {
+  id: string
+  title: string
+  description: string
+  totalTimeSpent: number
+  state: string
+  webUrl: string
+  type: string
+  timelogs: Timelog[]
+  assignees: Assignees
+  author: Author
+  milestone?: Milestone
+  create_at: string
+  close_at: any
+}
+export interface Closed {
+  id: string
+  title: string
+  description: string
+  totalTimeSpent: number
+  state: string
+  webUrl: string
+  type: string
+  timelogs: Timelog[]
+  assignees: Assignees
+  author: Author
+  milestone?: Milestone
+  create_at: string
+  close_at: any
+}
+
+export interface NoAction {
+  id: string
+  title: string
+  description: string
+  totalTimeSpent: number
+  state: string
+  webUrl: string
+  type: string
+  timelogs: Timelog[]
+  assignees: Assignees
+  author: Author
+  milestone?: Milestone
+  create_at: string
+  close_at: any
+}
 export interface Issue {
   opened: Opened[]
   closed: Closed[]
+  inprogress: InProgress[]
+  noaction: NoAction[]
 }
 
 export interface ProjectDetail {
@@ -620,6 +669,8 @@ export interface ProjectDetail {
   group_avatar_url: string
   total_issue_open: number
   total_issue_close: number
+  total_issue_noaction: number
+  total_issue_inprogress: number
   total_issue: number
   create_at: string
   issue: Issue

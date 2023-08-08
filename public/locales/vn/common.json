@@ -222,5 +222,7 @@
   "text-todt":"Ngày kết thúc",
   "text-purpose":"Mục đích",
   "text-amount-onsite": "Tổng tiền ứng công tác",
-  "text-add-device": "Thêm mới trang thiết bị"
+  "text-add-device": "Thêm mới trang thiết bị",
+  "text-project-list": "Danh sách dự án",
+  "text-on-going-project": "dự án đang hoạt động"
 }
