@@ -350,18 +350,18 @@ export const FetchDeviceById = (deviceid: string) => {
 
 export const useSubmitModifyDevice = () => {
     const router = useRouter()
-    return useMutation(client.employee.submitapplicationforleave, {
+    return useMutation(client.device.modify, {
         onSuccess: (data) => {
             if (data.errorcode === 0) {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
                     color: 'green',
-                    title: 'Nộp phép thành công!',
-                    text: 'ĐƠn xin nghỉ phép của bạn đã nộp. Vui lòng đợi cấp trên của bạn duyệt phép. Quay trở về trang chủ'
+                    title: 'Chỉnh sửa trang thiết bị!',
+                    text: 'Trang thiết bị đã được cập nhật vào trong kho lưu trữ'
                 }).then((response: any) => {
                     if (response.isConfirmed) {
-                        router.push('/')
+                        router.push('/it/device')
                     }
                 })
             } else {

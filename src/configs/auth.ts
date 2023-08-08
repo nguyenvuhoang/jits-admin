@@ -38,6 +38,6 @@ export const API_ENDPOINTS = {
   EMPLOYEE_LIST_APPROVE_ON_SITE: '/employee/getlisregisteronsite',
   ADD_DEVICE: '/employee/adddevice',
   GITLAB_PROJECT_DETAIL: '/gitlab/getprojectdetail',
-  EMPLOYEE_TRY_JOB:'/employee/istryjob'
-
+  EMPLOYEE_TRY_JOB:'/employee/istryjob',
+  MODIFY_DEVICE: '/employee/updatedevicebyid'
 }

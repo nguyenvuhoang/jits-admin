@@ -1,5 +1,5 @@
 import { DeviceInfo } from '@/context/types'
-import { FetchEmployee } from '@/data/employee'
+import { FetchEmployee, useSubmitModifyDevice } from '@/data/employee'
 import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -21,25 +21,19 @@ const DeviceInfoPage = ({ device }: Props) => {
         disk: device?.disk,
         owner: device?.owner,
         whoreceived: '',
-        historyfix: ''
+        historyfix: '',
     }
     const {
         control,
-        setValue,
         handleSubmit
     } = useForm({
         defaultValues,
         mode: 'onChange'
     })
+    const {mutate: SubmitModifyDevice} = useSubmitModifyDevice()
 
-    const onSubmit = () => {
-        Swal.fire({
-            position: 'center',
-            icon: 'warning',
-            color: 'gold',
-            title: 'Hold on!',
-            text: 'This feature is not available. Please come back later'
-        })
+    const onSubmit = (data: any) => {
+        SubmitModifyDevice(data)
     }
 
     const { employees } = FetchEmployee({
@@ -216,7 +210,7 @@ const DeviceInfoPage = ({ device }: Props) => {
                                     <Controller
                                         name='owner'
                                         control={control}
-                                        rules={{ required: true }}
+                                        rules={{ required: false }}
                                         defaultValue={device?.owner || ''}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
@@ -247,7 +241,7 @@ const DeviceInfoPage = ({ device }: Props) => {
                                     <Controller
                                         name='whoreceived'
                                         control={control}
-                                        rules={{ required: true }}
+                                        rules={{ required: false }}
                                         render={({ field }) => (
 
                                             <Select
@@ -276,7 +270,7 @@ const DeviceInfoPage = ({ device }: Props) => {
                                     <Controller
                                         name='historyfix'
                                         control={control}
-                                        rules={{ required: true }}
+                                        rules={{ required: false }}
                                         render={({ field: { value, onChange } }) => (
                                             <TextField
                                                 type='text'

@@ -467,8 +467,6 @@ export interface DeviceInputData {
   size: string
   resolution: string
   officecd: string
-
-
 }
 
 
@@ -534,6 +532,7 @@ export interface FilterDataOnsite {
 }
 
 export interface AddDeviceResponse extends ResponseObject<{}> { }
+export interface ModifyDeviceResponse extends ResponseObject<{}> { }
 
 export interface FilterDevice {
   departmentcd?: string
@@ -689,3 +688,4 @@ export interface OnJobInput {
 }
 
 export interface CandidateOnJobResponse extends ResponseObject<{}> { }
+

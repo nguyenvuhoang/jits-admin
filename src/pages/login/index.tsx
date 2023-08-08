@@ -140,6 +140,7 @@ const LoginPage = () => {
       })
     })
   }
+  console.log(errors)
 
   const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
 
@@ -186,7 +187,7 @@ const LoginPage = () => {
               <Typography variant='body2'>Please sign-in to your account and start the adventure</Typography>
             </Box>
           
-            <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+            <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)} >
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
                   name='username'

@@ -24,7 +24,7 @@ const DeviceModifyPage = ({ id }: InferGetStaticPropsType<typeof getStaticProps>
 
     const {
         control,
-        setValue,
+        setValue
     } = useForm({
         defaultValues,
         mode: 'onChange'
@@ -42,7 +42,6 @@ const DeviceModifyPage = ({ id }: InferGetStaticPropsType<typeof getStaticProps>
         initData(employee)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [employee]);
-
 
     const { device, isLoading } = FetchDeviceById(id)
 
