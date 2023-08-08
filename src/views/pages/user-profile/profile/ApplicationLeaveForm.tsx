@@ -59,13 +59,13 @@ interface CellType {
 
 type PageProps = {
   employeecd: string
-  currentyear: number
+  currentdays: number
   daysofleaveavailable: number
   daysleaveused: number
   lastyear: number | undefined
 }
 
-const ApplicationLeaveForm = ({ employeecd, currentyear, daysofleaveavailable, daysleaveused, lastyear }: PageProps) => {
+const ApplicationLeaveForm = ({ employeecd, currentdays, daysofleaveavailable, daysleaveused, lastyear }: PageProps) => {
   const theme = useTheme()
   const { t } = useTranslation('common')
 
@@ -247,7 +247,7 @@ const ApplicationLeaveForm = ({ employeecd, currentyear, daysofleaveavailable, d
               <TableCell component='th' scope='row'>
                 {lastyear}
               </TableCell>
-              <TableCell align='left'>{currentyear}</TableCell>
+              <TableCell align='left'>{currentdays}</TableCell>
               <TableCell align='left'>{daysleaveused}</TableCell>
               <TableCell align='left' sx={{color: daysofleaveavailable >  0 ? '#69C530' : '#FF4154'}}>{daysofleaveavailable}</TableCell>
             </TableRow>

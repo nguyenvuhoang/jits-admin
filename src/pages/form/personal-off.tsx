@@ -151,6 +151,12 @@ const PersionalOff = () => {
         // @ts-ignore
         e.target.closest('.repeater-wrapper').remove()
     }
+    let isAnnualAllowed = false
+    if (employee) {
+        isAnnualAllowed = employee?.daysleaveused - 3 > 0
+    } else {
+        isAnnualAllowed = false
+    }
 
     if (isLoading) return <Spinner />
 
@@ -166,7 +172,9 @@ const PersionalOff = () => {
                     subtitle={
                         <>
                             <Typography variant='body2'>Vui lòng điền đầy đủ thông tin bên dưới.</Typography>
-                            <Typography variant='body2' sx={{color: '#3de13d'}}>Lưu ý: Mỗi bạn sẽ chỉ được ứng phép tối đa là 3 ngày và hết quý 3 (hết tháng 9)</Typography>
+                            <Typography variant='body2' sx={{ color: '#3de13d' }}>Lưu ý: Mỗi bạn sẽ chỉ được ứng phép tối đa là 3 ngày và hết quý 3 (hết tháng 9)</Typography>
+                            <Typography variant='body2' sx={{ color: '#3de13d' }}>Nếu rõ lý do nếu bạn có nhu cầu làm việc tại nhà. Đây là yêu cầu bắt buộc để được duyệt phép</Typography>
+
                         </>
                     }
 
@@ -314,7 +322,13 @@ const PersionalOff = () => {
                                                 rules={{ required: true }}
                                                 render={({ field: { value } }) => (
                                                     <RadioGroup row aria-label='formality' value={value} onChange={handleChangeFormality} >
-                                                        <FormControlLabel value='annual' control={<Radio />} label='Nghỉ phép năm' name='formality' />
+                                                        <FormControlLabel
+                                                            disabled={isAnnualAllowed}
+                                                            value='annual'
+                                                            control={<Radio />}
+                                                            label='Nghỉ phép năm'
+                                                            name='formality'
+                                                        />
                                                         <FormControlLabel value='unpaid' control={<Radio color='secondary' />} label='Nghỉ việc riêng không lương' />
                                                         <FormControlLabel value='paid' control={<Radio color='success' />} label='Nghỉ việc riêng có lương' />
                                                         <FormControlLabel value='socialinsurance' control={<Radio color='error' />} label='Nghỉ hưởng lương BHXH' />
@@ -473,7 +487,7 @@ const PersionalOff = () => {
                                                                                                                 checked={value?.includes('morning')}
                                                                                                                 onChange={(e) => {
                                                                                                                     const checked = e.target.checked;
-                                                                                                                    
+
                                                                                                                     const updatedValue = checked ? [...value, 'morning'] : value.filter(v => v !== 'morning');
                                                                                                                     onChange(updatedValue);
                                                                                                                 }}

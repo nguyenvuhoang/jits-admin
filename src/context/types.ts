@@ -72,7 +72,7 @@ export interface Employeeinfo {
   daysofleaveavailable: number
   totaldays: number
   daysleaveused: number
-  currentyear: number
+  currentdays: number
   lastyear?: number
 }
 
