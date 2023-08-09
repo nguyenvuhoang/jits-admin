@@ -153,7 +153,7 @@ const PersionalOff = () => {
     }
     let isAnnualAllowed = false
     if (employee) {
-        isAnnualAllowed = employee?.daysleaveused - 3 > 0
+        isAnnualAllowed = employee?.daysleaveused < -3
     } else {
         isAnnualAllowed = false
     }

@@ -3,7 +3,6 @@ import { FetchEmployee, useSubmitModifyDevice } from '@/data/employee'
 import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import Swal from 'sweetalert2'
 
 type Props = {
     device: DeviceInfo | undefined
@@ -33,6 +32,8 @@ const DeviceInfoPage = ({ device }: Props) => {
     const {mutate: SubmitModifyDevice} = useSubmitModifyDevice()
 
     const onSubmit = (data: any) => {
+        data.owner = data.whoreceived
+        data.whoreceived = data.owner
         SubmitModifyDevice(data)
     }
 
