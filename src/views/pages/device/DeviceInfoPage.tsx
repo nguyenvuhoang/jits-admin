@@ -25,7 +25,7 @@ const DeviceInfoPage = ({ device }: Props) => {
     const {
         control,
         handleSubmit
-    } = useForm({
+    } = useForm({   
         defaultValues,
         mode: 'onChange'
     })
@@ -33,7 +33,7 @@ const DeviceInfoPage = ({ device }: Props) => {
 
     const onSubmit = (data: any) => {
         data.owner = data.whoreceived
-        data.whoreceived = data.owner
+        data.whoreceived = device?.owner
         SubmitModifyDevice(data)
     }
 
@@ -257,7 +257,7 @@ const DeviceInfoPage = ({ device }: Props) => {
                                             >
                                                 <MenuItem value=''>Chọn người bàn giao</MenuItem>
                                                 {employees?.map((employee) => (
-                                                    <MenuItem key={employee.employeecd} value={employee.employeecd}>
+                                                    <MenuItem key={employee.employeecd} value={employee.fullname}>
                                                         {employee.fullname}
                                                     </MenuItem>
                                                 ))}

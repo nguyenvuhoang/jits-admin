@@ -154,7 +154,7 @@ const DevicePage = () => {
     const columns: GridColDef[] = [
 
         {
-            flex: 0.1,
+            flex: 0.125,
             minWidth: 100,
             field: 'deviceid',
             headerName: `${t('text-code')} `,
@@ -183,34 +183,6 @@ const DevicePage = () => {
                     <Typography variant='subtitle1' noWrap sx={{ textTransform: 'capitalize' }}>
                         {row.name}
                     </Typography>
-                )
-            }
-        },
-        {
-            flex: 0.1,
-            minWidth: 100,
-            field: 'buydate',
-            headerName: `${t('text-buydate')} `,
-            renderCell: ({ row }: CellType) => {
-                return (
-                    <Typography noWrap variant='body2'>
-                        {row.buydate}
-                    </Typography>
-                )
-            }
-        },
-        {
-            flex: 0.15,
-            field: 'price',
-            minWidth: 100,
-            headerName: `${t('text-price')} `,
-            renderCell: ({ row }: CellType) => {
-                return (
-                    <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
-                        <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-                            {`${row.price.toLocaleString('en-US')} VND`}
-                        </Typography>
-                    </Box>
                 )
             }
         },
@@ -246,29 +218,14 @@ const DevicePage = () => {
         },
         {
             flex: 0.15,
-            field: 'historyfix',
+            field: 'whoreceived',
             minWidth: 150,
-            headerName: `${t('text-historyfix')} `,
+            headerName: `${t('text-whoreceived')} `,
             renderCell: ({ row }: CellType) => {
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
                         <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-                            {row.historyfix}
-                        </Typography>
-                    </Box>
-                )
-            }
-        },
-        {
-            flex: 0.15,
-            field: 'officecd',
-            minWidth: 150,
-            headerName: `${t('text-office')} `,
-            renderCell: ({ row }: CellType) => {
-                return (
-                    <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
-                        <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-                            {renderOffice(row)}
+                            {row.whoreceived}
                         </Typography>
                     </Box>
                 )
