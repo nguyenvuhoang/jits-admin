@@ -1,19 +1,21 @@
 import Icon from '@/@core/components/icon'
 import CustomAvatar from '@/@core/components/mui/avatar'
 import CustomChip from '@/@core/components/mui/chip'
+import Spinner from '@/@core/components/spinner'
 import { ThemeColor } from '@/@core/layouts/types'
 import ApexChartWrapper from '@/@core/styles/libs/react-apexcharts'
 import { Candidate } from '@/context/types'
 import { FetchCandidate, useCandidateOnJob } from '@/data/candidate'
+import Translations from '@/layouts/components/Translations'
 import QuickSearchToolbar from '@/views/table/data-grid/QuickSearchToolbar'
 import { Box, Card, CardContent, CardHeader, Grid, IconButton, Menu, MenuItem, Typography, useTheme } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { ChangeEvent, MouseEvent, useState } from 'react'
-import Swal from "sweetalert2";
-import Spinner from '@/@core/components/spinner';
+import Swal from "sweetalert2"
 
-type Props = {}
 
 interface CellType {
     row: Candidate
@@ -46,6 +48,7 @@ const CandidateManagement = () => {
     const { candidate, isLoading } = FetchCandidate()
 
     const { mutate: SubmitCandidateOnJob } = useCandidateOnJob()
+
     const RowOptions = ({ id }: { id: string }) => {
         const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
         const rowOptionsOpen = Boolean(anchorEl)
@@ -112,14 +115,23 @@ const CandidateManagement = () => {
                         href={`/apps/candidate/view/${id}`}
                     >
                         <Icon icon='mdi:eye-outline' fontSize={20} />
-                        View
+                        <Translations text={'text-view-point'} />
+                    </MenuItem>
+                    <MenuItem
+                        component={Link}
+                        sx={{ '& svg': { mr: 2 } }}
+                        onClick={handleRowOptionsClose}
+                        href={`/apps/candidate/view/profile/${id}`}
+                    >
+                        <Icon icon='mdi:eye-outline' fontSize={20} />
+                        <Translations text={'text-view-profile'} />
                     </MenuItem>
                     <MenuItem
                         sx={{ '& svg': { mr: 2 } }}
                         onClick={handleOnJob}
                     >
                         <Icon icon='carbon:batch-job' fontSize={20} />
-                        On Job
+                        <Translations text={'text-on-job'} />
                     </MenuItem>
                 </Menu>
             </>
@@ -290,5 +302,20 @@ const CandidateManagement = () => {
         </ApexChartWrapper>
     )
 }
-
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+    try {
+        return {
+            props: {
+                ...(await serverSideTranslations(locale!, ['common'])),
+            },
+            revalidate: 60, // In seconds
+        };
+    } catch (error) {
+        console.log(error)
+        //* if we get here, the product doesn't exist or something else went wrong
+        return {
+            notFound: true,
+        };
+    }
+};
 export default CandidateManagement
