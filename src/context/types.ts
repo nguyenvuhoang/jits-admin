@@ -279,7 +279,8 @@ export interface Candidate {
   email: string
   result: string
   datejob: string
-  isTryJob: boolean
+  isTryJob: boolean,
+  bio: string
 }
 
 export interface CandidatePaginator extends ResponseArray<Candidate> { }
