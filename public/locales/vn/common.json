@@ -172,6 +172,8 @@
   "text-formality": "Hình thức nghỉ",
   "annual": "Nghỉ phép năm",
   "text-date-request": "Ngày gửi yêu cầu",
+  "text-from-date": "Ngày bắt đầu",
+  "text-to-date": "Ngày kết thúc",
   "text-export-application-leave": "Xuất báo cáo nghỉ phép",
   "text-export-month": "Kỳ báo cáo",
   "text-please-choose-a-month-for-report": "Vui lòng chọn kỳ báo cáo bạn muốn xuất",

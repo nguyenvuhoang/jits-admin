@@ -161,6 +161,28 @@ const ApproveForApplicationForLeave = () => {
         {
             flex: 0.2,
             minWidth: 110,
+            field: 'startdate',
+            headerName: `${t('text-from-date')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.startdate}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
+            field: 'enddate',
+            headerName: `${t('text-to-date')}`,
+            renderCell: (params: GridRenderCellParams) => (
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    {params.row.enddate}
+                </Typography>
+            )
+        },
+        {
+            flex: 0.2,
+            minWidth: 110,
             field: 'status',
             headerName: `${t('text-status')}`,
             renderCell: (params: GridRenderCellParams) => (

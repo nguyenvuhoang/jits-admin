@@ -172,6 +172,8 @@
   "text-formality": "Formality",
   "annual": "Annual",
   "text-date-request": "Date request",
+  "text-from-date": "From date",
+  "text-to-date": "To date",
   "text-export-application-leave": "Export",
   "text-export-month": "Export Month",
   "text-please-choose-a-month-for-report": "Please choose a month for export report",
