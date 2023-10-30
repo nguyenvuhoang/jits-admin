@@ -15,7 +15,7 @@ import { useTranslation } from 'next-i18next'
 import { ThemeColor } from '@/@core/layouts/types'
 
 // ** Utils Import
-import { FetchListOfApplicationForLeave } from '@/data/employee'
+import { FetchListOfApplicationForLeave, useSubmitCancelApplicationForLeave } from '@/data/employee'
 import { Button, CardContent, Grid, GridProps, IconButton, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 
 import Icon from '@/@core/components/icon'
@@ -77,16 +77,20 @@ const ApplicationLeaveForm = ({ employeecd, currentdays, daysofleaveavailable, d
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const rowOptionsOpen = Boolean(anchorEl)
 
+    const { isLoading: isReject, mutate: SubmitCancelApplicationForLeave } = useSubmitCancelApplicationForLeave()
+
     const handleRowOptionsClick = (event: MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget)
     }
     const handleRowOptionsClose = () => {
       Swal.fire({
-        position: 'center',
-        icon: 'warning',
-        color: 'gold',
-        title: 'Hold on!',
-        text: 'This feature is not available. Please come back later'
+        title: 'Bạn có chắc chắn muốn hủy đơn này ?',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          SubmitCancelApplicationForLeave({ id: id })
+        }
       })
       setAnchorEl(null)
     }

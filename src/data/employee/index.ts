@@ -269,6 +269,32 @@ export const useSubmitConfirmApplicationForLeave = () => {
 };
 
 
+export const useSubmitCancelApplicationForLeave = () => {
+    const router = useRouter()
+    return useMutation(client.employee.cancelapplicationforleave, {
+        onSuccess: (data) => {
+            if (data.errorcode === 0) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    color: 'green',
+                    title: 'Đã hủy yêu cầu',
+                    text: 'Bạn đã hủy yêu cầu đơn xin phép thành công'
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    color: 'red',
+                    title: 'Failed!',
+                    text: `${data.messagedetail}`
+                })
+            }
+        }
+    });
+};
+
+
 export const FetchEventApplicationForLeave = () => {
     const { data, isLoading, refetch } = useQuery<GetListApplicationForLeaveResponse, Error>(
         ['event-application-for-leave'],

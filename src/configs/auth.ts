@@ -27,6 +27,7 @@ export const API_ENDPOINTS = {
   EMPLOYEE_APPLICATION_FOR_LEAVE_BYID: '/employee/getapplicationforleavebyid',
   EMPLOYEE_APPROVE_FOR_LEAVE: '/employee/approvedapplicationforleave',
   EMPLOYEE_REJECT_FOR_LEAVE: '/employee/rejectapplicationforleave',
+  EMPLOYEE_CANCEL_FOR_LEAVE: '/employee/cancelapplicationforleave',
   EMPLOYEE_CONFIRM_FOR_LEAVE: '/employee/confirmapplicationforleave',
   GET_MENU: '/employee/getmenu',
   GET_EMPLOYEE_LISTFL: '/employee/getlistafl',

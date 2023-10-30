@@ -478,6 +478,7 @@ export interface ListOfApplicationForLeaveResponse extends ResponseArray<Applica
 export interface ApplicationForLeaveByIdResponse extends ResponseObject<ApplicationForLeave> { }
 export interface ApproveApplicationForLeaveResponse extends ResponseObject<{}> { }
 export interface RejectApplicationForLeaveResponse extends ResponseObject<{}> { }
+export interface CancelApplicationForLeaveResponse extends ResponseObject<{}> { }
 export interface ConfirmApplicationForLeaveResponse extends ResponseObject<{}> { }
 
 export interface GetListApplicationForLeaveResponse extends ResponseArray<EventType> { }
