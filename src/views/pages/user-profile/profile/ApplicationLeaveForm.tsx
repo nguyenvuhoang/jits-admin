@@ -183,6 +183,28 @@ const ApplicationLeaveForm = ({ employeecd, currentdays, daysofleaveavailable, d
       )
     },
     {
+        flex: 0.2,
+        minWidth: 110,
+        field: 'startdate',
+        headerName: `${t('text-from-date')}`,
+        renderCell: (params: GridRenderCellParams) => (
+            <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                {params.row.startdate}
+            </Typography>
+        )
+    },
+    {
+        flex: 0.2,
+        minWidth: 110,
+        field: 'enddate',
+        headerName: `${t('text-to-date')}`,
+        renderCell: (params: GridRenderCellParams) => (
+            <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                {params.row.enddate}
+            </Typography>
+        )
+    },
+    {
       flex: 0.2,
       minWidth: 110,
       field: 'status',
@@ -205,7 +227,6 @@ const ApplicationLeaveForm = ({ employeecd, currentdays, daysofleaveavailable, d
       headerName: 'Actions',
       renderCell: ({ row }: CellType) => < RowOptions id={row.id} />
     }
-
   ]
 
   return applicationforleave && applicationforleave.length > 0 ? (
