@@ -89,7 +89,6 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
             })}
         >
             {children}
-
         </Layout>
     )
 }
