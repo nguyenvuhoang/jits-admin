@@ -230,5 +230,9 @@
   "text-whoreceived": "Who is receiving?",
   "text-view-point": "View point",
   "text-on-job": "On job",
-  "text-view-profile": "View profile"
+  "text-view-profile": "View profile",
+  "text-meeting-management": "Meeting management",
+  "text-meeting-code": "Meeting code",
+  "text-add-meeting": "Add meeting",
+  "text-search-meeting": "Search meeting"
 }

@@ -221,14 +221,18 @@
   "text-list-of-approve-onsite": "Danh sách đăng ký công tác",
   "text-onsite-place": "Địa điểm công tác",
   "text-fromdt": "Ngày bắt đầu",
-  "text-todt":"Ngày kết thúc",
-  "text-purpose":"Mục đích",
+  "text-todt": "Ngày kết thúc",
+  "text-purpose": "Mục đích",
   "text-amount-onsite": "Tổng tiền ứng công tác",
   "text-add-device": "Thêm mới trang thiết bị",
   "text-project-list": "Danh sách dự án",
   "text-on-going-project": "dự án đang hoạt động",
-  "text-whoreceived":"Nhận bàn giao từ",
+  "text-whoreceived": "Nhận bàn giao từ",
   "text-view-point": "Xem điểm",
-  "text-on-job":"Tuyển",
-  "text-view-profile": "Xem thông thin"
+  "text-on-job": "Tuyển",
+  "text-view-profile": "Xem thông thin",
+  "text-meeting-management": "Quản lý cuộc họp",
+  "text-meeting-code": "Mã cuộc họp",
+  "text-add-meeting": "Thêm cuộc họp",
+  "text-search-meeting": "Tìm kiếm cuộc họp"
 }

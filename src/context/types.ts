@@ -691,3 +691,13 @@ export interface OnJobInput {
 
 export interface CandidateOnJobResponse extends ResponseObject<{}> { }
 
+export interface Meeting {
+  meetingid: string
+  meetingcode: string
+  title: string
+  category: string
+  description: string
+  team: string
+  pubdt: string
+}
+

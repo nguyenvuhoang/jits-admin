@@ -23,6 +23,7 @@ export type EventType = {
   allDay: boolean
   end: Date | string
   start: Date | string
+  status: string
   extendedProps: {
     location?: string
     calendar?: string
@@ -30,6 +31,7 @@ export type EventType = {
     guests?: string[] | string | undefined
     icon?: string
   }
+  
 }
 
 export type AddEventType = {
@@ -39,6 +41,7 @@ export type AddEventType = {
   allDay: boolean
   end: Date | string
   start: Date | string
+  status: string
   extendedProps: {
     calendar: string
     description: string | undefined
@@ -47,6 +50,7 @@ export type AddEventType = {
 }
 
 export type EventStateType = {
+  status: string
   url: string
   title: string
   allDay: boolean

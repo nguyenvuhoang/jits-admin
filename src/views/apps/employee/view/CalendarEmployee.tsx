@@ -45,7 +45,6 @@ const CalendarEmployee = (props: Props) => {
     const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
 
     const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
-
     return (
         <CalendarWrapper
             className='app-calendar'
