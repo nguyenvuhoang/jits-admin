@@ -70,7 +70,8 @@ const statusObj: StatusObj = {
     pending: { color: 'warning' },
     inactive: { color: 'secondary' },
     N: { color: 'success' },
-    P: { color: 'warning' }
+    P: { color: 'warning' },
+    B: { color: 'error' }
 }
 
 const columns: GridColDef[] = [

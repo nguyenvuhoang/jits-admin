@@ -189,10 +189,6 @@ const EmployeeList = () => {
                         <Icon icon='mdi:eye-outline' fontSize={20} />
                         View
                     </MenuItem>
-                    <MenuItem onClick={handleRowOptionsClose} sx={{ '& svg': { mr: 2 } }}>
-                        <Icon icon='mdi:pencil-outline' fontSize={20} />
-                        Edit
-                    </MenuItem>
                     <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
                         <Icon icon='mdi:delete-outline' fontSize={20} />
                         Delete
