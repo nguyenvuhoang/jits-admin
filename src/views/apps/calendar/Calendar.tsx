@@ -167,7 +167,22 @@ const Calendar = (props: CalendarType) => {
 
         var eventTitle = document.createElement('div');
         eventTitle.classList.add('fc-title');
-        eventTitle.textContent = event._def.extendedProps.status == 'A' ? event.title : 'Pending for approve';
+        var msgShow = "";
+        switch (event._def.extendedProps.status) {
+          case "P":
+            msgShow = 'Pending for approve'
+            break;
+          case "R":
+            msgShow = "Rejected"
+            break;
+          case "A":
+            msgShow = event.title
+            break;
+          default:
+            event.title
+            break;
+        }
+        eventTitle.textContent = msgShow;
 
         var eventContentWrapper = document.createElement('div');
         eventContentWrapper.classList.add('event-content-wrapper');
