@@ -25,7 +25,8 @@ const personalStatusObj: ApplicationForLeaveStatusType = {
     A: 'success',
     P: 'warning',
     R: 'error',
-    C: 'info'
+    C: 'info',
+    J: 'error'
 }
 
 
@@ -207,7 +208,7 @@ const ApproveForApplicationForLeave = () => {
     ]
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
-    const [filteredData, setFilteredData] = useState<ApplicationForLeave[] >()
+    const [filteredData, setFilteredData] = useState<ApplicationForLeave[]>()
     const [searchText, setSearchText] = useState<string>('')
 
 
@@ -219,7 +220,7 @@ const ApproveForApplicationForLeave = () => {
         const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
 
         const filteredRows = applicationforleave?.filter(row => {
-            
+
             return Object.keys(row).some(field => {
                 // @ts-ignore
                 return searchRegex.test(row[field]?.toString())

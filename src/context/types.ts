@@ -677,7 +677,7 @@ export interface ProjectDetail {
   issue: Issue
 }
 
-export interface ProjectDetailResponse extends ResponseObject<ProjectDetail>{}
+export interface ProjectDetailResponse extends ResponseObject<ProjectDetail> { }
 
 
 export interface ProjectDetailFilter {
@@ -699,5 +699,11 @@ export interface Meeting {
   description: string
   team: string
   pubdt: string
+}
+export interface MeetingInfo {
+  title: string
+  category: string
+  description: string
+  team: string
 }
 

@@ -1,6 +1,6 @@
 import themeConfig from '@/configs/themeConfig'
 import { useAuth } from '@/hooks/useAuth'
-import { Box, Card, CardContent, CardHeader, Divider, FormControl, FormHelperText, Grid, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, FormHelperText, Grid, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
@@ -9,6 +9,7 @@ import Head from 'next/head'
 
 import EditorControlled from '@/@core/components/edittor/EditorControlled'
 import { Controller, useForm } from 'react-hook-form'
+import { MeetingInfo } from '@/context/types'
 
 
 type Props = {}
@@ -23,8 +24,6 @@ const defaultValues = {
     title: '',
     category: 'DAILY',
     description: '',
-    image: '',
-    introduce: '',
     team: 'CAM'
 }
 
@@ -39,6 +38,11 @@ const MeetingPage = (props: Props) => {
         formState: { errors }
     } = useForm({ defaultValues })
 
+    const onSubmit = (data: MeetingInfo) => {
+        console.log(data)
+    }
+    console.log(errors)
+
     return (
         <>
             <Head>
@@ -46,24 +50,25 @@ const MeetingPage = (props: Props) => {
             </Head>
             <Grid container spacing={6}>
                 <Grid item xs={12}>
-                    <Card>
-                        <CardHeader title={t('text-add-meeting')} />
-                        <CardContent sx={{ pt: 0 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <ImgStyled src={user?.avatar} alt='Profile Pic' />
-                                <div>
-                                    <Typography sx={{ mt: 5, color: 'text.disabled' }}>
-                                        {user?.firstname} {user?.lastname}
-                                    </Typography>
-                                    <Typography sx={{ mt: 5, color: 'text.disabled' }}>
-                                        @{user?.username}
-                                    </Typography>
-                                </div>
-                            </Box>
-                        </CardContent>
-                        <Divider />
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Card>
+                            <CardHeader title={t('text-add-meeting')} />
+                            <CardContent sx={{ pt: 0 }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <ImgStyled src={user?.avatar} alt='Profile Pic' />
+                                    <div>
+                                        <Typography sx={{ mt: 5, color: 'text.disabled' }}>
+                                            {user?.firstname} {user?.lastname}
+                                        </Typography>
+                                        <Typography sx={{ mt: 5, color: 'text.disabled' }}>
+                                            @{user?.username}
+                                        </Typography>
+                                    </div>
+                                </Box>
+                            </CardContent>
+                            <Divider />
 
-                        <form>
+
                             <CardContent>
                                 <Grid container spacing={6}>
                                     <Grid item xs={12} sm={6}>
@@ -156,16 +161,16 @@ const MeetingPage = (props: Props) => {
                                     <Grid item xs={12} sm={12} sx={{ marginTop: 10 }}>
                                         <FormControl fullWidth>
                                             <Controller
-                                                name='image'
+                                                name='description'
                                                 control={control}
                                                 rules={{ required: true }}
                                                 render={({ field: { value, onChange } }) => (
                                                     <EditorControlled />
                                                 )}
                                             />
-                                            {errors.image && (
-                                                <FormHelperText sx={{ color: 'error.main' }} id='validation-image'>
-                                                    Vui lòng chọn hình ảnh
+                                            {errors.description && (
+                                                <FormHelperText sx={{ color: 'error.main' }} id='validation-description'>
+                                                    Vui lòng nhập thông tin cuộc họp
                                                 </FormHelperText>
                                             )}
                                         </FormControl>
@@ -173,9 +178,19 @@ const MeetingPage = (props: Props) => {
 
                                 </Grid>
                             </CardContent>
-                        </form>
 
-                    </Card>
+
+                        </Card>
+                        <Card sx={{ position: 'relative', marginTop: '20px' }}>
+                            <CardContent>
+                                <Grid item xs={12}>
+                                    <Button size='large' type='submit' variant='contained'>
+                                        Submit
+                                    </Button>
+                                </Grid>
+                            </CardContent>
+                        </Card>
+                    </form>
                 </Grid>
             </Grid>
         </>

@@ -4,6 +4,7 @@ export const ApproveStatus = (status:string) =>{
         case "P": return 'Pending'
         case "R": return 'Rejected'
         case "C": return 'Confirmed'
+        case "J": return 'Canceled'
         default: return 'Approve'
     }
 }
