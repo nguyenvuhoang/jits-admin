@@ -71,7 +71,8 @@ const statusObj: StatusObj = {
     inactive: { color: 'secondary' },
     N: { color: 'success' },
     P: { color: 'warning' },
-    B: { color: 'error' }
+    B: { color: 'error' },
+    C: { color: 'warning' }
 }
 
 const columns: GridColDef[] = [
