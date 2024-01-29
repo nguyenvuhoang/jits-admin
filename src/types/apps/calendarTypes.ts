@@ -21,7 +21,7 @@ export type CalendarColorsDetail = {
   R: ThemeColor
   A: ThemeColor
   P: ThemeColor
-  J: ThemeColor
+  C: ThemeColor
 }
 
 export type EventType = {

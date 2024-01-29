@@ -23,7 +23,7 @@ const calendarsColorDetail: CalendarColorsDetail = {
     A: 'success',
     P: 'warning',
     R: 'error',
-    J: 'info'
+    C: 'info'
 }
 
 

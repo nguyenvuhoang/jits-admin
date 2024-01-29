@@ -177,7 +177,7 @@ const Calendar = (props: CalendarType) => {
             msgShow = "Rejected - " + event.title
             break;
           case "C":
-            msgShow = "Pending for confirm"
+            msgShow = "Pending for confirm " + event.title
           case "A":
             msgShow = event.title
             break;
