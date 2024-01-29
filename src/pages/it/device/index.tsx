@@ -81,7 +81,7 @@ const DevicePage = () => {
         const color = typeStatusObj[row.type] ? typeStatusObj[row.type].color : 'primary'
         return (
             <CustomAvatar skin='light' color={color} sx={{ width: 34, height: 34 }}>
-                <Icon icon={typeStatusObj[row.type].icon} fontSize='1.25rem' />
+                <Icon icon={typeStatusObj[row.type]?.icon} fontSize='1.25rem' />
             </CustomAvatar>
         )
     }
