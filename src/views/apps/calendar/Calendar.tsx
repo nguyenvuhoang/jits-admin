@@ -38,6 +38,7 @@ const Calendar = (props: CalendarType) => {
     updateEvent,
     calendarApi,
     calendarsColor,
+    calendarsColorDetail,
     setCalendarApi,
     handleSelectEvent,
     handleLeftSidebarToggle,
@@ -104,7 +105,7 @@ const Calendar = (props: CalendarType) => {
 
       eventClassNames({ event: calendarEvent }: any) {
         // @ts-ignore
-        const colorName = calendarsColor[calendarEvent._def.extendedProps.calendar]
+        const colorName = calendarsColorDetail[calendarEvent._def.extendedProps.status]
 
         return [
           // Background Color
@@ -173,7 +174,7 @@ const Calendar = (props: CalendarType) => {
             msgShow = 'Pending for approve'
             break;
           case "R":
-            msgShow = "Rejected"
+            msgShow = "Rejected - " + event.title
             break;
           case "C":
             msgShow = "Pending for confirm"

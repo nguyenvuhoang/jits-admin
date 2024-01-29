@@ -16,6 +16,14 @@ export type CalendarColors = {
   Business: ThemeColor
 }
 
+
+export type CalendarColorsDetail = {
+  R: ThemeColor
+  A: ThemeColor
+  P: ThemeColor
+  J: ThemeColor
+}
+
 export type EventType = {
   id: number
   url: string
@@ -70,6 +78,7 @@ export type CalendarType = {
   events: EventType[] | undefined
   direction: 'ltr' | 'rtl'
   calendarsColor: CalendarColors
+  calendarsColorDetail: CalendarColorsDetail
   setCalendarApi: (val: any) => void
   handleLeftSidebarToggle: () => void
   updateEvent: (event: EventType) => void

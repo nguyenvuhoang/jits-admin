@@ -5,19 +5,28 @@ import { Box } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Theme } from '@mui/material/styles'
 import Calendar from '@/views/apps/calendar/Calendar'
-import { CalendarColors } from '@/types/apps/calendarTypes'
+import { CalendarColors, CalendarColorsDetail } from '@/types/apps/calendarTypes'
 import { FetchEventApplicationForLeave } from '@/data/employee'
 
 type Props = {}
 
 // ** CalendarColors
 const calendarsColor: CalendarColors = {
-    Personal: 'error',
+    Personal: 'success',
     Business: 'primary',
     Family: 'warning',
     Holiday: 'success',
     ETC: 'info'
 }
+
+const calendarsColorDetail: CalendarColorsDetail = {
+    A: 'success',
+    P: 'warning',
+    R: 'error',
+    J: 'info'
+}
+
+
 
 const CalendarEmployee = (props: Props) => {
 
@@ -73,6 +82,7 @@ const CalendarEmployee = (props: Props) => {
                         updateEvent={() => updateEvent()}
                         calendarApi={calendarApi}
                         calendarsColor={calendarsColor}
+                        calendarsColorDetail={calendarsColorDetail}
                         setCalendarApi={setCalendarApi}
                         handleSelectEvent={handleSelectEvent}
                         handleLeftSidebarToggle={handleLeftSidebarToggle}
