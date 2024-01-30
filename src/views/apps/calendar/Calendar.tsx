@@ -171,13 +171,13 @@ const Calendar = (props: CalendarType) => {
         var msgShow = "";
         switch (event._def.extendedProps.status) {
           case "P":
-            msgShow = 'Pending for approve'
+            msgShow = 'Pending - ' + event.title
             break;
           case "R":
             msgShow = "Rejected - " + event.title
             break;
           case "C":
-            msgShow = "Pending for confirm " + event.title
+            msgShow = "Pending - " + event.title
           case "A":
             msgShow = event.title
             break;
