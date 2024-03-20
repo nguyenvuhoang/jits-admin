@@ -1,0 +1,23 @@
+{
+  "index": "Giới thiệu",
+  "guide": {
+    "title": "Hướng dẫn sử dụng",
+    "theme": {
+      "layout": "full",
+      "typesetting": "article"
+    }
+  },
+  "---": {
+    "type": "separator"
+  },
+  "documentation": "Tài liệu",
+  "----": {
+    "type": "separator"
+  },
+  "contact": {
+    "title": "Liên hệ ↗",
+    "type": "page",
+    "href": "https://anhben.com",
+    "newWindow": true
+  }
+}

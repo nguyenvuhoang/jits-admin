@@ -11,7 +11,13 @@ const path = require('path')
 
 // Remove this if you're not using Fullcalendar features
 
-module.exports = {
+const withNextra = require('nextra')({
+  theme: 'nextra-theme-docs',
+  themeConfig: './theme.config.tsx',
+})
+
+
+module.exports = withNextra({
   trailingSlash: true,
   reactStrictMode: false,
   i18n,
@@ -23,4 +29,4 @@ module.exports = {
 
     return config
   }
-}
+})
