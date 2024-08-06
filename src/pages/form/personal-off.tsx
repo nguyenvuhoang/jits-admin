@@ -332,7 +332,6 @@ const PersionalOff = () => {
                                                         <FormControlLabel value='unpaid' control={<Radio color='secondary' />} label='Nghỉ việc riêng không lương' />
                                                         <FormControlLabel value='paid' control={<Radio color='success' />} label='Nghỉ việc riêng có lương' />
                                                         <FormControlLabel value='socialinsurance' control={<Radio color='error' />} label='Nghỉ hưởng lương BHXH' />
-                                                        <FormControlLabel value='home' control={<Radio color='warning' />} label='Làm việc tại nhà' />
                                                         <FormControlLabel value='other' control={<Radio color='info' />} label='Nghỉ bù/ Nghỉ khác' />
                                                     </RadioGroup>
                                                 )}
